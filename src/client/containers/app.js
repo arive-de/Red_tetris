@@ -1,10 +1,27 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Home from '../components/Home'
+import Lobby from '../components/Lobby'
+import Game from '../components/Game'
 
 const App = ({message}) => {
   return (
-    <span>{message}</span>
+    <Router>
+      <div>
+        <Switch>
+          <Route path="/game">
+            <Game />
+          </Route>
+          <Route path="/lobby">
+            <Lobby />
+          </Route>
+          <Route path="/">
+            <Home/>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   )
 }
 
