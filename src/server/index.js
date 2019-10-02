@@ -3,8 +3,8 @@ import debug from 'debug'
 import * as env from './env'
 const path = require('path');
 
-const logerror = debug('tetris:error')
-  , loginfo = debug('tetris:info')
+const logerror = debug('tetris:error'),
+  loginfo = debug('tetris:info')
 
 const initApp = (app, params, cb) => {
   const { host, port } = params
@@ -40,9 +40,10 @@ const initEngine = io => {
   })
 }
 
-export function create(params){
+export function create(params) {
   const promise = new Promise( (resolve, reject) => {
     const app = require('http').createServer()
+    env.initDb();
     initApp(app, params, () => {
       const io = require('socket.io')(app)
       const stop = (cb) => {
@@ -53,7 +54,6 @@ export function create(params){
         loginfo('Engine stopped.')
         cb()
       }
-      env.init();
       initEngine(io)
       resolve({ stop })
     })

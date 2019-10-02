@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from '../components/Home'
 import Lobby from '../components/Lobby'
 import Game from '../components/Game'
 
-const App = ({ message }) =>
+const App = () =>
   (
     <Router>
       <div>
@@ -24,10 +24,9 @@ const App = ({ message }) =>
     </Router>
   )
 
-const mapStateToProps = state => ({
-  message: state.message,
-})
-
-export default connect(mapStateToProps, null)(App)
-
-
+  const mapStateToProps = state => ({
+    message: state.message,
+  })
+  
+  export default connect(mapStateToProps, null)(App)
+  

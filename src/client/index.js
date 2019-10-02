@@ -9,7 +9,7 @@ import reducer from './reducers'
 import App from './containers/app'
 import {alert} from './actions/alert'
 
-const initialState = {}
+const initialState = { username: 'lox' }
 
 const store = createStore(
   reducer,

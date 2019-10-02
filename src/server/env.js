@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-export function init() {
+export function initDb() {
 
   mongoose.connect('mongodb://localhost:27017/redtetris', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(
