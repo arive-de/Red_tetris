@@ -1,24 +1,26 @@
-import React,{  useState } from 'react'
-import { withRouter }  from 'react-router-dom'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { act_setusername } from '../actions/setusername'
+import { actSetUsername } from '../actions/user'
 
-const Home = (props) => {
+const Home = () => {
   const storeUsername = useSelector(state => state.username);
   const [username, setUserName] = useState('');
   const dispatch = useDispatch();
+  const onChange = (e) => {
+    e.preventDefault();
+    setUserName(e.target.value)
+  }
   const onSubmit = () => {
-      dispatch(act_setusername(username));
-      props.history.push('/lobby');
-    }
-  console.log(storeUsername);
+    dispatch(actSetUsername(username));
+  }
+  console.log(username);
   return (
         <div>
             <h2>Home</h2>
-            <input onChange={e => setUserName(e.target.value)} placeholder='Type in a username' ></input>
+            <input onChange={onChange} placeholder='Type in a username' ></input>
             <button onClick={onSubmit} type='submit' >Let's play</button>
         </div>
     )
 }
 
-export default withRouter(Home)
+export default (Home)

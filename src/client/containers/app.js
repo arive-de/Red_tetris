@@ -1,32 +1,21 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 import Home from '../components/Home'
 import Lobby from '../components/Lobby'
 import Game from '../components/Game'
 
-const App = () =>
-  (
-    <Router>
-      <div>
-        <Switch>
-          <Route path='/game'>
-            <Game />
-          </Route>
-          <Route path='/lobby'>
-            <Lobby />
-          </Route>
-          <Route path='/'>
-            <Home/>
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  )
+const App = () => {
+  const username = useSelector(state => state.username)
+  const isPlaying = useSelector(state => state.isPlaying)
 
-  const mapStateToProps = state => ({
-    message: state.message,
-  })
-  
-  export default connect(mapStateToProps, null)(App)
+  if (username !== null && isPlaying) {
+    return (<Game />);
+  }
+  if (username !== null){
+    return (<Lobby />);
+  }
+  return (<Home/>);
+}
+
+export default (App)
   
