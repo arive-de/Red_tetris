@@ -32,11 +32,24 @@ const initApp = (app, params, cb) => {
 const initEngine = io => {
   io.on('connection', (socket) => {
     loginfo(`Socket connected: ${socket.id}`)
+
     socket.on('action', (action) => {
       if (action.type === 'server/ping') {
         socket.emit('action', { type: 'pong' })
       }
     })
+
+    socket.on('create', (username) => {
+      console.log(username)
+      console.log('reaching create endpoint')
+      io.emit('create', {
+          players: [username],
+          running: false,
+          roomId: 'xx03'
+       })
+    })
+
+    socket.on("disconnect", () => loginfo(`Socket disconnected: ${socket.id}`));
   })
 }
 

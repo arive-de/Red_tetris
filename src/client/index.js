@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 // import { storeStateMiddleWare } from './middleware/storeStateMiddleWare'
 import reducer from './reducers'
 import App from './containers/app'
+import { actSetUsername } from './actions/user'
 
 const initialState = {
   username: null,
@@ -15,13 +16,28 @@ const initialState = {
   master: null,
   nbPlayer: 0,
   spectr: [],
+  gameList: [
+    {
+      players: ['Cedric', 'Fanfan', 'Arthur'],
+      running: false,
+      roomId: 'xx01'
+    },
+    {
+        players: ['Joe', 'Wilfried'],
+        running: true,
+        roomId: 'xx02'
+    }
+  ]
 }
 
 const store = createStore(
   reducer,
   initialState,
-  applyMiddleware(thunk, createLogger())
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  applyMiddleware(thunk, createLogger()),
 )
+
+store.dispatch(actSetUsername('Alix'))
 
 ReactDom.render((
   <Provider store={store}>

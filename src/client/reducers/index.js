@@ -1,5 +1,9 @@
 import reducerUser from './user'
-export default reducerUser
+import gameReducer from './gameList'
+
+export default ( state, action ) => {
+    return gameReducer( reducerUser( state, action ), action )
+}
 
 
 
