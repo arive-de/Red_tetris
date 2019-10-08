@@ -7,9 +7,10 @@ import Game from '../components/Game'
 const App = () => {
   const username = useSelector(state => state.username)
   const isPlaying = useSelector(state => state.isPlaying)
+  const roomId = useSelector(state => state.roomId)
 
-  if (username !== null && isPlaying) {
-    return (<Game />);
+  if (username !== null && roomId) {
+    return (<Game isPlaying={isPlaying}/>);
   }
   if (username !== null){
     return (<Lobby />);
