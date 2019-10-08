@@ -14,6 +14,7 @@ const initialState = {
   isPlaying: false,
   roomid: null,
   spectr: [],
+  socket: null,
   gameList: [
     {
       players: ['Cedric', 'Fanfan', 'Arthur'],
@@ -36,8 +37,7 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(thunk, createLogger()),
 )
-
-store.dispatch(actSetUsername('Alix'))
+// store.dispatch(actSetUsername('Alix'))
 
 ReactDom.render((
   <Provider store={store}>

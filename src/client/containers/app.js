@@ -10,12 +10,12 @@ const App = () => {
   const roomId = useSelector(state => state.roomId)
 
   if (username !== null && roomId) {
-    return (<Game isPlaying={isPlaying}/>);
+    return (<Game />);
   }
   if (username !== null){
     return (<Lobby />);
   }
-  return (<Home/>);
+  return (<Home />);
 }
 
 export default (App)
