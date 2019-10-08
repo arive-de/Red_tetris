@@ -1,6 +1,7 @@
 import fs from 'fs'
 import debug from 'debug'
 import * as env from './env'
+import { initSocketRoom } from './room'
 const path = require('path');
 
 const logerror = debug('tetris:error'),
@@ -38,17 +39,7 @@ const initEngine = io => {
         socket.emit('action', { type: 'pong' })
       }
     })
-
-    socket.on('create', (username) => {
-      console.log(username)
-      console.log('reaching create endpoint')
-      io.emit('create', {
-          players: [username],
-          running: false,
-          roomId: 'xx03'
-       })
-    })
-
+    initSocketRoom(io, socket)
     socket.on("disconnect", () => loginfo(`Socket disconnected: ${socket.id}`));
   })
 }

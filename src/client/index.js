@@ -13,19 +13,19 @@ const initialState = {
   username: null,
   isPlaying: false,
   roomid: null,
-  master: null,
-  nbPlayer: 0,
   spectr: [],
   gameList: [
     {
       players: ['Cedric', 'Fanfan', 'Arthur'],
       running: false,
-      roomId: 'xx01'
+      roomId: 'xx01',
+      leader: 'Cedric'
     },
     {
         players: ['Joe', 'Wilfried'],
         running: true,
-        roomId: 'xx02'
+        roomId: 'xx02',
+        leader: 'Joe',
     }
   ]
 }
