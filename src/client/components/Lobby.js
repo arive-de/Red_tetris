@@ -2,16 +2,9 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import openSocket from 'socket.io-client';
 import { actSetGameList } from '../actions/gameList'
+import GameList from './GameList'
 
 const socket = openSocket('http://localhost:3004');
-
-const GameList = ({game}) => {
-    return <div>
-        Players: {game.players} <br />
-        {!game.running ? 'waiting for players' : 'running'} <br />
-        roomId: {game.roomId} <br />
-    </div>
-}
 
 const Lobby = () => {
 
