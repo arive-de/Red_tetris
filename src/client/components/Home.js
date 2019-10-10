@@ -11,17 +11,23 @@ const Home = () => {
     e.preventDefault();
     setUserName(e.target.value)
   }
-  const onSubmit = () => {
-    const socket = openSocket('http://localhost:3004');
-    dispatch(actSetUsername({ username, socket }));
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      const socket = openSocket('http://localhost:3004');
+      dispatch(actSetUsername({ username, socket }));
+    }
   }
   console.log(username);
   return (
-        <div>
-            <h2>Home</h2>
-            <input onChange={onChange} placeholder='Type in a username' ></input>
-            <button onClick={onSubmit} type='submit' >Let's play</button>
+      <div className="card text-center">
+        <div className="card-body">
+          <h5 className="card-title">Red tetris</h5>
+          <div className="form-group d-flex flex-column align-items-center">
+            <input className="form-control" onChange={onChange} placeholder='Type in a username' onKeyDown={handleKeyDown}></input>
+          </div>
         </div>
+      </div>
     )
 }
 
