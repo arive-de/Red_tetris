@@ -23,18 +23,12 @@ const Lobby = () => {
             <div className="card text-center">
                 <div className="card-header">
                     <ul className="nav nav-tabs card-header-tabs">
-                    <li className="nav-item">
-                        <a className="nav-link active" href="#">Lobby</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">High Scores</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Settings</a>
-                    </li>
+                        <li className="nav-item">
+                            <a className="nav-link active">Lobby</a>
+                        </li>
                     </ul>
                 </div>
-                <div className="card-body">
+                <div className="card-body" id="lobby">
                     <div className="row">
                         <div className="col-sm-9">
                             <div className="card">
@@ -66,7 +60,6 @@ const Lobby = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className="form-check d-flex justify-content-left">
                         <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
                         <label className="form-check-label">
