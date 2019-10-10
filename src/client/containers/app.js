@@ -10,7 +10,7 @@ const App = () => {
   const isPlaying = useSelector(state => state.isPlaying)
   const roomId = useSelector(state => state.roomId)
 
-  if (username !== null && roomId) {
+  if (username !== null && roomId !== null) {
     return (<Game />);
   }
   if (username !== null){

@@ -1,10 +1,11 @@
 import { SET_GAMELIST, JOIN_GAMELIST, LEAVE_GAMELIST, LEAVE_MASTER_GAMELIST } from '../actions/gameList'
 
 const gameReducer = (state, action) => {
-  const { username, roomId, game } = action
+  const { username, leader, roomId, game } = action
   switch (action.type) {
   case SET_GAMELIST:
-    return { ...state, roomId: game.roomId, gameList: [...state.gameList, game]}
+    console.log("MAMA", action, state)
+    return { ...state, roomId: game.leader === state.username ? game.roomId : state.roomId, gameList: [...state.gameList, game]}
   case JOIN_GAMELIST:
     return { ...state, roomId, gameList: state.gameList.map(r => {
       if (r.roomId === roomId) {

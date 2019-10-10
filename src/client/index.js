@@ -12,7 +12,7 @@ import { actSetUsername } from './actions/user'
 const initialState = {
   username: null,
   isPlaying: false,
-  roomid: null,
+  roomId: null,
   spectr: [],
   socket: null,
   gameList: [
@@ -37,7 +37,7 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(thunk, createLogger()),
 )
-store.dispatch(actSetUsername('Alix'))
+// store.dispatch(actSetUsername('Alix'))
 
 ReactDom.render((
   <Provider store={store}>

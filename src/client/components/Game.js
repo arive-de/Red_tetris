@@ -21,7 +21,7 @@ export default function Game() {
             <p>{isPlaying ? 'playing the game' : 'waiting for the game to start'}</p>
             {room.leader == username ?
             (<div><p>Im the leader</p><button onClick={onPlay}>Play</button></div>) :
-            (<p>Im not the leader'}</p>)}
+            (<p>Im not the leader</p>)}
         </div>
     )
 }
