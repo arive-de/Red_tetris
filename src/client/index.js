@@ -23,10 +23,10 @@ const initialState = {
       leader: 'Cedric'
     },
     {
-        players: ['Joe', 'Wilfried'],
-        running: true,
-        roomId: 'xx02',
-        leader: 'Joe',
+      players: ['Joe', 'Wilfried'],
+      running: true,
+      roomId: 'xx02',
+      leader: 'Joe',
     }
   ]
 }
