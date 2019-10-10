@@ -17,36 +17,63 @@ const Lobby = () => {
         });
         socket.emit('create', username);
     }
+
     return (
         <div>
-            <h2>Lobby</h2>
-            <button>Training</button>
-            <button onClick={onCreate}>Create</button>
-            <button>High Scores</button>
-            <button>Settings</button>
-            <div>
-                <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Room</th>
-                        <th scope="col">Game</th>
-                        <th scope="col">Players</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div className="card text-center">
+                <div className="card-header">
+                    <ul className="nav nav-tabs card-header-tabs">
+                    <li className="nav-item">
+                        <a className="nav-link active" href="#">Lobby</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">High Scores</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">Settings</a>
+                    </li>
+                    </ul>
+                </div>
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col-sm-9">
+                            <div className="card">
+                                <div className="card-body">
+                                    <table className="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Room</th>
+                                                <th scope="col">Game</th>
+                                                <th scope="col">Players</th>
+                                                <th scope="col">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {gameList.map((game, index) => (
+                                                <GameList key={index} game={game} />
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-sm-3">
+                            <div className="card">
+                                <div className="card-body">
+                                    <h5 className="card-title">Host a game</h5>
+                                    <button className="btn btn-primary" onClick={onCreate}>Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    {gameList.map((game, index) => (
-                        <GameList key={index} game={game} />
-                    ))}
-                </tbody>
-                </table>
-            </div>
-            <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-                <label className="form-check-label">
-                Hide running and full tables
-                </label>
+                    <div className="form-check d-flex justify-content-left">
+                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                        <label className="form-check-label">
+                        Hide running and full tables
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     )
