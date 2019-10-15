@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetGameList } from '../actions/gameList'
 import GameList from './GameList'
+import PlayerList from './PlayerList'
+import './Lobby.scss'
 
 const Lobby = () => {
 
@@ -18,8 +20,7 @@ const Lobby = () => {
       console.log(`${username} socket client create`)
       dispatch(actSetGameList(data))
     });
-}
-    , [])
+  }, [])
 
   return (
         <div>
@@ -71,6 +72,8 @@ const Lobby = () => {
                     </div>
                 </div>
             </div>
+            <br />
+            <PlayerList />
         </div>
     )
 }

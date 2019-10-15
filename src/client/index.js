@@ -37,6 +37,7 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(thunk, createLogger()),
 )
+
 // store.dispatch(actSetUsername('Alix'))
 
 ReactDom.render((
