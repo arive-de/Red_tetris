@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import './PlayerList.scss'
 
 const PlayerList = () => {
+
+  const playerList = useSelector(state => state.playerList)
+
+//   useEffect(() => {
+    // console.log('coucou')
+    // fetch('http://localhost:3004/api/users')
+    // .then((res) => res.json())
+    // .then((data) => {
+
+    //   console.log(data)
+
+      // const playerList = useSelector(state => state.playerList)
+//     })
+//   }, [])
 
   return <div className='card w-50'>
 
@@ -9,14 +24,12 @@ const PlayerList = () => {
             Connected players
         </div>
         <div className='card-body'>
-            <div className='row'>
-                <span className='dot'></span>
-                <p className='card-text'>arive-de (en dur)</p>
-            </div>
-            <div className='row'>
-                <span className='dot'></span>
-                <p className='card-text'>cbarbier (en dur)</p>
-            </div>
+            {playerList.map((username, index) => (
+                <div className='row' key={index}>
+                    <span className='dot'></span>
+                    <p className='card-text'>{username}</p>
+                </div>
+            ))}
         </div>
     </div>
 }

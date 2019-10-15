@@ -20,15 +20,19 @@ const initialState = {
       players: ['Cedric', 'Fanfan', 'Arthur'],
       running: false,
       roomId: 'xx01',
-      leader: 'Cedric'
+      leader: 'Cedric',
     },
     {
       players: ['Joe', 'Wilfried'],
       running: true,
       roomId: 'xx02',
       leader: 'Joe',
-    }
-  ]
+    },
+  ],
+  playerList: [
+    'arive-de',
+    'cbarbier',
+  ],
 }
 
 const store = createStore(
