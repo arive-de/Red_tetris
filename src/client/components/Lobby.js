@@ -22,16 +22,16 @@ const Lobby = () => {
     });
   }, [])
 
-  //   useEffect(() => {
-    // fetch('http://localhost:3004/api/rooms')
-    // .then((res) => res.json())
-    // .then((data) => {
+  useEffect(() => {
+    fetch('http://localhost:3004/api/room')
+    .then((res) => res.json())
+    .then((data) => {
 
-    //   console.log(data)
+      console.log(data)
 
-      // const gameList = useSelector(state => state.gameList)
-//     })
-//   }, [])
+    //   const gameList = useSelector(state => state.gameList)
+    })
+  }, [])
 
   return (
         <div>

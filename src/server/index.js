@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path');
 const userRouter = require('./routes/user')
-
+const roomRouter = require('./routes/room')
 import fs from 'fs'
 import debug from 'debug'
 import * as env from './env'
@@ -32,6 +32,7 @@ const initApp = (app, expr, params, cb) => {
   expr.use(bodyParser.urlencoded({ extended: false }))
   expr.use(express.json())
   expr.use('/api/user', userRouter)
+  expr.use('/api/room', roomRouter)
   expr.use('/', handler)
 }
 
