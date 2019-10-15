@@ -1,23 +1,31 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetUsername } from '../actions/user'
-import openSocket from 'socket.io-client';
+import openSocket from 'socket.io-client'
+const axios = require('axios')
 
 const Home = () => {
   // const storeUsername = useSelector(state => state.username);
-  const [username, setUserName] = useState('');
-  const dispatch = useDispatch();
+  const [username, setUserName] = useState('')
+  const [error, setError] = useState(false)
+  const dispatch = useDispatch()
   const onChange = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     setUserName(e.target.value)
   }
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
+      axios.post('/api/user/register', { username })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err =>{
+          console.log(err)
+        })
+      const socket = openSocket('http://localhost:3004')
       
-      const socket = openSocket('http://localhost:3004');
-
-      dispatch(actSetUsername({ username, socket }));
+      dispatch(actSetUsername({ username, socket }))
     }
   }
   console.log(username);
