@@ -4,12 +4,14 @@ import { actSetGameList } from '../actions/gameList'
 import GameList from './GameList'
 import PlayerList from './PlayerList'
 import './Lobby.scss'
+import axios from 'axios';
 
 const Lobby = () => {
 
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
   const gameList = useSelector(state => state.gameList)
+  console.log(gameList)
   const socket = useSelector(state => state.socket)
 
   const onCreate = () => {
@@ -23,14 +25,15 @@ const Lobby = () => {
   }, [])
 
   useEffect(() => {
-    fetch('http://localhost:3004/api/room')
-    .then((res) => res.json())
-    .then((data) => {
 
-      console.log(data)
+    const fetchData = async () => {
+      const result = await axios('http://localhost:3004/api/room')
 
-    //   const gameList = useSelector(state => state.gameList)
-    })
+      console.log(result)
+    }
+
+    fetchData()
+
   }, [])
 
   return (

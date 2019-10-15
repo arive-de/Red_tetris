@@ -46,7 +46,7 @@ const store = createStore(
   applyMiddleware(thunk, createLogger()),
 )
 
-store.dispatch(actSetUsername({ username: 'Alix', socket: openSocket('http://localhost:3004') }))
+// store.dispatch(actSetUsername({ username: 'Alix', socket: openSocket('http://localhost:3004') }))
 
 ReactDom.render((
   <Provider store={store}>
