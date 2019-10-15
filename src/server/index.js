@@ -1,15 +1,17 @@
+const express = require('express')
+const bodyParser = require('body-parser')
+const path = require('path');
+const userRouter = require('./routes/user')
+
 import fs from 'fs'
 import debug from 'debug'
 import * as env from './env'
 import { initSocketRoom } from './room'
-const path = require('path');
-const express = require('express')
-const userRouter = require('./routes/user')
 
 const logerror = debug('tetris:error'),
-  loginfo = debug('tetris:info')
+loginfo = debug('tetris:info')
 
-const initApp = (app, params, cb) => {
+const initApp = (app, expr, params, cb) => {
   const { host, port } = params
   const handler = (req, res) => {
     const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
@@ -23,15 +25,14 @@ const initApp = (app, params, cb) => {
       res.end(data)
     })
   }
-
-  app.on('request', handler)
-
-  // app.use('/api/user', userRouter)
-
   app.listen({ host, port }, () => {
     loginfo(`tetris listen on ${params.url}`)
     cb()
   })
+  expr.use(bodyParser.urlencoded({ extended: false }))
+  expr.use(express.json())
+  expr.use('/api/user', userRouter)
+  expr.use('/', handler)
 }
 
 const initEngine = io => {
@@ -44,15 +45,16 @@ const initEngine = io => {
       }
     })
     initSocketRoom(io, socket)
-    socket.on("disconnect", () => loginfo(`Socket disconnected: ${socket.id}`));
+    socket.on('disconnect', () => loginfo(`Socket disconnected: ${socket.id}`));
   })
 }
 
 export function create(params) {
   const promise = new Promise( (resolve, reject) => {
-    const app = require('http').createServer(express())
+    const expr = express()
+    const app = require('http').Server(expr)
     env.initDb();
-    initApp(app, params, () => {
+    initApp(app, expr, params, () => {
       const io = require('socket.io')(app)
       const stop = (cb) => {
         io.close()
