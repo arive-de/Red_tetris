@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetGameList } from '../actions/gameList'
 import GameList from './GameList'
+import PlayerList from './PlayerList'
+import './Lobby.scss'
 
 const Lobby = () => {
 
@@ -18,8 +20,18 @@ const Lobby = () => {
       console.log(`${username} socket client create`)
       dispatch(actSetGameList(data))
     });
-}
-    , [])
+  }, [])
+
+  //   useEffect(() => {
+    // fetch('http://localhost:3004/api/rooms')
+    // .then((res) => res.json())
+    // .then((data) => {
+
+    //   console.log(data)
+
+      // const gameList = useSelector(state => state.gameList)
+//     })
+//   }, [])
 
   return (
         <div>
@@ -47,7 +59,7 @@ const Lobby = () => {
                                         </thead>
                                         <tbody>
                                             {gameList.map((game, index) => (
-                                                <GameList key={index} game={game} />
+                                                <GameList game={game} key={index} />
                                             ))}
                                         </tbody>
                                     </table>
@@ -71,6 +83,8 @@ const Lobby = () => {
                     </div>
                 </div>
             </div>
+            <br />
+            <PlayerList />
         </div>
     )
 }

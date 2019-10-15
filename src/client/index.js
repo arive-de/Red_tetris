@@ -20,15 +20,19 @@ const initialState = {
       players: ['Cedric', 'Fanfan', 'Arthur'],
       running: false,
       roomId: 'xx01',
-      leader: 'Cedric'
+      leader: 'Cedric',
     },
     {
       players: ['Joe', 'Wilfried'],
       running: true,
       roomId: 'xx02',
       leader: 'Joe',
-    }
-  ]
+    },
+  ],
+  playerList: [
+    'arive-de',
+    'cbarbier',
+  ],
 }
 
 const store = createStore(
@@ -37,6 +41,7 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(thunk, createLogger()),
 )
+
 // store.dispatch(actSetUsername('Alix'))
 
 ReactDom.render((
