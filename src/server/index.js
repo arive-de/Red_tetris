@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path');
 const userRouter = require('./routes/user')
+const cors = require('cors')
 
 import fs from 'fs'
 import debug from 'debug'
@@ -29,6 +30,7 @@ const initApp = (app, expr, params, cb) => {
     loginfo(`tetris listen on ${params.url}`)
     cb()
   })
+  expr.use(cors())
   expr.use(bodyParser.urlencoded({ extended: false }))
   expr.use(express.json())
   expr.use('/api/user', userRouter)

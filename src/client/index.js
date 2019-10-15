@@ -8,6 +8,9 @@ import { Provider } from 'react-redux'
 import reducer from './reducers'
 import App from './containers/app'
 import { actSetUsername } from './actions/user'
+const axios = require('axios')
+
+axios.defaults.baseURL = 'http://localhost:3004'
 
 const initialState = {
   username: null,
