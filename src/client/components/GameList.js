@@ -16,8 +16,4 @@ const GameList = ({game}) => {
     <p className="card-text" key={index}>{m}</p>
     ))}</td> */} 
 
-
-
 export default (GameList)
-
-

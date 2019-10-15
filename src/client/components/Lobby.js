@@ -76,7 +76,7 @@ const Lobby = () => {
                         </div>
                     </div>
                     <div className='form-check d-flex justify-content-left'>
-                        <input className='form-check-input' type='checkbox' value='' id='defaultCheck1' />
+                        <input className='form-check-input' id='hide' type='checkbox' value='' />
                         <label className='form-check-label'>
                         Hide running and full tables
                         </label>
