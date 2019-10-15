@@ -22,6 +22,17 @@ const Lobby = () => {
     });
   }, [])
 
+  //   useEffect(() => {
+    // fetch('http://localhost:3004/api/rooms')
+    // .then((res) => res.json())
+    // .then((data) => {
+
+    //   console.log(data)
+
+      // const gameList = useSelector(state => state.gameList)
+//     })
+//   }, [])
+
   return (
         <div>
             <div className='card text-center'>
@@ -48,7 +59,7 @@ const Lobby = () => {
                                         </thead>
                                         <tbody>
                                             {gameList.map((game, index) => (
-                                                <GameList key={index} game={game} />
+                                                <GameList game={game} key={index} />
                                             ))}
                                         </tbody>
                                     </table>

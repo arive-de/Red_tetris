@@ -7,7 +7,6 @@ const PlayerList = () => {
   const playerList = useSelector(state => state.playerList)
 
 //   useEffect(() => {
-    // console.log('coucou')
     // fetch('http://localhost:3004/api/users')
     // .then((res) => res.json())
     // .then((data) => {
