@@ -48,6 +48,7 @@ const Lobby = () => {
                         <div className='col-sm-9'>
                             <div className='card'>
                                 <div className='card-body'>
+                                    {/* balise table is not allowed ! */}
                                     <table className='table table-striped'>
                                         <thead>
                                             <tr>

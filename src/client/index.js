@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import reducer from './reducers'
 import App from './containers/app'
 import { actSetUsername } from './actions/user'
+import openSocket from 'socket.io-client';
 
 const initialState = {
   username: null,
@@ -42,7 +43,7 @@ const store = createStore(
   applyMiddleware(thunk, createLogger()),
 )
 
-// store.dispatch(actSetUsername('Alix'))
+store.dispatch(actSetUsername({ username: 'Alix', socket: openSocket('http://localhost:3004') }))
 
 ReactDom.render((
   <Provider store={store}>
