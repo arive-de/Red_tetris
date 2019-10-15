@@ -3,6 +3,8 @@ import debug from 'debug'
 import * as env from './env'
 import { initSocketRoom } from './room'
 const path = require('path');
+const express = require('express')
+const userRouter = require('./routes/user')
 
 const logerror = debug('tetris:error'),
   loginfo = debug('tetris:info')
@@ -23,6 +25,8 @@ const initApp = (app, params, cb) => {
   }
 
   app.on('request', handler)
+
+  app.use('/api/user', userRouter)
 
   app.listen({ host, port }, () => {
     loginfo(`tetris listen on ${params.url}`)
@@ -46,7 +50,7 @@ const initEngine = io => {
 
 export function create(params) {
   const promise = new Promise( (resolve, reject) => {
-    const app = require('http').createServer()
+    const app = require('http').createServer(express())
     env.initDb();
     initApp(app, params, () => {
       const io = require('socket.io')(app)

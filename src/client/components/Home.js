@@ -14,7 +14,9 @@ const Home = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
+      
       const socket = openSocket('http://localhost:3004');
+
       dispatch(actSetUsername({ username, socket }));
     }
   }
