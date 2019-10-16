@@ -11,8 +11,8 @@ const Lobby = () => {
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
   const gameList = useSelector(state => state.gameList)
-  console.log(gameList)
   const socket = useSelector(state => state.socket)
+  const [isError, setIsError] = useSelector(false)
 
   const onCreate = () => {
     socket.emit('create', username);
@@ -27,9 +27,17 @@ const Lobby = () => {
   useEffect(() => {
 
     const fetchData = async () => {
-      const result = await axios('http://localhost:3004/api/room')
+      setIsError(false)
 
-      console.log(result)
+      try {
+        const result = await axios('http://localhost:3004/api/room')
+        
+        // here put data in state
+      }
+      catch (error) {
+        setIsError(true)
+      }
+
     }
 
     fetchData()

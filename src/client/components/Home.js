@@ -20,11 +20,11 @@ const Home = () => {
         .then(res => {
           console.log(res)
         })
-        .catch(err =>{
+        .catch(err => {
           console.log(err)
         })
       const socket = openSocket('http://localhost:3004')
-      
+
       dispatch(actSetUsername({ username, socket }))
     }
   }
