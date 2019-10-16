@@ -3,11 +3,13 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const userRouter = require('./routes/user')
 const cors = require('cors')
+const User = require('../models/User');
 
 import fs from 'fs'
 import debug from 'debug'
 import * as env from './env'
 import { initSocketRoom } from './room'
+import { deleteUser, createUser } from './controllers/user'
 
 const logerror = debug('tetris:error'),
 loginfo = debug('tetris:info')
@@ -41,13 +43,19 @@ const initEngine = io => {
   io.on('connection', (socket) => {
     loginfo(`Socket connected: ${socket.id}`)
 
+    socket.on('auth', username => {
+
+    })
     socket.on('action', (action) => {
       if (action.type === 'server/ping') {
         socket.emit('action', { type: 'pong' })
       }
     })
     initSocketRoom(io, socket)
-    socket.on('disconnect', () => loginfo(`Socket disconnected: ${socket.id}`));
+    socket.on('disconnect', () => {
+      deleteUser()
+      loginfo(`Socket disconnected: ${socket.id}`)
+    });
   })
 }
 

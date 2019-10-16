@@ -19,13 +19,12 @@ const Home = () => {
       axios.post('/api/user/register', { username })
         .then(res => {
           console.log(res)
+          const socket = openSocket('http://localhost:3004')
+          dispatch(actSetUsername({ username, socket }))
         })
         .catch(err =>{
           console.log(err)
         })
-      const socket = openSocket('http://localhost:3004')
-      
-      dispatch(actSetUsername({ username, socket }))
     }
   }
   console.log(username);

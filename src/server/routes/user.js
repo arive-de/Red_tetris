@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/User');
+import { createUser } from '../controllers/user'
 
 router.post('/register', (req, res) => {
   console.log(req.body);
@@ -11,10 +12,10 @@ router.post('/register', (req, res) => {
   })
     .then(user => {
       console.log(user)
-      if (user === null) {
-        return res.status(200).json({ isValid: true, username })
+      if (user) {
+        return res.status(400).json({ isValid: false, errors: 'username already exists' })
       }
-      return res.status(400).json({ isValid: false, errors: 'username already exists' })
+      return res.status(200).json({ isValid: true, username })
     })
     .catch(err => {
       console.log(err)
