@@ -44,7 +44,7 @@ const initEngine = io => {
     loginfo(`Socket connected: ${socket.id}`)
 
     socket.on('auth', username => {
-
+      createUser(username, () => io.sockets.emit('newUser', { username }))
     })
     socket.on('action', (action) => {
       if (action.type === 'server/ping') {
