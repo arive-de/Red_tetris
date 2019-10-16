@@ -4,14 +4,13 @@ import { actSetGameList } from '../actions/gameList'
 import GameList from './GameList'
 import PlayerList from './PlayerList'
 import './Lobby.scss'
-import axios from 'axios';
+import useDataApi from '../helpers/fetchData'
 
 const Lobby = () => {
 
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
   const gameList = useSelector(state => state.gameList)
-  console.log(gameList)
   const socket = useSelector(state => state.socket)
 
   const onCreate = () => {
@@ -24,17 +23,7 @@ const Lobby = () => {
     });
   }, [])
 
-  useEffect(() => {
-
-    const fetchData = async () => {
-      const result = await axios('http://localhost:3004/api/room')
-
-      console.log(result)
-    }
-
-    fetchData()
-
-  }, [])
+  useDataApi('http://localhost:3004/api/room', [], 'GET_GAMELIST')
 
   return (
         <div>

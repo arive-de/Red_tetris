@@ -27,13 +27,15 @@ export function initDb() {
              roomId: 'xx04',
              type: 'Classic',
              players: ['lox', 'bob'],
-             status: false,
+             running: false,
+             leader: 'lox',
            },
            {
              roomId: 'xx05',
              type: 'Classic',
              players: ['Joe', 'Robby'],
-             status: false,
+             running: false,
+             leader: 'Joe',
            },
          ])
            .then(() => {

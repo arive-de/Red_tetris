@@ -19,20 +19,7 @@ const initialState = {
   roomId: null,
   spectr: [],
   socket: null,
-  gameList: [
-    {
-      players: ['Cedric', 'Fanfan', 'Arthur'],
-      running: false,
-      roomId: 'xx01',
-      leader: 'Cedric',
-    },
-    {
-      players: ['Joe', 'Wilfried'],
-      running: true,
-      roomId: 'xx02',
-      leader: 'Joe',
-    },
-  ],
+  gameList: [],
   playerList: [
     'arive-de',
     'cbarbier',

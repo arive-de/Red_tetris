@@ -16,8 +16,12 @@ const RoomSchema = new Schema({
     type: Array,
     required: true,
   },
-  status: {
+  running: {
     type: Boolean,
+    required: true,
+  },
+  leader: {
+    type: String,
     required: true,
   },
 })
