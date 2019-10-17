@@ -1,47 +1,44 @@
 const express = require('express')
+const app = express()
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
+const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const path = require('path');
 const userRouter = require('./routes/user')
+const roomRouter = require('./routes/room')
 const cors = require('cors')
 const User = require('../models/User');
 
+import params from '../../params'
 import fs from 'fs'
-import debug from 'debug'
 import * as env from './env'
 import { initSocketRoom } from './room'
 import { deleteUser, createUser } from './controllers/user'
 
-const logerror = debug('tetris:error'),
-loginfo = debug('tetris:info')
+const connect = () => {
+  const options = { useNewUrlParser: true, useUnifiedTopology: true }
+  mongoose.connect(params.db.url, options)
+  return mongoose.connection
+}
 
-const initApp = (app, expr, params, cb) => {
-  const { host, port } = params
-  const handler = (req, res) => {
-    const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
-    fs.readFile(path.join(__dirname, file), (err, data) => {
-      if (err) {
-        logerror(err)
-        res.writeHead(500)
-        return res.end('Error loading index.html')
-      }
-      res.writeHead(200)
-      res.end(data)
-    })
-  }
-  app.listen({ host, port }, () => {
-    loginfo(`tetris listen on ${params.url}`)
-    cb()
+const handler = (req, res) => {
+  const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
+  fs.readFile(path.join(__dirname, file), (err, data) => {
+    if (err) {
+      console.log(err)
+      res.writeHead(500)
+      return res.end('Error loading index.html')
+    }
+    res.writeHead(200)
+    res.end(data)
   })
-  expr.use(cors())
-  expr.use(bodyParser.urlencoded({ extended: false }))
-  expr.use(express.json())
-  expr.use('/api/user', userRouter)
-  expr.use('/', handler)
 }
 
 const initEngine = io => {
+    console.log('initengine')
   io.on('connection', (socket) => {
-    loginfo(`Socket connected: ${socket.id}`)
+    console.log(`Socket connected: ${socket.id}`)
 
     socket.on('auth', username => {
       createUser(username, () => io.sockets.emit('newUser', { username }))
@@ -52,31 +49,25 @@ const initEngine = io => {
       }
     })
     initSocketRoom(io, socket)
-    socket.on('disconnect', () => {
-      deleteUser()
-      loginfo(`Socket disconnected: ${socket.id}`)
-    });
+    socket.on('disconnect', () => console.log(`Socket disconnected: ${socket.id}`));
+  })
+}
+const main = () => {
+  env.initDb()
+  initEngine(io)
+  http.listen(params.server.port, () => {
+    console.log(`server is running on port ${params.server.port}`)
   })
 }
 
-export function create(params) {
-  const promise = new Promise( (resolve, reject) => {
-    const expr = express()
-    const app = require('http').Server(expr)
-    env.initDb();
-    initApp(app, expr, params, () => {
-      const io = require('socket.io')(app)
-      const stop = (cb) => {
-        io.close()
-        app.close(() => {
-          app.unref()
-        })
-        loginfo('Engine stopped.')
-        cb()
-      }
-      initEngine(io)
-      resolve({ stop })
-    })
-  })
-  return promise
-}
+app.use(cors({ credentials: true, origin: 'http://localhost:8080' }))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.json())
+app.use('/api/user', userRouter)
+app.use('/api/room', roomRouter)
+app.use('/', handler)
+
+connect()
+  .on('error', console.log)
+  .on('disconnected', connect)
+  .on('open', main)

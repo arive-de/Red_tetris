@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import reducer from './reducers'
 import App from './containers/app'
 import { actSetUsername } from './actions/user'
+import openSocket from 'socket.io-client';
 const axios = require('axios')
 
 axios.defaults.baseURL = 'http://localhost:3004'
@@ -18,24 +19,8 @@ const initialState = {
   roomId: null,
   spectr: [],
   socket: null,
-  gameList: [
-    {
-      players: ['Cedric', 'Fanfan', 'Arthur'],
-      running: false,
-      roomId: 'xx01',
-      leader: 'Cedric',
-    },
-    {
-      players: ['Joe', 'Wilfried'],
-      running: true,
-      roomId: 'xx02',
-      leader: 'Joe',
-    },
-  ],
-  playerList: [
-    'arive-de',
-    'cbarbier',
-  ],
+  gameList: [],
+  userList: [],
 }
 
 const store = createStore(
@@ -45,7 +30,7 @@ const store = createStore(
   applyMiddleware(thunk, createLogger()),
 )
 
-// store.dispatch(actSetUsername('Alix'))
+// store.dispatch(actSetUsername({ username: 'Alix', socket: openSocket('http://localhost:3004') }))
 
 ReactDom.render((
   <Provider store={store}>

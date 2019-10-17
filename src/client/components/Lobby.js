@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetGameList } from '../actions/gameList'
 import GameList from './GameList'
-import PlayerList from './PlayerList'
+import UserList from './UserList'
 import './Lobby.scss'
+import useDataApi from '../helpers/fetchData'
 
 const Lobby = () => {
 
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
-  const gameList = useSelector(state => state.gameList)
   const socket = useSelector(state => state.socket)
 
   const onCreate = () => {
@@ -22,16 +22,9 @@ const Lobby = () => {
     });
   }, [])
 
-  //   useEffect(() => {
-    // fetch('http://localhost:3004/api/rooms')
-    // .then((res) => res.json())
-    // .then((data) => {
+  useDataApi('http://localhost:3004/api/room', [], 'GET_GAMELIST')
 
-    //   console.log(data)
-
-      // const gameList = useSelector(state => state.gameList)
-//     })
-//   }, [])
+  const gameList = useSelector(state => state.gameList)
 
   return (
         <div>
@@ -48,6 +41,7 @@ const Lobby = () => {
                         <div className='col-sm-9'>
                             <div className='card'>
                                 <div className='card-body'>
+                                    {/* balise table is not allowed ! */}
                                     <table className='table table-striped'>
                                         <thead>
                                             <tr>
@@ -76,7 +70,7 @@ const Lobby = () => {
                         </div>
                     </div>
                     <div className='form-check d-flex justify-content-left'>
-                        <input className='form-check-input' type='checkbox' value='' id='defaultCheck1' />
+                        <input className='form-check-input' id='hide' type='checkbox' value='' />
                         <label className='form-check-label'>
                         Hide running and full tables
                         </label>
@@ -84,7 +78,7 @@ const Lobby = () => {
                 </div>
             </div>
             <br />
-            <PlayerList />
+            <UserList />
         </div>
     )
 }
