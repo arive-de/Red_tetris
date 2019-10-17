@@ -35,18 +35,22 @@ const handler = (req, res) => {
 }
 
 const initEngine = io => {
-    console.log('initengine')
+
+  console.log('initengine')
   io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)
 
     socket.on('auth', username => {
-      createUser(username, socket.id, error => io.sockets.emit('auth', { error, username }))
+      createUser(username, socket.id, error => {
+        if (error) {
+          socket.emit('auth', { error })
+        }
+        else {
+          io.sockets.emit('auth', { username })
+        }
+      })
     })
-    socket.on('action', (action) => {
-      if (action.type === 'server/ping') {
-        socket.emit('action', { type: 'pong' })
-      }
-    })
+
     initSocketRoom(io, socket)
     socket.on('disconnect', () => console.log(`Socket disconnected: ${socket.id}`));
   })

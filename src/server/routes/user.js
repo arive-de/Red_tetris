@@ -17,25 +17,4 @@ router.get('/', (req, res) => {
     })
 })
 
-
-router.post('/register', (req, res) => {
-  // console.log(req.body);
-  // console.log(req)
-  const { username } = req.body
-  User.findOne({
-    username,
-  })
-    .then(user => {
-      console.log(user)
-      if (user) {
-        return res.status(400).json({ success: false, errors: 'username already exists' })
-      }
-      return res.status(200).json({ success: true, username })
-    })
-    .catch(err => {
-      console.log(err)
-      return res.status(400).json({ success: false, error: 'probleme while accessing the db' })
-    })
-})
-
 module.exports = router

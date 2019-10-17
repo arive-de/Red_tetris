@@ -5,15 +5,30 @@ const createUser = (username, socketId, cb) => {
     socketId,
     username,
   })
-  newUser.save()
-  .then(user => {
-    console.log(`new user ${user.username} added to db`)
-    cb()
+
+  User.findOne({
+    username,
   })
-  .catch(err => {
-    console.log(err)
-    cb('can\'t store the user in db')
-  })
+    .then(user => {
+      console.log(user)
+      if (!user) {
+        newUser.save()
+        .then(user => {
+          console.log(`new user ${user.username} added to db`)
+          cb()
+        })
+        .catch(err => {
+          console.log(err)
+          cb('can\'t store the user in db')
+        })
+      }
+      else {
+        return cb('user already exists')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 const deleteUser = (username, cb) => {

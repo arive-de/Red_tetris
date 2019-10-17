@@ -16,16 +16,19 @@ const Home = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      axios.post('/api/user/register', { username })
-        .then(res => {
-          console.log(res)
-          const socket = openSocket('http://localhost:3004')
-          dispatch(actSetUsername({ username, socket }))
-          socket.emit('auth', username)
-        })
-        .catch(err =>{
-          console.log(err)
-        })
+
+      const socket = openSocket('http://localhost:3004')
+
+      socket.emit('auth', username)
+
+      socket.on('auth', data => {
+        if (data.error) {
+          console.log(data.error)
+        }
+        else {
+          dispatch(actSetUsername({ data, socket }))
+        }
+      });
     }
   }
   console.log(username);
