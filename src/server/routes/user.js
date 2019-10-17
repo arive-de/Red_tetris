@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   User.find()
     .then(data => {
       if (data !== null) {
-        return res.status(200).json({ success: true, data })
+        return res.status(200).json({ success: true, data: data.map(u => u.username) })
       }
     })
     .catch(err => {

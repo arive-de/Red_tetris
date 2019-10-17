@@ -1,7 +1,8 @@
 const User = require('../models/User');
 
-const createUser = (username, cb) => {
+const createUser = (username, socketId, cb) => {
   const newUser = new User({
+    socketId,
     username,
   })
   newUser.save()
@@ -11,8 +12,8 @@ const createUser = (username, cb) => {
   })
   .catch(err => {
     console.log(err)
+    cb('can\'t store the user in db')
   })
-
 }
 
 const deleteUser = (username, cb) => {

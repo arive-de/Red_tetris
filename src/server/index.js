@@ -40,7 +40,7 @@ const initEngine = io => {
     console.log(`Socket connected: ${socket.id}`)
 
     socket.on('auth', username => {
-      createUser(username, () => io.sockets.emit('newUser', { username }))
+      createUser(username, socket.id, error => io.sockets.emit('auth', { error, username }))
     })
     socket.on('action', (action) => {
       if (action.type === 'server/ping') {

@@ -21,6 +21,7 @@ const Home = () => {
           console.log(res)
           const socket = openSocket('http://localhost:3004')
           dispatch(actSetUsername({ username, socket }))
+          socket.emit('auth', username)
         })
         .catch(err =>{
           console.log(err)
