@@ -2,6 +2,21 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/User');
 
+router.get('/', (req, res) => {
+
+  User.find()
+    .then(data => {
+      if (data !== null) {
+        return res.status(200).json({ success: true, data })
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      return res.status(400).json({ success: false, error: 'probleme while accessing the db' })
+    })
+})
+
+
 router.post('/register', (req, res) => {
   // console.log(req.body);
   // console.log(req)

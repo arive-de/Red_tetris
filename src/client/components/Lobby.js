@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetGameList } from '../actions/gameList'
 import GameList from './GameList'
-import PlayerList from './PlayerList'
+import UserList from './UserList'
 import './Lobby.scss'
 import useDataApi from '../helpers/fetchData'
 
@@ -10,7 +10,6 @@ const Lobby = () => {
 
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
-//   const gameList = useSelector(state => state.gameList)
   const socket = useSelector(state => state.socket)
 
   const onCreate = () => {
@@ -26,8 +25,6 @@ const Lobby = () => {
   useDataApi('http://localhost:3004/api/room', [], 'GET_GAMELIST')
 
   const gameList = useSelector(state => state.gameList)
-
-  console.log(gameList)
 
   return (
         <div>
@@ -81,7 +78,7 @@ const Lobby = () => {
                 </div>
             </div>
             <br />
-            <PlayerList />
+            <UserList />
         </div>
     )
 }
