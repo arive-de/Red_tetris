@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetUsername } from '../actions/user'
+import { actSetUser } from '../actions/user'
 import openSocket from 'socket.io-client'
 const axios = require('axios')
 
 const Home = () => {
   // const storeUsername = useSelector(state => state.username);
-  const [username, setUserName] = useState('')
+  const [username, setUser] = useState('')
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const onChange = (e) => {
@@ -20,7 +20,7 @@ const Home = () => {
         .then(res => {
           console.log(res)
           const socket = openSocket('http://localhost:3004')
-          dispatch(actSetUsername({ username, socket }))
+          dispatch(actSetUser({ username, socket }))
           socket.emit('auth', username)
         })
         .catch(err =>{
