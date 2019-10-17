@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetUsername } from '../actions/user'
 import openSocket from 'socket.io-client'
-const axios = require('axios')
 
 const Home = () => {
   // const storeUsername = useSelector(state => state.username);
@@ -26,6 +25,7 @@ const Home = () => {
           console.log(data.error)
         }
         else {
+          console.log('dispatch is ok')
           dispatch(actSetUsername({ data, socket }))
         }
       });

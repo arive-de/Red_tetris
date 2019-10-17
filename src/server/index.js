@@ -14,6 +14,8 @@ import fs from 'fs'
 import * as env from './env'
 import { initSocketRoom } from './room'
 import { deleteUser, createUser } from './controllers/user'
+import { createRoom } from './controllers/room'
+import { createBrotliCompress } from 'zlib'
 
 const connect = () => {
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
@@ -47,6 +49,19 @@ const initEngine = io => {
         }
         else {
           io.sockets.emit('auth', { username })
+        }
+      })
+    })
+
+    socket.on('create_room', username => {
+      createRoom(username, error => {
+        if (error) {
+          socket.emit('create_room', { error })
+        }
+        else {
+          io.sockets.emit('lobby', { username })
+
+          // ici renvoyer le nom de la room + username
         }
       })
     })

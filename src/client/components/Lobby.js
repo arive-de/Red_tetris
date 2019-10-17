@@ -10,15 +10,19 @@ const Lobby = () => {
 
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
+
+  console.log('username: ', username)
+
   const socket = useSelector(state => state.socket)
 
   const onCreate = () => {
-    socket.emit('create', username);
+    socket.emit('create_room', username);
   }
+
   useEffect(() => {
-    socket.on('create', data => {
-      console.log(`${username} socket client create`)
-      dispatch(actSetGameList(data))
+    socket.on('lobby', username => {
+        console.log('created new game', username)
+    //   dispatch(actSetGameList(data))
     });
   }, [])
 
