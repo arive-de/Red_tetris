@@ -4,10 +4,8 @@ const Room = require('../models/Room');
 
 router.get('/', (req, res) => {
 
-  console.log('reaching Room get endpoint')
   Room.find()
     .then(data => {
-      console.log(data)
       if (data !== null) {
         return res.status(200).json({ success: true, data })
       }

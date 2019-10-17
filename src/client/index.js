@@ -20,10 +20,7 @@ const initialState = {
   spectr: [],
   socket: null,
   gameList: [],
-  playerList: [
-    'arive-de',
-    'cbarbier',
-  ],
+  userList: [],
 }
 
 const store = createStore(
