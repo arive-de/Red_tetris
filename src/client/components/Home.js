@@ -18,7 +18,7 @@ const Home = () => {
     if (e.key === 'Enter') {
       axios.post('/api/user/register', { username })
         .then(res => {
-          console.log(res)
+          // console.log(res)
         })
         .catch(err =>{
           console.log(err)

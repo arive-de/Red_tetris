@@ -1,3 +1,5 @@
+import { get } from "https"
+
 export const SET_GAMELIST = 'SET_GAMELIST'
 export const JOIN_GAMELIST = 'JOIN_GAMELIST'
 export const LEAVE_GAMELIST = 'LEAVE_GAMELIST'

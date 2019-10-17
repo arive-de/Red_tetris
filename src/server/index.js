@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const path = require('path');
 const userRouter = require('./routes/user')
+const roomRouter = require('./routes/room')
 const cors = require('cors')
 
 import params from '../../params'
@@ -57,6 +58,7 @@ app.use(cors({ credentials: true, origin: 'http://localhost:8080' }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 app.use('/api/user', userRouter)
+app.use('/api/room', roomRouter)
 app.use('/', handler)
 
 connect()
