@@ -49,8 +49,8 @@ const initEngine = io => {
 }
 const main = () => {
   env.initDb()
-  app.listen(params.server.port, () => {
-    initEngine(io)
+  initEngine(io)
+  http.listen(params.server.port, () => {
     console.log(`server is running on port ${params.server.port}`)
   })
 }
