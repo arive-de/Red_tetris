@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetUsername } from '../actions/user'
+import { actSetUser } from '../actions/user'
 import openSocket from 'socket.io-client'
 const axios = require('axios')
 
@@ -25,7 +25,7 @@ const Home = () => {
         })
       const socket = openSocket('http://localhost:3004')
       
-      dispatch(actSetUsername({ username, socket }))
+      dispatch(actSetUser({ username, socket }))
     }
   }
   console.log(username);

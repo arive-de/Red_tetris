@@ -19,7 +19,7 @@ const initialState = {
   roomId: null,
   spectr: [],
   socket: null,
-  gameList: [],
+  rooms: [],
   userList: [],
 }
 

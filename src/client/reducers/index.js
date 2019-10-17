@@ -1,11 +1,7 @@
-import reducerUser from './user'
-import gameReducer from './gameList'
-import getRoomReducer from './getRooms'
-import getUsersReducer from './getUsers'
+import roomReducer from './room'
+import userReducer from './user'
 
-export default ( state, action ) => {
-    return getUsersReducer(getRoomReducer(gameReducer( reducerUser( state, action ), action ), action), action)
+export default (state, action) => {
+  const reducers = [userReducer, roomReducer]
+  return reducers.reduce((a, b) => b(a, action), state)
 }
-
-
-
