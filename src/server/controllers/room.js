@@ -6,6 +6,9 @@ const createRoom = (username, cb) => {
 
   const newRoom = new Room({
     players: [username],
+    roomId: 'xx06',
+    type: 'Classic',
+    running: false,
   })
 
   newRoom.save()
@@ -31,25 +34,4 @@ const deleteUser = (username, cb) => {
   })
 }
 
-module.exports = { createRoom };
-
-// roomId: {
-//     type: String,
-//     required: true,
-//   },
-//   type: {
-//     type: String,
-//     required: true,
-//   },
-//   players: {
-//     type: Array,
-//     required: true,
-//   },
-//   running: {
-//     type: Boolean,
-//     required: true,
-//   },
-//   leader: {
-//     type: String,
-//     required: true,
-//   },
+module.exports = { createRoom }

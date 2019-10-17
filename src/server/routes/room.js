@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
   Room.find()
     .then(data => {
       if (data !== null) {
+        console.log(data)
         return res.status(200).json({ success: true, data })
       }
     })

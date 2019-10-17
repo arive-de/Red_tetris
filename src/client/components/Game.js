@@ -5,13 +5,13 @@ export default function Game() {
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
   const isPlaying = useSelector(state => state.isPlaying)
-  const room = useSelector(state => state.gameList.find(r => r.roomId == state.roomId))
+  const room = useSelector(state => state.rooms.find(r => r.roomId == state.roomId))
   if (room === undefined) {
       return (<div>'Room doesn\'t exist anymore'</div>)
     }
   const onPlay = () => {
       console.log('lets play');
-      socket.on('play', data => dispatch(actSetGameList(data)));
+      socket.on('play', data => dispatch(actCreateRoom(data)));
       socket.emit('play', room.roomId);
     }
   return (

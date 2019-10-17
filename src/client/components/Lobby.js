@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetGameList } from '../actions/gameList'
-import GameList from './GameList'
+import { actCreateRoom } from '../actions/room'
+import RoomList from './RoomList'
 import UserList from './UserList'
 import './Lobby.scss'
 import useDataApi from '../helpers/fetchData'
@@ -20,15 +20,17 @@ const Lobby = () => {
   }
 
   useEffect(() => {
-    socket.on('lobby', username => {
-        console.log('created new game', username)
-    //   dispatch(actSetGameList(data))
+    socket.on('lobby', data => {
+      console.log('created new game', data)
+      dispatch(actCreateRoom(data))
     });
   }, [])
 
-  useDataApi('http://localhost:3004/api/room', [], 'GET_GAMELIST')
+  useDataApi('http://localhost:3004/api/room', [], 'GET_ROOMS')
 
-  const gameList = useSelector(state => state.gameList)
+  const rooms = useSelector(state => state.rooms)
+
+  console.log(rooms)
 
   return (
         <div>
@@ -45,7 +47,6 @@ const Lobby = () => {
                         <div className='col-sm-9'>
                             <div className='card'>
                                 <div className='card-body'>
-                                    {/* balise table is not allowed ! */}
                                     <table className='table table-striped'>
                                         <thead>
                                             <tr>
@@ -56,8 +57,8 @@ const Lobby = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {gameList.map((game, index) => (
-                                                <GameList game={game} key={index} />
+                                            {rooms.map((room, index) => (
+                                                <RoomList key={index} room={room} />
                                             ))}
                                         </tbody>
                                     </table>

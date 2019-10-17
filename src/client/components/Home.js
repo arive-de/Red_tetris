@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetUsername } from '../actions/user'
+import { actSetUser } from '../actions/user'
 import openSocket from 'socket.io-client'
 
 const Home = () => {
   // const storeUsername = useSelector(state => state.username);
-  const [username, setUserName] = useState('')
+  const [username, setUsername] = useState('')
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const onChange = (e) => {
     e.preventDefault()
-    setUserName(e.target.value)
+    setUsername(e.target.value)
   }
 
   const handleKeyDown = (e) => {
@@ -26,7 +26,8 @@ const Home = () => {
         }
         else {
           console.log('dispatch is ok')
-          dispatch(actSetUsername({ data, socket }))
+          console.log(data)
+          dispatch(actSetUser({ username: data.username, socket }))
         }
       });
     }

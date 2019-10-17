@@ -48,6 +48,7 @@ const initEngine = io => {
           socket.emit('auth', { error })
         }
         else {
+          console.log('USERNAME: ', username)
           io.sockets.emit('auth', { username })
         }
       })
@@ -56,10 +57,10 @@ const initEngine = io => {
     socket.on('create_room', username => {
       createRoom(username, error => {
         if (error) {
-          socket.emit('create_room', { error })
+          socket.emit('lobby', { error })
         }
         else {
-          io.sockets.emit('lobby', { username })
+          io.sockets.emit('lobby', { players: [username], type: 'Classic', roomId: 'xx06', running: false })
 
           // ici renvoyer le nom de la room + username
         }

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import { GET_USERLIST, actAddUserList } from '../actions/getUsers'
+import { actAddUser, GET_USERS } from '../actions/user'
 import { useSelector, useDispatch } from 'react-redux'
 import useDataApi from '../helpers/fetchData'
 import './UserList.scss'
 
 const UserList = () => {
-  useDataApi('http://localhost:3004/api/user', [], GET_USERLIST)
+  useDataApi('http://localhost:3004/api/user', [], GET_USERS)
   const socket = useSelector(state => state.socket)
   const userList = useSelector(state => state.userList)
   const dispatch = useDispatch()
@@ -17,7 +17,9 @@ const UserList = () => {
         console.log(data.error)
         return
       }
-      dispatch(actAddUserList(data.username))
+      console.log('dispatch from userlist')
+      dispatch(actAddUser(data.username))
+      console.log(userList)
     })
   }, [])
   return <div className='card w-50'>
