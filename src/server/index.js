@@ -34,6 +34,7 @@ const handler = (req, res) => {
 }
 
 const initEngine = io => {
+    console.log('initengine')
   io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)
 
@@ -48,8 +49,8 @@ const initEngine = io => {
 }
 const main = () => {
   env.initDb()
-  initEngine(io)
   app.listen(params.server.port, () => {
+    initEngine(io)
     console.log(`server is running on port ${params.server.port}`)
   })
 }

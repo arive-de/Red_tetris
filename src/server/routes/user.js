@@ -3,14 +3,14 @@ const router = express.Router()
 const User = require('../models/User');
 
 router.post('/register', (req, res) => {
-  console.log(req.body);
-  console.log(req)
+  // console.log(req.body);
+  // console.log(req)
   const { username } = req.body
   User.findOne({
     username,
   })
     .then(user => {
-      console.log(user)
+      // sconsole.log(user)
       if (user === null) {
         return res.status(200).json({ isValid: true, username })
       }
