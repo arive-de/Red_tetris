@@ -1,12 +1,8 @@
-import { SET_GAMELIST, JOIN_GAMELIST, LEAVE_GAMELIST, LEAVE_MASTER_GAMELIST, GET_GAMELIST } from '../actions/gameList'
+import { SET_GAMELIST, JOIN_GAMELIST, LEAVE_GAMELIST, LEAVE_MASTER_GAMELIST } from '../actions/gameList'
 
 const gameReducer = (state, action) => {
   const { username, leader, roomId, game } = action
-  // console.log(action.payload)
   switch (action.type) {
-  case GET_GAMELIST:
-    // console.log(games) // TODO CLEAN ALL THIS THING
-    return { ...state }
   case SET_GAMELIST:
     console.log("MAMA", action, state)
     return { ...state, roomId: game.leader === state.username ? game.roomId : state.roomId, gameList: [...state.gameList, game]}

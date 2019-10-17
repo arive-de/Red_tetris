@@ -10,7 +10,7 @@ const Lobby = () => {
 
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
-  const gameList = useSelector(state => state.gameList)
+//   const gameList = useSelector(state => state.gameList)
   const socket = useSelector(state => state.socket)
 
   const onCreate = () => {
@@ -24,6 +24,10 @@ const Lobby = () => {
   }, [])
 
   useDataApi('http://localhost:3004/api/room', [], 'GET_GAMELIST')
+
+  const gameList = useSelector(state => state.gameList)
+
+  console.log(gameList)
 
   return (
         <div>

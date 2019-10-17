@@ -12,8 +12,6 @@ const useDataApi = (initialUrl, initialData, type) => {
     isError: false,
   })
 
-  console.log('isCalled')
-
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_INIT' })
@@ -21,7 +19,6 @@ const useDataApi = (initialUrl, initialData, type) => {
       try {
         const result = await axios(url)
 
-        console.log('result: ', result.data.data)
         dispatch({ type: 'FETCH_SUCCESS' })
         dispatchStore({ type, payload: result.data.data })
       }
