@@ -8,11 +8,13 @@ const path = require('path');
 const userRouter = require('./routes/user')
 const roomRouter = require('./routes/room')
 const cors = require('cors')
+const Room = require('./models/Room')
 
 import params from '../../params'
 import fs from 'fs'
 import * as env from './env'
 import { initSocketRoom } from './room'
+import { deleteUser, createUser } from './controllers/user'
 
 const connect = () => {
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
@@ -34,17 +36,28 @@ const handler = (req, res) => {
 }
 
 const initEngine = io => {
-    console.log('initengine')
+  console.log('initengine')
   io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)
 
-    socket.on('action', (action) => {
-      if (action.type === 'server/ping') {
-        socket.emit('action', { type: 'pong' })
-      }
+    socket.on('auth', username => {
+      createUser(username, socket.id, error => io.sockets.emit('auth', { error, username }))
+      socket.username = username
+      socket.roomId = null
     })
     initSocketRoom(io, socket)
-    socket.on('disconnect', () => console.log(`Socket disconnected: ${socket.id}`));
+    socket.on('disconnect', () => {
+      console.log(`Socket disconnected: ${socket.id}`)
+      deleteUser(socket.username, socket.roomId, (error) => {
+        Room.find({}).then(rooms => {
+          io.sockets.emit('logout', { error, rooms })
+        })
+        .catch(err => {
+          console.log(err)
+          io.sockets.emit('logout', { error: 'can not access db to get the rooms' })
+        })
+      })
+    });
   })
 }
 const main = () => {
@@ -63,6 +76,6 @@ app.use('/api/room', roomRouter)
 app.use('/', handler)
 
 connect()
-  .on('error', console.log)
-  .on('disconnected', connect)
-  .on('open', main)
+.on('disconnected', connect)
+.on('open', main)
+.on('error', console.log)
