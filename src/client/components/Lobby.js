@@ -19,7 +19,7 @@ const Lobby = () => {
 
   useEffect(() => {
     socket.on('created_room', data => {
-      console.log('created new game', data)
+      console.log('created new room', data)
       dispatch(actCreateRoom(data))
     });
     socket.on('logout', data => {
