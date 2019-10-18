@@ -45,7 +45,7 @@ export default function Game() {
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td scope='row'>{username} { room.leader === username ? <i className='fas fa-crown'></i> : '' }</td>
+                                    <td scope='row'>{username} { room.players[0] === username ? <i className='fas fa-crown'></i> : '' }</td>
                                     <td><i className='far fa-check-square'></i></td>
                                   </tr>
                                     {/* {gameList.map((game, index) => (

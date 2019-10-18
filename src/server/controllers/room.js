@@ -8,7 +8,7 @@ const createRoom = (username, cb) => {
 
   const newRoom = new Room({
     players: [username],
-    roomId: 'xx' + i.toString(),
+    roomId: `xx${i}`,
     type: 'Classic',
     running: false,
   })
@@ -17,7 +17,7 @@ const createRoom = (username, cb) => {
     .then(data => {
       console.log(data)
       console.log(`new room added by ${username} to db`)
-      cb(data)
+      cb(null, data)
     })
     .catch(err => {
       console.log(err)

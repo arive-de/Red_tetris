@@ -13,7 +13,7 @@ const App = () => {
   if (username !== null && roomId !== null) {
     return (<Game />);
   }
-  if (username !== null){
+  if (username !== null) {
     return (<Lobby />);
   }
   return (<Home />);

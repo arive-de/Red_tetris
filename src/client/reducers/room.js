@@ -2,11 +2,12 @@ import { GET_ROOMS, CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM, LEAVE_MASTER_ROOM } from
 
 const gameReducer = (state, action) => {
   const { username, leader, roomId, room } = action
+  console.log(room)
   switch (action.type) {
   case GET_ROOMS:
     return { ...state, rooms: action.payload }
   case CREATE_ROOM:
-    return { ...state, roomId: room.leader === state.username ?
+    return { ...state, roomId: room.players[0] === state.username ?
       room.roomId : state.roomId, rooms: [...state.rooms, room] }
   case JOIN_ROOM:
     return { ...state, roomId, rooms: state.rooms.map(r => {

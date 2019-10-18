@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetUser } from '../actions/user'
 import openSocket from 'socket.io-client'
+import './Lobby.scss'
 
 const Home = () => {
   // const storeUsername = useSelector(state => state.username);

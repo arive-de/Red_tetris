@@ -4,15 +4,15 @@ export const initSocketRoom = (io, socket) => {
 
   socket.on('create_room', username => {
 
-    createRoom(username, (data, error) => {
-      if (error) {
-        socket.emit('lobby', { error })
-      }
-      else {
+    createRoom(username, (error, data) => {
+      if (error === null) {
         socket.roomId = data.roomId
         io.to('lobby').emit('created_room', data)
         socket.leave('lobby')
         socket.join(socket.roomId)
+      }
+      else {
+        socket.emit('lobby', { error })
       }
     })
   })
