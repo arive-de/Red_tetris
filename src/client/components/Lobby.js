@@ -10,9 +10,6 @@ const Lobby = () => {
 
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
-
-  console.log('username: ', username)
-
   const socket = useSelector(state => state.socket)
 
   const onCreate = () => {
@@ -20,7 +17,7 @@ const Lobby = () => {
   }
 
   useEffect(() => {
-    socket.on('lobby', data => {
+    socket.on('created_room', data => {
       console.log('created new game', data)
       dispatch(actCreateRoom(data))
     });
@@ -29,8 +26,6 @@ const Lobby = () => {
   useDataApi('http://localhost:3004/api/room', [], 'GET_ROOMS')
 
   const rooms = useSelector(state => state.rooms)
-
-  console.log(rooms)
 
   return (
         <div>
@@ -47,6 +42,7 @@ const Lobby = () => {
                         <div className='col-sm-9'>
                             <div className='card'>
                                 <div className='card-body'>
+                                    {/* <!-- retirer table --> */}
                                     <table className='table table-striped'>
                                         <thead>
                                             <tr>

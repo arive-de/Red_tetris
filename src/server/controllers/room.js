@@ -1,20 +1,23 @@
 const Room = require('../models/Room');
 
+let i = 0
+
 const createRoom = (username, cb) => {
 
-  console.log(username)
+  i = i + 1
 
   const newRoom = new Room({
     players: [username],
-    roomId: 'xx06',
+    roomId: 'xx' + i.toString(),
     type: 'Classic',
     running: false,
   })
 
   newRoom.save()
-    .then(username => {
+    .then(data => {
+      console.log(data)
       console.log(`new room added by ${username} to db`)
-      cb()
+      cb(data)
     })
     .catch(err => {
       console.log(err)

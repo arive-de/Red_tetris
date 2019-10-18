@@ -12,10 +12,10 @@ const cors = require('cors')
 import params from '../../params'
 import fs from 'fs'
 import * as env from './env'
-import { initSocketRoom } from './room'
+import { initSocketRoom } from './sockets/room'
 import { deleteUser, createUser } from './controllers/user'
-import { createRoom } from './controllers/room'
 import { createBrotliCompress } from 'zlib'
+import { initSocketAuth } from './sockets/auth'
 
 const connect = () => {
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
@@ -42,31 +42,7 @@ const initEngine = io => {
   io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)
 
-    socket.on('auth', username => {
-      createUser(username, socket.id, error => {
-        if (error) {
-          socket.emit('auth', { error })
-        }
-        else {
-          console.log('USERNAME: ', username)
-          io.sockets.emit('auth', { username })
-        }
-      })
-    })
-
-    socket.on('create_room', username => {
-      createRoom(username, error => {
-        if (error) {
-          socket.emit('lobby', { error })
-        }
-        else {
-          io.sockets.emit('lobby', { players: [username], type: 'Classic', roomId: 'xx06', running: false })
-
-          // ici renvoyer le nom de la room + username
-        }
-      })
-    })
-
+    initSocketAuth(io, socket)
     initSocketRoom(io, socket)
     socket.on('disconnect', () => console.log(`Socket disconnected: ${socket.id}`));
   })
