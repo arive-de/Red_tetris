@@ -8,6 +8,7 @@ export const initSocketAuth = (io, socket) => {
         socket.emit('auth', { error })
       }
       else {
+        console.log(`set socket username ${username}`)
         socket.username = username
         socket.roomId = null
         socket.join('lobby')

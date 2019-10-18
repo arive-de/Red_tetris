@@ -1,19 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { actCreateRoom, actLeaveRoom } from '../actions/room'
 
 export default function Game() {
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
   const isPlaying = useSelector(state => state.isPlaying)
+  const socket = useSelector(state => state.socket)
   const room = useSelector(state => state.rooms.find(r => r.roomId == state.roomId))
   if (room === undefined) {
-      return (<div>'Room doesn\'t exist anymore'</div>)
-    }
+    return (<div>'Room doesn\'t exist anymore'</div>)
+  }
   const onPlay = () => {
-      console.log('lets play');
-      socket.on('play', data => dispatch(actCreateRoom(data)));
-      socket.emit('play', room.roomId);
+    console.log('lets play');
+    socket.on('play', data => dispatch(actCreateRoom(data)));
+    socket.emit('play', room.roomId);
+  }
+  const onLeave = () => {
+    console.log('onleave')
+    socket.emit('leave_room', { username, roomId: room.roomId })
+  }
+  useEffect(() => {
+    console.log('useEffect game')
+    socket.on('left_room', data => {
+      console.log('left room', data)
+      dispatch(actLeaveRoom(data))
+    });
+    return () => {
+      socket.removeListener('left_room')
     }
+  }, [])
   return (
         // <div>
         //     <h2>Game </h2>
@@ -27,7 +43,7 @@ export default function Game() {
             <div className='card-header'>
                 <ul className='nav nav-tabs card-header-tabs'>
                     <li className='nav-item'>
-                        <a className='nav-link active'>Room #</a>
+                        <a className='nav-link active'>Room #{room.roomId}</a>
                     </li>
                 </ul>
             </div>
@@ -73,6 +89,7 @@ export default function Game() {
                 </div>
             </div>
         </div>
+        <button className='btn btn-danger' onClick={onLeave}>Leave</button>
     </div>
     )
 }

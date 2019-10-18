@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actCreateRoom } from '../actions/room'
+import { actCreateRoom, actLeaveRoom } from '../actions/room'
 import { actLogout } from '../actions/user'
 import RoomList from './RoomList'
 import UserList from './UserList'
@@ -25,6 +25,15 @@ const Lobby = () => {
     socket.on('logout', data => {
       dispatch(actLogout(data))
     })
+    socket.on('left_room', data => {
+      console.log('left room', data)
+      dispatch(actLeaveRoom(data))
+    });
+    return () => {
+      socket.removeListener('created_room')
+      socket.removeListener('left_room')
+      socket.removeListener('logout')
+    }
   }, [])
 
   useDataApi('http://localhost:3004/api/room', [], 'GET_ROOMS')

@@ -21,6 +21,7 @@ const UserList = () => {
       dispatch(actAddUser(data.username))
       console.log(userList)
     })
+    return () => { socket.removeListener('auth') }
   }, [])
   return <div className='card w-50'>
 

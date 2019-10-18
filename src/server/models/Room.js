@@ -12,10 +12,7 @@ const RoomSchema = new Schema({
     type: String,
     // required: true,
   },
-  players: {
-    type: Array,
-    required: true,
-  },
+  players: [String],
   running: {
     type: Boolean,
     // required: true,

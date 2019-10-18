@@ -21,7 +21,7 @@ const reducer = (state, action) => {
   const { username, socket } = action
   switch (action.type) {
   case SET_USER:
-    return { ...state, username, socket }
+    return state.username !== null ? { ...state } : { ...state, username, socket }
   case GET_USERS:
     return { ...state, userList: action.payload }
   case ADD_USER:

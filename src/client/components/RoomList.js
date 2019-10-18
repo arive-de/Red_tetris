@@ -3,16 +3,19 @@ import { useSelector, useDispatch } from 'react-redux'
 import { actJoinRoom } from '../actions/room'
 
 const RoomList = ({ room }) => {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const socket = useSelector(state => state.socket)
   const onJoin = () => {
-    socket.emit('join', room.roomId)
+    socket.emit('join_room', { roomId: room.roomId })
   }
   useEffect(() => {
-    socket.on('join_room', data => {
-      console.log('join new room', data)
-      // dispatch(actJoinRoom(data))
-    });
+    socket.on('joined_room', data => {
+      console.log('joined new room', data)
+      dispatch(actJoinRoom(data))
+    })
+    return () => {
+      socket.removeListener('joined_room')
+    }
   }, [])
   return <tr>
         <td className='card-text'>{room.roomId}</td>

@@ -34,15 +34,16 @@ const createUser = (username, socketId, cb) => {
 }
 
 const deleteUser = (username, roomId, cb) => {
-  User.remove({ username })
+  User.deleteOne({ username })
   .then(user => {
     console.log(`user ${user.username} removed from db`)
     if (roomId !== null) {
       Room.findOne({ roomId })
       .then(room => {
+        console.log('testss', roomId)
         room.players = room.players.filter(u => u !== username)
         if (room.players.length === 0) {
-          Room.remove({ roomId })
+          Room.deleteOne({ roomId })
           .then(() => {
             console.log(`room ${roomId} deleted because the user ${username} was the last player`)
             return cb()
@@ -62,9 +63,15 @@ const deleteUser = (username, roomId, cb) => {
           cb('something wrong happen while accesssing the db')
         })
       })
+      .catch(err => {
+        console.log(err)
+        return cb('can\'t find the room in db')
+      })
     }
-    console.log(`the room ${roomId} has not been found in db}`)
-    cb('can not found room in db')
+    else {
+      console.log(`the room ${roomId} has not been found in db}`)
+      return cb('can not found room in db')
+    }
   })
   .catch(err => {
     console.log(err)
