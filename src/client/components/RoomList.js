@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { actJoinRoom } from '../actions/room'
 
 const RoomList = ({ room }) => {
   // const dispatch = useDispatch()
