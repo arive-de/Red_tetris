@@ -11,6 +11,8 @@ export const initSocketRoom = (io, socket) => {
       else {
         socket.roomId = data.roomId
         io.to('lobby').emit('created_room', data)
+        socket.leave('lobby')
+        socket.join(socket.roomId)
       }
     })
   })
