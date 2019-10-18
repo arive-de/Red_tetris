@@ -46,22 +46,17 @@ const Lobby = () => {
                         <div className='col-sm-9'>
                             <div className='card'>
                                 <div className='card-body'>
-                                    {/* <!-- retirer table --> */}
-                                    <table className='table table-striped'>
-                                        <thead>
-                                            <tr>
-                                                <th scope='col'>Room</th>
-                                                <th scope='col'>Game</th>
-                                                <th scope='col'>Players</th>
-                                                <th scope='col'>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {rooms.map((room, index) => (
-                                                <RoomList key={index} room={room} />
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                    <div className='row d-flex justify-content-around'>
+                                        <div>Room</div>
+                                        <div>Game</div>
+                                        <div>Players</div>
+                                        <div>Status</div>
+                                    </div>
+                                    <div className='col'>
+                                        {rooms.map((room, index) => (
+                                            <RoomList key={index} room={room} />
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
