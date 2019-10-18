@@ -9,6 +9,7 @@ export const initSocketRoom = (io, socket) => {
         socket.emit('lobby', { error })
       }
       else {
+        socket.roomId = data.roomId
         io.to('lobby').emit('created_room', data)
       }
     })
