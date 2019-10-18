@@ -2,15 +2,31 @@ const User = require('../models/User');
 const Room = require('../models/Room');
 
 const createUser = (username, socketId, cb) => {
+  
   const newUser = new User({
     socketId,
     username,
   })
-  newUser.save()
-  .then(user => {
-    console.log(`new user ${user.username} added to db`)
-    cb()
+  User.findOne({
+    username,
   })
+    .then(user => {
+      console.log(user)
+      if (!user) {
+        newUser.save()
+        .then(user => {
+          console.log(`new user ${user.username} added to db`)
+          cb()
+        })
+        .catch(err => {
+          console.log(err)
+          cb('can\'t store the user in db')
+        })
+      }
+      else {
+        return cb('user already exists')
+      }
+    })
   .catch(err => {
     console.log(err)
     cb('can\'t store the user in db')
@@ -56,4 +72,4 @@ const deleteUser = (username, roomId, cb) => {
   })
 }
 
-module.exports = { createUser, deleteUser };
+module.exports = { createUser, deleteUser }

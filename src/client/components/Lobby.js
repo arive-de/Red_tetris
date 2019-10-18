@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actCreateRoom } from '../actions/room'
+import { actLogout } from '../actions/user'
 import RoomList from './RoomList'
 import UserList from './UserList'
 import './Lobby.scss'
@@ -13,16 +14,20 @@ const Lobby = () => {
   const socket = useSelector(state => state.socket)
 
   const onCreate = () => {
-    socket.emit('create', username);
+    socket.emit('create_room', username);
   }
+
   useEffect(() => {
-    socket.on('create', data => {
-      console.log(`${username} socket client create`)
+    socket.on('created_room', data => {
+      console.log('created new game', data)
       dispatch(actCreateRoom(data))
     });
+    socket.on('logout', data => {
+      dispatch(actLogout(data))
+    })
   }, [])
 
-  useDataApi('http://localhost:3004/api/room', [], 'GET_rooms')
+  useDataApi('http://localhost:3004/api/room', [], 'GET_ROOMS')
 
   const rooms = useSelector(state => state.rooms)
 
@@ -41,6 +46,7 @@ const Lobby = () => {
                         <div className='col-sm-9'>
                             <div className='card'>
                                 <div className='card-body'>
+                                    {/* <!-- retirer table --> */}
                                     <table className='table table-striped'>
                                         <thead>
                                             <tr>

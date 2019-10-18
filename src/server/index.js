@@ -13,8 +13,9 @@ const Room = require('./models/Room')
 import params from '../../params'
 import fs from 'fs'
 import * as env from './env'
-import { initSocketRoom } from './room'
-import { deleteUser, createUser } from './controllers/user'
+import { initSocketRoom } from './sockets/room'
+import { deleteUser } from './controllers/user'
+import { initSocketAuth } from './sockets/auth'
 
 const connect = () => {
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
@@ -40,22 +41,15 @@ const initEngine = io => {
   io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)
 
-    socket.on('auth', username => {
-      createUser(username, socket.id, error => io.sockets.emit('auth', { error, username }))
-      socket.username = username
-      socket.roomId = null
-    })
+    initSocketAuth(io, socket)
     initSocketRoom(io, socket)
     socket.on('disconnect', () => {
       console.log(`Socket disconnected: ${socket.id}`)
       deleteUser(socket.username, socket.roomId, (error) => {
-        Room.find({}).then(rooms => {
-          io.sockets.emit('logout', { error, rooms })
-        })
-        .catch(err => {
-          console.log(err)
-          io.sockets.emit('logout', { error: 'can not access db to get the rooms' })
-        })
+        if (socket.roomId) {
+          io.to(socket.roomId).emit('logout', { error, username: socket.username, roomId: socket.roomId })
+        }
+        io.to('lobby').emit('logout', { error, username: socket.username, roomId: socket.roomId })
       })
     });
   })

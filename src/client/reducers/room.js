@@ -6,7 +6,8 @@ const gameReducer = (state, action) => {
   case GET_ROOMS:
     return { ...state, rooms: action.payload }
   case CREATE_ROOM:
-    return { ...state, roomId: room.leader === state.username ? room.roomId : state.roomId, rooms: [...state.rooms, room]}
+    return { ...state, roomId: room.leader === state.username ?
+      room.roomId : state.roomId, rooms: [...state.rooms, room] }
   case JOIN_ROOM:
     return { ...state, roomId, rooms: state.rooms.map(r => {
       if (r.roomId === roomId) {

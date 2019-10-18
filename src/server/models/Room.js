@@ -6,11 +6,11 @@ const Schema = mongoose.Schema
 const RoomSchema = new Schema({
   roomId: {
     type: String,
-    required: true,
+    // required: true,
   },
   type: {
     type: String,
-    required: true,
+    // required: true,
   },
   players: {
     type: Array,
@@ -18,11 +18,7 @@ const RoomSchema = new Schema({
   },
   running: {
     type: Boolean,
-    required: true,
-  },
-  leader: {
-    type: String,
-    required: true,
+    // required: true,
   },
 })
 

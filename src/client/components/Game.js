@@ -11,7 +11,7 @@ export default function Game() {
     }
   const onPlay = () => {
       console.log('lets play');
-      socket.on('play', data => dispatch(actSetGameList(data)));
+      socket.on('play', data => dispatch(actCreateRoom(data)));
       socket.emit('play', room.roomId);
     }
   return (
