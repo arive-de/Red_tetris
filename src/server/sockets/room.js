@@ -24,6 +24,7 @@ export const initSocketRoom = (io, socket) => {
         io.to('lobby').emit('joined_room', data)
         socket.leave('lobby')
         socket.join(socket.roomId)
+        io.to(socket.roomId).emit('joined_room', data)
       }
       else {
         socket.emit('lobby', { error })

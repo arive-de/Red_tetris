@@ -8,6 +8,9 @@ export const initDb = () => {
     },
       {
         username: 'alix',
+      },
+      {
+        username: 'papa',
       }])
             .then(() => {
               console.log('users created')
@@ -30,6 +33,13 @@ export const initDb = () => {
         players: ['Joe', 'Robby'],
         running: false,
         leader: 'Joe',
+      },
+      {
+        roomId: 'xx07',
+        type: 'Classic',
+        players: ['papa'],
+        running: false,
+        leader: 'papa',
       },
          ])
            .then(() => {

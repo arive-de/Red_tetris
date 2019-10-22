@@ -10,17 +10,6 @@ const RoomList = ({ room }) => {
   const onJoin = () => {
     socket.emit('join_room', { roomId: room.roomId })
   }
-
-  useEffect(() => {
-    socket.on('joined_room', data => {
-      console.log('joined new room', data)
-      dispatch(actJoinRoom(data))
-    })
-    return () => {
-      socket.removeListener('joined_room')
-    }
-  }, [])
-
   const handleMouseIn = () => {
     setShowHover(!showHover)
   }

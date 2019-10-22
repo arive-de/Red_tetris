@@ -16,30 +16,8 @@ const Lobby = () => {
   const onCreate = () => {
     socket.emit('create_room', username);
   }
-
-  useEffect(() => {
-    socket.on('created_room', data => {
-      console.log('created new room', data)
-      dispatch(actCreateRoom(data))
-    });
-    socket.on('logout', data => {
-      dispatch(actLogout(data))
-    })
-    socket.on('left_room', data => {
-      console.log('left room', data)
-      dispatch(actLeaveRoom(data))
-    });
-    return () => {
-      socket.removeListener('created_room')
-      socket.removeListener('left_room')
-      socket.removeListener('logout')
-    }
-  }, [])
-
   useDataApi('http://localhost:3004/api/room', [], 'GET_ROOMS')
-
   const rooms = useSelector(state => state.rooms)
-
   return (
         <div>
             <div className='card text-center'>

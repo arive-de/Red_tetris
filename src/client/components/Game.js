@@ -7,7 +7,7 @@ export default function Game() {
   const username = useSelector(state => state.username)
   const isPlaying = useSelector(state => state.isPlaying)
   const socket = useSelector(state => state.socket)
-  const room = useSelector(state => state.rooms.find(r => r.roomId == state.roomId))
+  const room = useSelector(state => state.rooms.find(r => r.roomId === state.roomId))
   if (room === undefined) {
     return (<div>'Room doesn\'t exist anymore'</div>)
   }
@@ -22,14 +22,10 @@ export default function Game() {
   }
   useEffect(() => {
     console.log('useEffect game')
-    socket.on('left_room', data => {
-      console.log('left room', data)
-      dispatch(actLeaveRoom(data))
-    });
     return () => {
-      socket.removeListener('left_room')
     }
   }, [])
+  console.log(room.players)
   return (
         // <div>
         //     <h2>Game </h2>
@@ -60,10 +56,15 @@ export default function Game() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <td scope='row'>{username} { room.players[0] === username ? <i className='fas fa-crown'></i> : '' }</td>
+                                  { room.players.map((player, i) =>
+                                    (
+                                  <tr key={i}>
+                                    <td scope='row'>{player} { room.players[0] === player ?
+                                    <i className='fas fa-crown'></i> : '' }</td>
                                     <td><i className='far fa-check-square'></i></td>
                                   </tr>
+                                    )
+                                  )}
                                     {/* {gameList.map((game, index) => (
                                         <GameList game={game} key={index} />
                                     ))} */}
