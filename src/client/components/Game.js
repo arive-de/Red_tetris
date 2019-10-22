@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actCreateRoom, actLeaveRoom, actNewMessage } from '../actions/room'
 
 export default function Game({ room }) {
   const dispatch = useDispatch();
