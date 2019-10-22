@@ -2,18 +2,16 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actCreateRoom, actLeaveRoom } from '../actions/room'
 
-export default function Game() {
+export default function Game( { room }) {
   const dispatch = useDispatch();
   const username = useSelector(state => state.username)
   const isPlaying = useSelector(state => state.isPlaying)
   const socket = useSelector(state => state.socket)
-  const room = useSelector(state => state.rooms.find(r => r.roomId === state.roomId))
   if (room === undefined) {
     return (<div>'Room doesn\'t exist anymore'</div>)
   }
   const onPlay = () => {
     console.log('lets play');
-    socket.on('play', data => dispatch(actCreateRoom(data)));
     socket.emit('play', room.roomId);
   }
   const onLeave = () => {
@@ -24,7 +22,7 @@ export default function Game() {
     console.log('useEffect game')
     return () => {
     }
-  }, [])
+  }, [room.players.length])
   console.log(room.players)
   return (
         // <div>
