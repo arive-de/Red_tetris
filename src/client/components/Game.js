@@ -22,7 +22,7 @@ export default function Game( { room }) {
     console.log('useEffect game')
     return () => {
     }
-  }, [room.players.length])
+  }, [])
   console.log(room.players)
   return (
         // <div>

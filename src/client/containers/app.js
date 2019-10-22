@@ -12,12 +12,12 @@ const App = () => {
   const rooms = useSelector(state => state.rooms)
 
   if (username !== null && roomId !== null) {
-    return (<Game room={rooms.find(r => r.roomId === roomId)} />);
+    return (<Game room={rooms.find(r => r.roomId === roomId)} />)
   }
   if (username !== null) {
-    return (<Lobby />);
+    return (<Lobby />)
   }
-  return (<Home />);
+  return (<Home />)
 }
 
 export default (App)
