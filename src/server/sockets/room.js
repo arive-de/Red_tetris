@@ -21,8 +21,8 @@ export const initSocketRoom = (io, socket) => {
     joinRoom(socket.username, roomId, (error, data) => {
       if (error === null) {
         socket.roomId = data.roomId
-        io.to('lobby').emit('joined_room', data)
         socket.leave('lobby')
+        io.to('lobby').emit('joined_room', data)
         socket.join(socket.roomId)
         io.to(socket.roomId).emit('joined_room', data)
       }
@@ -39,8 +39,8 @@ export const initSocketRoom = (io, socket) => {
         socket.roomId = null
         io.to(roomId).emit('left_room', data)
         socket.leave(roomId)
-        socket.join('lobby')
         io.to('lobby').emit('left_room', data)
+        socket.join('lobby')
       }
       else {
         socket.emit('lobby', { error })
