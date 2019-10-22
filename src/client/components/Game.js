@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actCreateRoom, actLeaveRoom, actNewMessage } from '../actions/room'
 
-export default function Game( { room }) {
+export default function Game({ room }) {
   const dispatch = useDispatch();
   const [message, setMessage] = useState('')
+  const [messages, setMessages] = useState([])
   const username = useSelector(state => state.username)
   const isPlaying = useSelector(state => state.isPlaying)
   const socket = useSelector(state => state.socket)
@@ -20,6 +21,8 @@ export default function Game( { room }) {
   const sendMessage = (e) => {
     if (e.key === 'Enter') {
       console.log(message)
+      console.log('room: ', room.roomId)
+      socket.emit('message', { roomId: room.roomdId, username, message })
       setMessage('')
     }
   }
@@ -28,17 +31,23 @@ export default function Game( { room }) {
     console.log('lets play');
     socket.emit('play', room.roomId);
   }
+
   const onLeave = () => {
     console.log('onleave')
     socket.emit('leave_room', { username, roomId: room.roomId })
   }
+
   useEffect(() => {
     console.log('useEffect game')
-    
-    socket.on('message', data => dispatch(actNewMessage(data)))
+
+    socket.on('message', data => {
+      console.log(data)
+      setMessages(ms => [...ms, data])
+    })
     return () => {
     }
   }, [])
+
   return (
     <div>
       <div className='card text-center'>
@@ -94,6 +103,7 @@ export default function Game( { room }) {
         <div className='card'>
             <div className='card-body'>
                 <h5 className='card-title'>Chat</h5>
+                { console.log(messages)}{ messages.map((m, index) => (<div key={index}>{m.username}: {m.message}</div>))}
             </div>
         </div>
         <div>

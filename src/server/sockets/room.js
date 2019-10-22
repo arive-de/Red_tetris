@@ -21,8 +21,8 @@ export const initSocketRoom = (io, socket) => {
     joinRoom(socket.username, roomId, (error, data) => {
       if (error === null) {
         socket.roomId = data.roomId
-        socket.leave('lobby')
         io.to('lobby').emit('joined_room', data)
+        socket.leave('lobby')
         socket.join(socket.roomId)
         io.to(socket.roomId).emit('joined_room', data)
       }
@@ -32,6 +32,11 @@ export const initSocketRoom = (io, socket) => {
     })
   })
 
+  socket.on('message', ({ message }) => {
+    console.log(`${socket.username} sent a ${message} to ${socket.roomId}`)
+    io.to(socket.roomId).emit('message', { username: socket.username, message })
+  })
+
   socket.on('leave_room', ({ roomId, username }) => {
     console.log(`${socket.username} leaves the room ${roomId}`)
     leaveRoom(username, roomId, (error, data) => {
@@ -39,8 +44,8 @@ export const initSocketRoom = (io, socket) => {
         socket.roomId = null
         io.to(roomId).emit('left_room', data)
         socket.leave(roomId)
-        io.to('lobby').emit('left_room', data)
         socket.join('lobby')
+        io.to('lobby').emit('left_room', data)
       }
       else {
         socket.emit('lobby', { error })
