@@ -1,4 +1,4 @@
-import { GET_ROOMS, CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM } from '../actions/room'
+import { GET_ROOMS, CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM, NEW_MESSAGE } from '../actions/room'
 
 const gameReducer = (state, action) => {
   const { username, roomId, room } = action
@@ -16,6 +16,8 @@ const gameReducer = (state, action) => {
       }
       return r
     }) }
+  case NEW_MESSAGE:
+    return { ...state }
   case LEAVE_ROOM:
     return { ...state, roomId: username === state.username ? null : state.roomId,
       isPlaying: username === state.username ? false : state.isPlaying, rooms: state.rooms.map(r => {
