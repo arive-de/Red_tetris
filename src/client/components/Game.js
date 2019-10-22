@@ -44,6 +44,7 @@ export default function Game({ room }) {
       setMessages(ms => [...ms, data])
     })
     return () => {
+      socket.removeListener('message')
     }
   }, [])
 
