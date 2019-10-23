@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetUser, actLogout } from '../actions/user'
+import { actSetUsername, actLogout } from '../actions/user'
 import { actJoinRoom, actLeaveRoom, actCreateRoom } from '../actions/room'
-import openSocket from 'socket.io-client'
 import './Lobby.scss'
 
 const Home = () => {
@@ -10,6 +9,8 @@ const Home = () => {
   const [username, setUsername] = useState('')
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
+  const socket = useSelector(state => state.socket)
+
   const onChange = (e) => {
     e.preventDefault()
     setUsername(e.target.value)
@@ -17,7 +18,9 @@ const Home = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      const socket = openSocket('http://localhost:3004')
+
+      // Faire les checks sur l'input
+      console.log(socket)
       socket.emit('auth', username)
       socket.on('auth', data => {
         if (data.error) {
@@ -27,7 +30,7 @@ const Home = () => {
         else {
           console.log('dispatch is ok')
           console.log(data)
-          dispatch(actSetUser({ username: data.username, socket }))
+          dispatch(actSetUsername(data.username))
         }
       })
       socket.on('created_room', data => {

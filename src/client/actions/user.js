@@ -1,11 +1,16 @@
-export const SET_USER = 'SET_USER'
+export const SET_USERNAME = 'SET_USERNAME'
+export const SET_SOCKET = 'SET_SOCKET'
 export const GET_USERS = 'GET_USERS'
 export const ADD_USER = 'ADD_USER'
 export const LOGOUT = 'LOGOUT'
 
-export const actSetUser = ({ username, socket }) => ({
-  type: SET_USER,
+export const actSetUsername = (username) => ({
+  type: SET_USERNAME,
   username,
+})
+
+export const actSetSocket = (socket) => ({
+  type: SET_SOCKET,
   socket,
 })
 
