@@ -24,11 +24,9 @@ const Home = () => {
           console.log(data.error)
           return
         }
-        else {
-          console.log('dispatch is ok')
-          console.log(data)
-          dispatch(actSetUser({ username: data.username, socket }))
-        }
+        console.log('dispatch is ok')
+        console.log(data)
+        dispatch(actSetUser({ username: data.username, socket }))
       })
       socket.on('created_room', data => {
         console.log('created new room', data)
@@ -53,7 +51,8 @@ const Home = () => {
         <div className='card-body'>
           <h5 className='card-title'>Red tetris</h5>
           <div className='form-group d-flex flex-column align-items-center'>
-            <input className='form-control' onChange={onChange} onKeyDown={handleKeyDown} placeholder='Type in a username' ></input>
+            <input className='form-control' onChange={onChange}
+              onKeyDown={handleKeyDown} placeholder='Type in a username' ></input>
           </div>
         </div>
       </div>

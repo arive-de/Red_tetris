@@ -7,7 +7,6 @@ import './app.scss'
 
 const App = () => {
   const username = useSelector(state => state.username)
-  const isPlaying = useSelector(state => state.isPlaying)
   const roomId = useSelector(state => state.roomId)
   const rooms = useSelector(state => state.rooms)
 
@@ -21,4 +20,4 @@ const App = () => {
 }
 
 export default (App)
-  
+

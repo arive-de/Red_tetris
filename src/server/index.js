@@ -8,7 +8,6 @@ const path = require('path');
 const userRouter = require('./routes/user')
 const roomRouter = require('./routes/room')
 const cors = require('cors')
-const Room = require('./models/Room')
 
 import params from '../../params'
 import fs from 'fs'

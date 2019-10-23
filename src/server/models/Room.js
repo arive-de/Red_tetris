@@ -1,21 +1,21 @@
 // Room.js
 
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema
 const RoomSchema = new Schema({
   roomId: {
     type: String,
-    // required: true,
+    required: true,
   },
   type: {
     type: String,
-    // required: true,
+    required: true,
   },
   players: [String],
   running: {
     type: Boolean,
-    // required: true,
+    required: true,
   },
 })
 
