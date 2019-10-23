@@ -68,7 +68,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 app.use('/api/user', userRouter)
 app.use('/api/room', roomRouter)
-app.use('/', handler)
+app.use('*', handler)
 
 connect()
 .on('disconnected', connect)
