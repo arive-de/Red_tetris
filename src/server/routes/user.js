@@ -1,19 +1,19 @@
-const express = require('express')
-const router = express.Router()
-const User = require('../models/User');
-import { createUser } from '../controllers/user'
+import { Router } from 'express'
+import User from '../models/User'
+import HttpStatus from 'http-status-codes'
 
+const router = new Router()
 router.get('/', (req, res) => {
 
   User.find()
     .then(data => {
       if (data !== null) {
-        return res.status(200).json({ success: true, data: data.map(u => u.username) })
+        return res.status(HttpStatus.OK).json({ success: true, data: data.map(u => u.username) })
       }
     })
     .catch(err => {
       console.log(err)
-      return res.status(400).json({ success: false, error: 'probleme while accessing the db' })
+      return res.status(HttpStatus.BAD_REQUEST).json({ success: false, error: 'probleme while accessing the db' })
     })
 })
 

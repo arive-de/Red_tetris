@@ -1,18 +1,19 @@
-const express = require('express')
-const router = express.Router()
-const Room = require('../models/Room');
+import { Router } from 'express'
+import Room from '../models/Room';
+import HttpStatus from 'http-status-codes'
+
+const router = new Router()
 
 router.get('/', (req, res) => {
-
   Room.find()
     .then(data => {
       if (data !== null) {
-        return res.status(200).json({ success: true, data })
+        return res.status(HttpStatus.OK).json({ success: true, data })
       }
     })
     .catch(err => {
       console.log(err)
-      return res.status(400).json({ success: false, error: 'probleme while accessing the db' })
+      return res.status(HttpStatus.BAD_REQUEST).json({ success: false, error: 'probleme while accessing the db' })
     })
 })
 

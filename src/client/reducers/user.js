@@ -16,7 +16,6 @@ const deleteUser = (state, username, roomId) => {
   return { ...state, userList, rooms: rooms.filter(r => r.players.length > 0) }
 }
 
-
 const reducer = (state, action) => {
   const { username, socket } = action
   switch (action.type) {

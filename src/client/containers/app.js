@@ -15,7 +15,6 @@ const App = () => {
   const dispatch = useDispatch()
   const storeSocket = useSelector(state => state.socket)
   const username = useSelector(state => state.username)
-  const isPlaying = useSelector(state => state.isPlaying)
   const roomId = useSelector(state => state.roomId)
   const rooms = useSelector(state => state.rooms)
 

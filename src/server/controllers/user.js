@@ -1,8 +1,7 @@
-const User = require('../models/User');
-const Room = require('../models/Room');
+import User from '../models/User';
+import Room from '../models/Room';
 
 const createUser = (username, socketId, cb) => {
-  
   const newUser = new User({
     socketId,
     username,
