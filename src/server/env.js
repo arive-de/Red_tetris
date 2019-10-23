@@ -34,13 +34,6 @@ export const initDb = () => {
         running: false,
         leader: 'Joe',
       },
-      {
-        roomId: 'xx07',
-        type: 'Classic',
-        players: ['papa'],
-        running: false,
-        leader: 'papa',
-      },
          ])
            .then(() => {
              console.log('rooms created')

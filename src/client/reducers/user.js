@@ -19,8 +19,6 @@ const deleteUser = (state, username, roomId) => {
 
 const reducer = (state, action) => {
   const { username, socket } = action
-  console.log('user: ', username)
-  console.log('socket: ', socket)
   switch (action.type) {
   case SET_USERNAME:
     return state.username !== null ? { ...state } : { ...state, username }

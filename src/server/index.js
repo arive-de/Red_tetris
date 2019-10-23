@@ -14,7 +14,7 @@ import fs from 'fs'
 import * as env from './env'
 import { initSocketAuth } from './sockets/auth'
 import { initSocketRoom } from './sockets/room'
-// import { initSocketUrl } from './sockets/url'
+import { initSocketUrl } from './sockets/url'
 import { deleteUser } from './controllers/user'
 
 const connect = () => {
@@ -43,7 +43,7 @@ const initEngine = io => {
 
     initSocketAuth(io, socket)
     initSocketRoom(io, socket)
-    // initSocketUrl(io, socket)
+    initSocketUrl(io, socket)
     socket.on('disconnect', () => {
       console.log(`Socket disconnected: ${socket.id}`)
       deleteUser(socket.username, socket.roomId, (error) => {
