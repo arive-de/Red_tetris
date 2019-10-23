@@ -19,13 +19,13 @@ export const actAddUser = (username) => ({
   username,
 })
 
-export const actGetUsers = (players) => ({
-  type: GET_USERS,
-  players,
-})
-
 export const actLogout = ({ username, roomId }) => ({
   type: LOGOUT,
   username,
   roomId,
+})
+
+export const actGetUsers = (users) => ({
+  type: GET_USERS,
+  users,
 })

@@ -1,4 +1,6 @@
 import { createUser } from '../controllers/user'
+import User from '../models/User'
+import Room from '../models/Room'
 
 export const initSocketAuth = (io, socket) => {
 
@@ -15,5 +17,15 @@ export const initSocketAuth = (io, socket) => {
         io.to('lobby').emit('auth', { username })
       }
     })
+  })
+
+  socket.on('update', async () => {
+    const users = await User.find()
+    const rooms = await Room.find()
+    socket.emit('update', { users: users.map(u => u.username),
+                            rooms: rooms.map(r => ({ roomId: r.roomId,
+                            type: r.type,
+                            players: r.players,
+                            running: r.running })) })
   })
 }

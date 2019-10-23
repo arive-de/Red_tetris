@@ -5,19 +5,19 @@ import { actLogout } from '../actions/user'
 import RoomList from './RoomList'
 import UserList from './UserList'
 import './Lobby.scss'
-import useDataApi from '../helpers/fetchData'
 
 const Lobby = () => {
 
-  const dispatch = useDispatch();
   const username = useSelector(state => state.username)
   const socket = useSelector(state => state.socket)
-
+  const rooms = useSelector(state => state.rooms)
+  console.log('LOBBY', rooms)
   const onCreate = () => {
     socket.emit('create_room', username);
   }
-  useDataApi('http://localhost:3004/api/room', [], 'GET_ROOMS')
-  const rooms = useSelector(state => state.rooms)
+  useEffect(() => {
+    socket.emit('update', {})
+  }, [])
   return (
         <div>
             <div className='card text-center'>

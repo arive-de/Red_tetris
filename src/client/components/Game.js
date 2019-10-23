@@ -9,10 +9,6 @@ const Game = ({ room }) => {
   const isPlaying = useSelector(state => state.isPlaying)
   const socket = useSelector(state => state.socket)
 
-  if (room === undefined) {
-    return (<div>'Room doesn\'t exist anymore'</div>)
-  }
-
   const onChange = (e) => {
     e.preventDefault()
     setMessage(e.target.value)

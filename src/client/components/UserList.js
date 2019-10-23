@@ -1,14 +1,9 @@
-import React, { useEffect } from 'react'
-import { actAddUser, GET_USERS } from '../actions/user'
-import { useSelector, useDispatch } from 'react-redux'
-import useDataApi from '../helpers/fetchData'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import './UserList.scss'
 
 const UserList = () => {
-  useDataApi('http://localhost:3004/api/user', [], GET_USERS)
-  const socket = useSelector(state => state.socket)
   const userList = useSelector(state => state.userList)
-  const dispatch = useDispatch()
   
   return <div className='card w-50'>
 

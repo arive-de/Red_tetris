@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetUsername, actAddUser, actLogout, actSetSocket } from '../actions/user'
-import { actJoinRoom, actLeaveRoom, actCreateRoom } from '../actions/room'
+import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers } from '../actions/user'
+import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms } from '../actions/room'
 import Home from '../components/Home'
 import Lobby from '../components/Lobby'
 import Game from '../components/Game'
@@ -17,7 +17,7 @@ const App = () => {
   const username = useSelector(state => state.username)
   const roomId = useSelector(state => state.roomId)
   const rooms = useSelector(state => state.rooms)
-
+  console.log('APP', rooms)
   if (!storeSocket) {
 
     dispatch(actSetSocket(socket))
@@ -40,19 +40,16 @@ const App = () => {
         console.log(data.error)
         return
       }
-      else {
-        console.log('dispatch is ok')
-        dispatch(actSetUsername(data.username))
-        dispatch(actAddUser(data.username))
-        
-      }
+      console.log('dispatch is ok')
+      dispatch(actSetUsername(data.username))
+      dispatch(actAddUser(data.username))
     })
-    socket.on('created_room', data => {
-      console.log('created new room', data)
-      dispatch(actCreateRoom(data))
-    });
-    socket.on('logout', data => {
-      dispatch(actLogout(data))
+      socket.on('created_room', data => {
+        console.log('created new room', data)
+        dispatch(actCreateRoom(data))
+      });
+      socket.on('logout', data => {
+        dispatch(actLogout(data))
     })
     socket.on('left_room', data => {
       console.log('left room', data)
@@ -62,11 +59,20 @@ const App = () => {
       console.log('joined new room', data)
       dispatch(actJoinRoom(data))
     })
+    socket.on('update', ({ users, rooms }) => {
+      dispatch(actGetRooms(rooms))
+      dispatch(actGetUsers(users))
+    })
   }
 
   if (username !== null && roomId !== null) {
-    console.log(roomId, rooms.find(r => r.roomId === roomId))
-    return (<Game room={rooms.find(r => r.roomId === roomId)} />)
+    console.log(roomId, rooms,  rooms.find(r => r.roomId === roomId))
+    if (rooms.find(r => r.roomId === roomId)) {
+      return (<Game room={rooms.find(r => r.roomId === roomId)} />)
+    }
+    else {
+      return (<div>Loading</div>)
+    }
   }
   if (username !== null) {
     return (<Lobby />)

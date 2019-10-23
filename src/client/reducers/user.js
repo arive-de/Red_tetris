@@ -24,7 +24,7 @@ const reducer = (state, action) => {
   case SET_SOCKET:
     return { ...state, socket }
   case GET_USERS:
-    return { ...state, userList: action.payload }
+    return { ...state, userList: action.users }
   case ADD_USER:
     return { ...state, userList: [...state.userList, action.username] }
   case LOGOUT:
