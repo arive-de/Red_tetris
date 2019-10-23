@@ -9,6 +9,7 @@ const App = () => {
   const username = useSelector(state => state.username)
   const isPlaying = useSelector(state => state.isPlaying)
   const roomId = useSelector(state => state.roomId)
+  const socket = useSelector(state => state.socket)
   const rooms = useSelector(state => state.rooms)
 
   const url = document.createElement('a')
@@ -22,6 +23,8 @@ const App = () => {
 
     console.log('roomId:', roomId)
     console.log('username:', username)
+
+    socket.emit('url', { username, roomId })
   }
 
   if (username !== null && roomId !== null) {

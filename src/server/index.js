@@ -8,14 +8,14 @@ const path = require('path');
 const userRouter = require('./routes/user')
 const roomRouter = require('./routes/room')
 const cors = require('cors')
-const Room = require('./models/Room')
 
 import params from '../../params'
 import fs from 'fs'
 import * as env from './env'
-import { initSocketRoom } from './sockets/room'
-import { deleteUser } from './controllers/user'
 import { initSocketAuth } from './sockets/auth'
+import { initSocketRoom } from './sockets/room'
+import { initSocketUrl } from './sockets/url'
+import { deleteUser } from './controllers/user'
 
 const connect = () => {
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
@@ -43,6 +43,7 @@ const initEngine = io => {
 
     initSocketAuth(io, socket)
     initSocketRoom(io, socket)
+    initSocketUrl(io, socket)
     socket.on('disconnect', () => {
       console.log(`Socket disconnected: ${socket.id}`)
       deleteUser(socket.username, socket.roomId, (error) => {
