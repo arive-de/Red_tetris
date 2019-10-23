@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetUsername, actLogout, actSetSocket } from '../actions/user'
+import { actSetUsername, actAddUser, actLogout, actSetSocket } from '../actions/user'
 import { actJoinRoom, actLeaveRoom, actCreateRoom } from '../actions/room'
 import Home from '../components/Home'
 import Lobby from '../components/Lobby'
@@ -43,6 +43,8 @@ const App = () => {
       else {
         console.log('dispatch is ok')
         dispatch(actSetUsername(data.username))
+        dispatch(actAddUser(data.username))
+        
       }
     })
     socket.on('created_room', data => {
@@ -60,10 +62,10 @@ const App = () => {
       console.log('joined new room', data)
       dispatch(actJoinRoom(data))
     })
-
   }
 
   if (username !== null && roomId !== null) {
+    console.log(roomId, rooms.find(r => r.roomId === roomId))
     return (<Game room={rooms.find(r => r.roomId === roomId)} />)
   }
   if (username !== null) {

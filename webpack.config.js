@@ -6,7 +6,6 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'build'),
     filename: 'bundle.js',
-    publicPath: '/',
   },
 
   module: {
@@ -15,7 +14,7 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader',
       options: {
-        presets: ['@babel/react'],
+        presets: ['@babel/react', '@babel/env'],
       },
 
     },

@@ -33,7 +33,8 @@ const createByUrl = (username, socketId, roomId, cb) => {
               newRoom.save()
               .then(data => {
                 console.log(`new room ${roomId} added by ${username} to db`)
-                cb(null, { ...data, newRoom: true })
+                data.newRoom = true
+                cb(null, data)
               })
               .catch(err => {
                 console.log(err)

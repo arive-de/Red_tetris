@@ -1,36 +1,36 @@
 import { useState, useEffect, useReducer } from 'react'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
-import dataFetchReducer from '../reducers/fetchData.js'
 
 const useDataApi = (initialUrl, initialData, type) => {
 
+  const source = axios.CancelToken.source()
   const [url, setUrl] = useState(initialUrl)
   const dispatchStore = useDispatch();
-  const [state, dispatch] = useReducer(dataFetchReducer, {
-    isLoading: false,
-    isError: false,
-  })
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: 'FETCH_INIT' })
 
       try {
-        const result = await axios(url)
+        const result = await axios.get(url, {
+          cancelToken: source.token,
+        })
 
-        dispatch({ type: 'FETCH_SUCCESS' })
         dispatchStore({ type, payload: result.data.data })
       }
-        catch (error) {
-          dispatch({ type: 'FETCH_FAILURE' })
-        }
+      catch (error) {
+        console.log(error)
+      }
     }
 
     fetchData()
+
+    return () => {
+      source.cancel('get request cancelled');
+    }
   }, [url])
 
-  return [state, setUrl]
+  return [setUrl]
 }
 
 export default useDataApi

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-export default function Game({ room }) {
+const Game = ({ room }) => {
   const dispatch = useDispatch();
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
   const username = useSelector(state => state.username)
   const isPlaying = useSelector(state => state.isPlaying)
   const socket = useSelector(state => state.socket)
+
   if (room === undefined) {
     return (<div>'Room doesn\'t exist anymore'</div>)
   }
@@ -113,3 +114,5 @@ export default function Game({ room }) {
     </div>
     )
 }
+
+export default Game

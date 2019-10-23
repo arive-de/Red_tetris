@@ -9,20 +9,7 @@ const UserList = () => {
   const socket = useSelector(state => state.socket)
   const userList = useSelector(state => state.userList)
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    socket.on('auth', data => {
-        console.log('socket auth')
-      if (data.error) {
-        console.log(data.error)
-        return
-      }
-      console.log('dispatch from userlist')
-      dispatch(actAddUser(data.username))
-      console.log(userList)
-    })
-    return () => { socket.removeListener('auth') }
-  }, [])
+  
   return <div className='card w-50'>
 
         <div className='card-header'>
