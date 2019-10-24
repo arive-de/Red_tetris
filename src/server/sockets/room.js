@@ -17,9 +17,9 @@ export const initSocketRoom = (io, socket) => {
   })
 
   socket.on('join_room', ({ roomId }) => {
-    console.log(`${socket.username} joins the room ${roomId}`)
     joinRoom(socket.username, roomId, (error, data) => {
       if (error === null) {
+        console.log(`${socket.username} joins the room ${roomId}`)
         socket.roomId = data.roomId
         socket.leave('lobby')
         io.to('lobby').emit('joined_room', data)
@@ -27,6 +27,7 @@ export const initSocketRoom = (io, socket) => {
         io.to(socket.roomId).emit('joined_room', data)
       }
       else {
+        console.log(error)
         socket.emit('lobby', { error })
       }
     })

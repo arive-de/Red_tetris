@@ -15,7 +15,10 @@ export const initSocketUrl = (io, socket) => {
       socket.roomId = null
       socket.join('lobby')
       io.to('lobby').emit('auth', { username })
-
+      if (data.roomFull) {
+        socket.emit('lobby', { error: 'room is full' })
+        return
+      }
       if (data.newRoom) {
         socket.roomId = data.roomId
         io.to('lobby').emit('created_room', data)

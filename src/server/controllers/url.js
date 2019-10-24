@@ -43,7 +43,8 @@ const createByUrl = (username, socketId, roomId, cb) => {
             }
             else {
               if (room.players.length === 4) {
-                return cb(null, { username })
+                const roomFull = true
+                return cb(null, { username, roomFull })
               }
               // if (room.running === true) {
               //   // implementer un systeme plus tard

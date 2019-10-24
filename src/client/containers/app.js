@@ -44,12 +44,18 @@ const App = () => {
       dispatch(actSetUsername(data.username))
       dispatch(actAddUser(data.username))
     })
-      socket.on('created_room', data => {
-        console.log('created new room', data)
-        dispatch(actCreateRoom(data))
-      });
-      socket.on('logout', data => {
-        dispatch(actLogout(data))
+    socket.on('lobby', data => {
+      if (data.error) {
+        console.log(data.error)
+        return
+      }
+    })
+    socket.on('created_room', data => {
+      console.log('created new room', data)
+      dispatch(actCreateRoom(data))
+    });
+    socket.on('logout', data => {
+      dispatch(actLogout(data))
     })
     socket.on('left_room', data => {
       console.log('left room', data)

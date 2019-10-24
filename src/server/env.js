@@ -23,7 +23,7 @@ export const initDb = () => {
     Room.create([{
       roomId: 'xx04',
       type: 'Classic',
-      players: ['lox', 'bob'],
+      players: ['lox', 'bob', 'prout', 'toupie'],
       running: false,
       leader: 'lox',
     },

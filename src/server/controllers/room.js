@@ -31,6 +31,9 @@ const joinRoom = (username, roomId, cb) => {
   Room.findOne({ roomId })
     .then(room => {
       console.log('room found', room.players)
+      if (room.players.length === 4) {
+        return cb('room is full')
+      }
       room.players.push(username)
       room.save()
       .then(r => {
