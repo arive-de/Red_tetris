@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import './Lobby.scss'
 
-const Home = () => {
-  // const storeUsername = useSelector(state => state.username);
+const Home = ({ error }) => {
+  
   const [username, setUsername] = useState('')
-  const [error, setError] = useState(false)
   const socket = useSelector(state => state.socket)
+  const [alert, setAlert] = useState('')
 
   const onChange = (e) => {
     e.preventDefault()
@@ -20,6 +20,11 @@ const Home = () => {
       socket.emit('auth', username)
     }
   }
+
+  useEffect(() => {
+    setAlert(error)
+  }, [error])
+
   return (
       <div className='card text-center'>
         <div className='card-body'>
@@ -29,7 +34,11 @@ const Home = () => {
               onKeyDown={handleKeyDown} placeholder='Type in a username' ></input>
           </div>
         </div>
+        { alert && (<div className='alert alert-danger' role='alert'>
+            {alert}
+        </div>) }
       </div>
+
     )
 }
 

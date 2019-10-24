@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers } from '../actions/user'
 import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms } from '../actions/room'
@@ -17,6 +17,8 @@ const App = () => {
   const username = useSelector(state => state.username)
   const roomId = useSelector(state => state.roomId)
   const rooms = useSelector(state => state.rooms)
+  const [error, setError] = useState('')
+
   console.log('APP', rooms)
   if (!storeSocket) {
 
@@ -37,7 +39,7 @@ const App = () => {
 
     socket.on('auth', data => {
       if (data.error) {
-        console.log(data.error)
+        setError(data.error)
         return
       }
       console.log('dispatch is ok')
@@ -46,7 +48,7 @@ const App = () => {
     })
     socket.on('lobby', data => {
       if (data.error) {
-        console.log(data.error)
+        setError(data.error)
         return
       }
     })
@@ -72,7 +74,7 @@ const App = () => {
   }
 
   if (username !== null && roomId !== null) {
-    console.log(roomId, rooms,  rooms.find(r => r.roomId === roomId))
+    console.log(roomId, rooms, rooms.find(r => r.roomId === roomId))
     if (rooms.find(r => r.roomId === roomId)) {
       return (<Game room={rooms.find(r => r.roomId === roomId)} />)
     }
@@ -81,9 +83,9 @@ const App = () => {
     }
   }
   if (username !== null) {
-    return (<Lobby />)
+    return (<Lobby error={error}/>)
   }
-  return (<Home />)
+  return (<Home error={error}/>)
 }
 
 export default (App)

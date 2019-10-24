@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actCreateRoom, actLeaveRoom } from '../actions/room'
 import { actLogout } from '../actions/user'
@@ -6,11 +6,12 @@ import RoomList from './RoomList'
 import UserList from './UserList'
 import './Lobby.scss'
 
-const Lobby = () => {
+const Lobby = ({ error }) => {
 
   const username = useSelector(state => state.username)
   const socket = useSelector(state => state.socket)
   const rooms = useSelector(state => state.rooms)
+  const [alert, setAlert] = useState('')
   console.log('LOBBY', rooms)
   const onCreate = () => {
     socket.emit('create_room', username);
@@ -18,8 +19,15 @@ const Lobby = () => {
   useEffect(() => {
     socket.emit('update', {})
   }, [])
+
+  useEffect(() => {
+    setAlert(error)
+  }, [error])
   return (
         <div>
+            { alert && (<div className='alert alert-danger' role='alert'>
+             {alert}
+            </div>) }
             <div className='card text-center'>
                 <div className='card-header'>
                     <ul className='nav nav-tabs card-header-tabs'>
