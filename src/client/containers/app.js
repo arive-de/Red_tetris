@@ -27,7 +27,6 @@ const App = () => {
     const url = document.createElement('a')
 
     url.href = window.location.href
-    console.log(url.hash)
     const res = url.hash.match(/^#(.*)\[(.*)\]$/)
   
     if (res && res[1] && res[2]) {
