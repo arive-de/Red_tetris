@@ -16,28 +16,22 @@ const Game = ({ room }) => {
 
   const sendMessage = (e) => {
     if (e.key === 'Enter') {
-      console.log(message)
-      console.log('room: ', room.roomId)
       socket.emit('message', { roomId: room.roomdId, username, message })
       setMessage('')
     }
   }
 
   const onPlay = () => {
-    console.log('lets play');
     socket.emit('play', room.roomId);
   }
 
   const onLeave = () => {
-    console.log('onleave')
     socket.emit('leave_room', { username, roomId: room.roomId })
   }
 
   useEffect(() => {
-    console.log('useEffect game')
 
     socket.on('message', data => {
-      console.log(data)
       setMessages(ms => [...ms, data])
     })
     return () => {
@@ -100,7 +94,7 @@ const Game = ({ room }) => {
         <div className='card'>
             <div className='card-body'>
                 <h5 className='card-title'>Chat</h5>
-                { console.log(messages)}{ messages.map((m, index) => (<div key={index}>{m.username}: {m.message}</div>))}
+               { messages.map((m, index) => (<div key={index}>{m.username}: {m.message}</div>))}
             </div>
         </div>
         <div>

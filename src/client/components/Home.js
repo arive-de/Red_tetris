@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux'
 
 import './Lobby.scss'
 
-const Home = ({ error }) => {
+const Home = ({ error, setError }) => {
   
   const [username, setUsername] = useState('')
   const socket = useSelector(state => state.socket)
-  const [alert, setAlert] = useState('')
 
   const onChange = (e) => {
     e.preventDefault()
@@ -22,7 +21,11 @@ const Home = ({ error }) => {
   }
 
   useEffect(() => {
-    setAlert(error)
+    setError(error)
+    
+    return () => {
+      setError(null)
+    }
   }, [error])
 
   return (
@@ -34,8 +37,8 @@ const Home = ({ error }) => {
               onKeyDown={handleKeyDown} placeholder='Type in a username' ></input>
           </div>
         </div>
-        { alert && (<div className='alert alert-danger' role='alert'>
-            {alert}
+        { error && (<div className='alert alert-danger' role='alert'>
+            {error}
         </div>) }
       </div>
 

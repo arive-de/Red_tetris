@@ -6,13 +6,11 @@ import RoomList from './RoomList'
 import UserList from './UserList'
 import './Lobby.scss'
 
-const Lobby = ({ error }) => {
+const Lobby = ({ error, setError }) => {
 
   const username = useSelector(state => state.username)
   const socket = useSelector(state => state.socket)
   const rooms = useSelector(state => state.rooms)
-  const [alert, setAlert] = useState('')
-  console.log('LOBBY', rooms)
   const onCreate = () => {
     socket.emit('create_room', username);
   }
@@ -21,12 +19,16 @@ const Lobby = ({ error }) => {
   }, [])
 
   useEffect(() => {
-    setAlert(error)
-  }, [error])
+    setError(error)
+
+    return () => {
+      setError(null)
+    }
+  }, [])
   return (
         <div>
-            { alert && (<div className='alert alert-danger' role='alert'>
-             {alert}
+            { error && (<div className='alert alert-danger' role='alert'>
+             {error}
             </div>) }
             <div className='card text-center'>
                 <div className='card-header'>
