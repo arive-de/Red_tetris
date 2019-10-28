@@ -2,14 +2,14 @@ const Room = require('../models/Room');
 
 let i = 0
 
-const createRoom = (username, cb) => {
+const createRoom = (username, type, cb) => {
 
   i = i + 1
 
   const newRoom = new Room({
     players: [username],
     roomId: `xx${i}`,
-    type: 'Classic',
+    type,
     running: false,
   })
 
