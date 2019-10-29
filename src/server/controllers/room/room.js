@@ -15,8 +15,8 @@ const createRoom = (username, type, cb) => {
 
   newRoom.save()
     .then(data => {
-      console.log(data)
-      console.log(`new room added by ${username} to db`)
+      // console.log(data)
+      // console.log(`new room added by ${username} to db`)
       cb(null, data)
     })
     .catch(err => {

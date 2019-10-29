@@ -5,14 +5,6 @@ const should = require('chai').should
 const mongoose = require('mongoose')
 
 describe('#Model User', function() {
-  before(function(done) {
-    if (mongoose.connection.db) return done()
-
-    mongoose.connect(params.db.url, { useNewUrlParser: true, useUnifiedTopology: true })
-    const db = mongoose.connection
-    db.on('error', console.error.bind(console, 'connection error'))
-    db.once('open', done)
-  })
 
   it('should be invalid if username is empty', function(done) {
     const u = new User()
@@ -40,7 +32,4 @@ describe('#Model User', function() {
     User.deleteOne({ username: 'test' }, done);
   });
 
-  after((done) => {
-    mongoose.connection.close(done)
-  })
 })
