@@ -1,4 +1,4 @@
-import { createRoom, joinRoom, leaveRoom } from '../controllers/room'
+import { createRoom, joinRoom, leaveRoom } from '../controllers/room/room'
 
 export const initSocketRoom = (io, socket) => {
 
