@@ -2,8 +2,9 @@ import { createRoom, joinRoom, leaveRoom } from '../controllers/room'
 
 export const initSocketRoom = (io, socket) => {
 
-  socket.on('create_room', username => {
-    createRoom(username, (error, data) => {
+  socket.on('create_room', ({ username, type }) => {
+
+    createRoom(username, type, (error, data) => {
       if (error === null) {
         socket.roomId = data.roomId
         io.to('lobby').emit('created_room', data)

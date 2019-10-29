@@ -6,27 +6,36 @@ import RoomList from './RoomList'
 import UserList from './UserList'
 import './Lobby.scss'
 
-const Lobby = ({ error }) => {
+const Lobby = ({ error, setError }) => {
 
   const username = useSelector(state => state.username)
   const socket = useSelector(state => state.socket)
   const rooms = useSelector(state => state.rooms)
-  const [alert, setAlert] = useState('')
-  console.log('LOBBY', rooms)
+  const [type, setType] = useState('Classic')
+
   const onCreate = () => {
-    socket.emit('create_room', username);
+    socket.emit('create_room', { username, type });
   }
+
+  const onChange = (e) => {
+    setType(e.target.value)
+  }
+
   useEffect(() => {
     socket.emit('update', {})
   }, [])
 
   useEffect(() => {
-    setAlert(error)
-  }, [error])
+    setError(error)
+
+    return () => {
+      setError(null)
+    }
+  }, [])
   return (
         <div>
-            { alert && (<div className='alert alert-danger' role='alert'>
-             {alert}
+            { error && (<div className='alert alert-danger' role='alert'>
+             {error}
             </div>) }
             <div className='card text-center'>
                 <div className='card-header'>
@@ -59,6 +68,16 @@ const Lobby = ({ error }) => {
                             <div className='card'>
                                 <div className='card-body'>
                                     <h5 className='card-title'>Host a game</h5>
+                                    <div className='input-group mb-3'>
+                                        <div className='input-group-prepend'>
+                                            <label className='input-group-text' htmlFor='inputGroupSelect01'>Type</label>
+                                        </div>
+                                        <select className='custom-select' onChange={onChange} value={type} >
+                                            {/* <option defaultValue>Choose...</option> */}
+                                            <option value='Classic'>Classic</option>
+                                            <option value='Ghost'>Ghost </option>
+                                        </select>
+                                        </div>
                                     <button className='btn btn-primary' onClick={onCreate}>Create</button>
                                 </div>
                             </div>

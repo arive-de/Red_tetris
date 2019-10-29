@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers } from '../actions/user'
 import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms } from '../actions/room'
@@ -18,8 +18,14 @@ const App = () => {
   const roomId = useSelector(state => state.roomId)
   const rooms = useSelector(state => state.rooms)
   const [error, setError] = useState('')
+  const [errorLobby, setErrorLobby] = useState('')
 
-  console.log('APP', rooms)
+  useEffect(() => {
+    return () => {
+      console.log('unmount app')
+    }
+  }, [])
+
   if (!storeSocket) {
 
     dispatch(actSetSocket(socket))
@@ -41,29 +47,25 @@ const App = () => {
         setError(data.error)
         return
       }
-      console.log('dispatch is ok')
       dispatch(actSetUsername(data.username))
       dispatch(actAddUser(data.username))
     })
     socket.on('lobby', data => {
       if (data.error) {
-        setError(data.error)
+        setErrorLobby(data.error)
         return
       }
     })
     socket.on('created_room', data => {
-      console.log('created new room', data)
       dispatch(actCreateRoom(data))
     });
     socket.on('logout', data => {
       dispatch(actLogout(data))
     })
     socket.on('left_room', data => {
-      console.log('left room', data)
       dispatch(actLeaveRoom(data))
     });
     socket.on('joined_room', data => {
-      console.log('joined new room', data)
       dispatch(actJoinRoom(data))
     })
     socket.on('update', ({ users, rooms }) => {
@@ -73,7 +75,6 @@ const App = () => {
   }
 
   if (username !== null && roomId !== null) {
-    console.log(roomId, rooms, rooms.find(r => r.roomId === roomId))
     if (rooms.find(r => r.roomId === roomId)) {
       return (<Game room={rooms.find(r => r.roomId === roomId)} />)
     }
@@ -82,9 +83,9 @@ const App = () => {
     }
   }
   if (username !== null) {
-    return (<Lobby error={error}/>)
+    return (<Lobby error={errorLobby} setError={setErrorLobby} />)
   }
-  return (<Home error={error}/>)
+  return (<Home error={error} setError={setError}/>)
 }
 
 export default (App)
