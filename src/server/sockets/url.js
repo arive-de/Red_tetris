@@ -1,6 +1,4 @@
 import { createByUrl } from '../controllers/url'
-import User from '../models/User'
-import Room from '../models/Room'
 
 export const initSocketUrl = (io, socket) => {
 
