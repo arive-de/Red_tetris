@@ -53,20 +53,26 @@ const initEngine = io => {
     });
   })
 }
-const main = () => {
-  env.initDb()
-  initEngine(io)
-  http.listen(params.server.port, () => {
-    console.log(`server is running on port ${params.server.port}`)
-  })
-}
+const main = 
 
 app.use(cors({ credentials: true, origin: 'http://localhost:8080' }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 app.use('*', handler)
 
-connect()
-.on('disconnected', connect)
-.on('open', main)
-.on('error', console.log)
+export const create = () => {
+  return new Promise((resolve, reject) => {
+    connect()
+    .on('disconnected', connect)
+    .on('error', console.log)
+    .on('open', () => {
+      env.fillDb().then(() => {
+        initEngine(io)
+        http.listen(params.server.port, () => {
+          console.log(`server is running on port ${params.server.port}`)
+          resolve()
+        })
+      })
+    })
+  })
+}

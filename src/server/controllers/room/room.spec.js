@@ -6,9 +6,9 @@ const Room = require('../../models/Room')
 const { connect, disconnect  } = require('../../helpers.spec')
 const { createRoom, joinRoom, leaveRoom } = require('./room')
 
-connect()
-
 describe('Room Controller', function() {
+  disconnect()
+  connect()
   let testRoomId = 'xx'
 
   it('creates a room', function(done) {
@@ -87,4 +87,3 @@ describe('Room Controller', function() {
   })
 })
 
-disconnect()

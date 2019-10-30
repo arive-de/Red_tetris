@@ -9,7 +9,7 @@ const connect = () => {
     const db = mongoose.connection
     db.on('error', console.error.bind(console, 'connection error'))
     db.once('open', function() {
-      console.log('connection [OK]')
+      console.log('DB connection [OK]')
       done()
     })
   })
@@ -19,7 +19,7 @@ const disconnect = () => {
   after(function(done){
     mongoose.connection.db.dropDatabase(function(){
       mongoose.connection.close()
-      console.log('disconnection [OK]')
+      console.log('DB disconnection [OK]')
       done()
     })
   })

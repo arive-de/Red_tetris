@@ -3,9 +3,11 @@ const User = require('./index')
 const expect = require('chai').expect
 const should = require('chai').should
 const mongoose = require('mongoose')
+const { connect, disconnect  } = require('../../helpers.spec')
 
 describe('#Model User', function() {
-
+  connect()
+  disconnect()
   it('should be invalid if username is empty', function(done) {
     const u = new User()
 
