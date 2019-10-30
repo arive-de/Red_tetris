@@ -4,10 +4,12 @@ const assert = require('assert')
 const User = require('../../models/User')
 const Room = require('../../models/Room')
 
+const { connect, disconnect  } = require('../../helpers.spec')
 const { createByUrl } = require('./url')
 
 describe('Url Controller', function() {
-
+  disconnect()
+  connect()
   it('creates a user and a room', function(done) {
     createByUrl('lox', 'socketId', 'roomId', (err, data) => {
 
