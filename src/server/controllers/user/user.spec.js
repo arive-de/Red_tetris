@@ -2,8 +2,12 @@ const assert = require('assert')
 const User = require('../../models/User')
 const Room = require('../../models/Room')
 const { createUser, deleteUser } = require('./user')
+const { connect, disconnect  } = require('../../helpers.spec')
+
 
 describe('#User Controller', function() {
+  connect()
+  disconnect()
   before(function(done) {
     Room.create([{
       roomId: 'aaaa',

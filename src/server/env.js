@@ -1,8 +1,9 @@
 const User = require('./models/User')
 const Room = require('./models/Room')
 
-export const initDb = () => {
-  User.collection.drop().then(() => {
+export const fillDb = () => {
+  return new Promise((resolve, reject) => {
+  User.collection.deleteMany().then(() => {
     User.create([{
       username: 'mama',
     },
@@ -16,10 +17,11 @@ export const initDb = () => {
               console.log('users created')
             })
             .catch(err => {
+              reject()
               console.log(err)
             })
-  })
-  Room.collection.drop().then(() => {
+  
+  Room.collection.deleteMany().then(() => {
     Room.create([{
       roomId: 'xx04',
       type: 'Classic',
@@ -36,10 +38,14 @@ export const initDb = () => {
       },
          ])
            .then(() => {
-             console.log('rooms created')
+             resolve()
+             return console.log('rooms created')
            })
            .catch(err => {
-             console.log(err)
+             reject()
+             return console.log(err)
            })
   })
+})
+})
 }

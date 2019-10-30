@@ -27,21 +27,21 @@ const createRoom = (username, type, cb) => {
 }
 
 const joinRoom = (username, roomId, cb) => {
-  console.log('roomid', roomId)
+  // console.log('roomid', roomId)
   Room.findOne({ roomId })
     .then(room => {
-      console.log('room found', room.players)
+      // console.log('room found', room.players)
       if (room.players.length === 4) {
         throw new Error('room is full')
       }
       room.players.push(username)
       room.save()
       .then(r => {
-        console.log(`user ${username} join the room ${r.roomId} to db`)
+        // console.log(`user ${username} join the room ${r.roomId} to db`)
         cb(null, { roomId, username })
       })
       .catch(err => {
-        console.log(err)
+        // console.log(err)
         cb('can\'t update room in db')
       })
     })
@@ -54,27 +54,27 @@ const joinRoom = (username, roomId, cb) => {
 const leaveRoom = (username, roomId, cb) => {
   Room.findOne({ roomId })
     .then(room => {
-      console.log('room found', room.players)
+      // console.log('room found', room.players)
       room.players = room.players.filter(u => u !== username)
       if (room.players.length === 0) {
         Room.deleteOne({ roomId })
         .then(r => {
-          console.log(`user ${username} leave the room ${r.roomId} to db and delete the room`)
+          // console.log(`user ${username} leave the room ${r.roomId} to db and delete the room`)
           return cb(null, { roomId, username })
         })
         .catch(err => {
-          console.log(err)
+          // console.log(err)
           cb('can\'t remove the empty room from db')
         })
       }
       else {
         room.save()
         .then(r => {
-          console.log(`user ${username} leave the room ${r.roomId} to db`)
+          // console.log(`user ${username} leave the room ${r.roomId} to db`)
           cb(null, { roomId, username })
         })
         .catch(err => {
-          console.log(err)
+          // console.log(err)
           cb('can\'t update room in db')
         })
       }

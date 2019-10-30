@@ -12,9 +12,9 @@ const chaiAsPromised = require('chai-as-promised');
 const expect = chai.expect
 chai.use(chaiAsPromised)
 
-connect()
-
 describe('Room Controller', function() {
+  disconnect()
+  connect()
   let testRoomId = 'xx'
 
   it('creates a room', function(done) {
@@ -93,4 +93,3 @@ describe('Room Controller', function() {
   })
 })
 
-disconnect()

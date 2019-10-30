@@ -14,7 +14,7 @@ const createUser = (username, socketId, cb) => {
       if (!user) {
         newUser.save()
         .then(user => {
-          console.log(`new user ${user.username} added to db`)
+          // console.log(`new user ${user.username} added to db`)
           cb()
         })
         .catch(err => {
