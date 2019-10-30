@@ -13,7 +13,7 @@ import * as env from './env'
 import { initSocketAuth } from './sockets/auth'
 import { initSocketRoom } from './sockets/room/room'
 import { initSocketUrl } from './sockets/url'
-import { deleteUser } from './controllers/user'
+import { deleteUser } from './controllers/user/user'
 
 const connect = () => {
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
