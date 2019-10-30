@@ -1,4 +1,4 @@
-import { createUser } from '../controllers/user'
+import { createUser } from '../controllers/user/user'
 import User from '../models/User'
 import Room from '../models/Room'
 
