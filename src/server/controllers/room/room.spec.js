@@ -54,14 +54,14 @@ describe('Room Controller', function() {
   it('leaves unknown room', function(done) {
     leaveRoom('lox', testRoomId, (err, data) => {
 
-    try {
-      Room.findOne({ roomId: 'fakeId' }).then(data => {
-        done()
-      })
-    }
-    catch (err) {
-      done(err)
-    }
+      try {
+        Room.findOne({ roomId: 'fakeId' }).then(data => {
+          done()
+        })
+      }
+      catch (err) {
+        done(err)
+      }
     })
   })
 
