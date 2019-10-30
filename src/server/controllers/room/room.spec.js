@@ -6,12 +6,6 @@ const Room = require('../../models/Room')
 const { connect, disconnect  } = require('../../helpers.spec')
 const { createRoom, joinRoom, leaveRoom } = require('./room')
 
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised');
-
-const expect = chai.expect
-chai.use(chaiAsPromised)
-
 connect()
 
 describe('Room Controller', function() {

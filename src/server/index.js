@@ -11,7 +11,7 @@ import params from '../../params'
 import fs from 'fs'
 import * as env from './env'
 import { initSocketAuth } from './sockets/auth'
-import { initSocketRoom } from './sockets/room'
+import { initSocketRoom } from './sockets/room/room'
 import { initSocketUrl } from './sockets/url'
 import { deleteUser } from './controllers/user'
 
