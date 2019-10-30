@@ -32,7 +32,7 @@ const joinRoom = (username, roomId, cb) => {
     .then(room => {
       console.log('room found', room.players)
       if (room.players.length === 4) {
-        return cb('room is full')
+        throw new Error('room is full')
       }
       room.players.push(username)
       room.save()
@@ -46,14 +46,12 @@ const joinRoom = (username, roomId, cb) => {
       })
     })
     .catch(err => {
-      console.log(err)
-      cb('can\'t get the room in db')
+      cb(err)
     })
 
 }
 
 const leaveRoom = (username, roomId, cb) => {
-  console.log('roomid', roomId)
   Room.findOne({ roomId })
     .then(room => {
       console.log('room found', room.players)
@@ -82,8 +80,7 @@ const leaveRoom = (username, roomId, cb) => {
       }
     })
     .catch(err => {
-      console.log(err)
-      cb('can\'t get the room in db')
+      throw new Error(err)
     })
 
 }

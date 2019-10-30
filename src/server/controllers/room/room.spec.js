@@ -6,6 +6,12 @@ const Room = require('../../models/Room')
 const { connect, disconnect  } = require('../../helpers.spec')
 const { createRoom, joinRoom, leaveRoom } = require('./room')
 
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised');
+
+const expect = chai.expect
+chai.use(chaiAsPromised)
+
 connect()
 
 describe('Room Controller', function() {
@@ -42,10 +48,7 @@ describe('Room Controller', function() {
   it('leaves a room', function(done) {
 
     leaveRoom('lox', testRoomId, (err, data) => {
-      
-      if (err) {
-        console.log(err)
-      }
+
       Room.findOne({ roomId: data.roomId }).then(data => {
         assert(data.players[0] === 'bob')
         assert(data.players.length === 1)
@@ -53,6 +56,21 @@ describe('Room Controller', function() {
       })
     })
   })
+
+  it('leaves unknown room', function(done) {
+    leaveRoom('lox', testRoomId, (err, data) => {
+
+    try {
+      Room.findOne({ roomId: 'fakeId' }).then(data => {
+        done()
+      })
+    }
+    catch (err) {
+      done(err)
+    }
+    })
+  })
+
   it('join full room', function(done) {
     const fullRoom =  new Room({
       players: ['jo', 'yo', 'mo', 'no'],
@@ -61,10 +79,16 @@ describe('Room Controller', function() {
       running: false,
     })
     fullRoom.save().then(data => {
-      joinRoom('bibi', 'xxma', (err, data) => {
+      
+      try {
+        joinRoom('bibi', 'xxma', (data) => {
+          done()
+        })
+      }
+      catch (err) {
         assert(err === 'room is full')
         done()
-      })
+      }
     })
   })
 })
