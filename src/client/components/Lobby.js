@@ -12,6 +12,9 @@ const Lobby = ({ error, setError }) => {
   const socket = useSelector(state => state.socket)
   const rooms = useSelector(state => state.rooms)
   const [type, setType] = useState('Classic')
+  const [hideShow, setHideShow] = useState(false)
+
+  console.log('hidehow = ', hideShow)
 
   const onCreate = () => {
     socket.emit('create_room', { username, type });
@@ -19,6 +22,10 @@ const Lobby = ({ error, setError }) => {
 
   const onChange = (e) => {
     setType(e.target.value)
+  }
+
+  const onCheck = () => {
+    setHideShow(!hideShow)
   }
 
   useEffect(() => {
@@ -57,9 +64,15 @@ const Lobby = ({ error, setError }) => {
                                         <div>Status</div>
                                     </div>
                                     <div className='col'>
-                                        {rooms.map((room, index) => (
-                                            <RoomList key={index} room={room} />
-                                        ))}
+                                        {rooms.map((room, index) => {
+                                          if (hideShow && room && (room.players.length === 4 || room.running === true)) {
+                                            console.log('hidden')
+                                          }
+                                          else {
+                                            return (<RoomList key={index} room={room} />)
+                                          }
+                                        }
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +97,7 @@ const Lobby = ({ error, setError }) => {
                         </div>
                     </div>
                     <div className='form-check d-flex justify-content-left'>
-                        <input className='form-check-input' id='hide' type='checkbox' value='' />
+                        <input className='form-check-input' id='hide' onClick={onCheck} type='checkbox' value='' />
                         <label className='form-check-label'>
                         Hide running and full tables
                         </label>

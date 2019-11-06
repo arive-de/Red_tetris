@@ -36,6 +36,13 @@ const fillDb = () => {
         running: false,
         leader: 'Joe',
       },
+      {
+        roomId: 'xx69',
+        type: 'Ghost',
+        players: ['Diam', 'Pol'],
+        running: true,
+        leader: 'Diam',
+      },
          ])
            .then(() => {
              resolve()
