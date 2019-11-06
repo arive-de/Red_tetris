@@ -1,11 +1,8 @@
-import * as server from './index'
+const server = require('./index')
 
 server.create()
-.then(({ stop }) => {
+.then(() => {
   console.log('server and Db are UP ^^')
-  // stop(() => {
-  //   console.log('app closing')
-  // })
 })
 .catch(() => {
   console.log('server caught an error')

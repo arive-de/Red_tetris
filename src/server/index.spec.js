@@ -1,56 +1,43 @@
-// const express = require('express')
-// const app = express()
-// const http = require('http').Server(app)
-// const io = require('socket.io')(http)
-// const assert = require('assert')
+const assert = require('assert')
+const server = require('../server/index')
+const ioClient = require('socket.io-client')
 
-// import { launchApp } from '../server/index'
+describe('Server', function() {
+  let stopServer
+  before(function(done) {
+    server.create(3005).then(({ stop }) => {
+      stopServer = stop
+      done()
+    })
+  })
 
-// const ioClient = require('socket.io-client')
+  after(function(done) {
+    stopServer(() => {
+      console.log('stopServer test')
+      done()
+    })
+  })
 
-// launchApp()
+  describe('Socket', function() {
 
-// io.on('connection', (socket) => {
-//   socket.on('event', () => {
-//     socket.emit('hello', 'world');
-//   });
-// });
+    let socket1;
 
-// http.listen(params.server.port, () => {
-//   console.log(`server is running on port ${params.server.port}`)
-// })
+    beforeEach(function(done) {
+      socket1 = ioClient.connect('http://localhost:3004', { forceNew: true, query: '' });
+      socket1.on('connect', () => {
+        console.log('on connect socket')
+        done();
+      });
+    });
 
-// describe('Server', function() {
+    afterEach(function(done) {
+      socket1 && socket1.connected && socket1.disconnect();
+      done();
+    });
 
-//   before(launchAp
+    it('client should connect', function(done) {
 
-  // after(function(done) {
-  //   io.close()
-  // })
-
-  // describe('Socket', function() {
-
-  //   let socket1;
-
-  //   beforeEach(function(done) {
-  //     socket1 = ioClient.connect('http://localhost:3004', { forceNew: true, query: '' });
-  //     socket1.on('connect', () => {
-  //       done();
-  //     });
-  //   });
-
-  //   afterEach(function(done) {
-  //     socket1 && socket1.connected && socket1.disconnect();
-  //     done();
-  //   });
-
-  //   it('client should connect', function(done) {
-  //     io.on('connection', function(socket) {
-  //       console.log(`Socket connected: ${socket.id}`)
-  //       assert.notEqual(socket, null, 'socket should not be null');
-  //       done()
-  //     })
-  //     done()
-  //   })
-  // })
-// })
+      done()
+    })
+  })
+})

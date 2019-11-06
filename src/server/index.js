@@ -1,7 +1,3 @@
-const express = require('express')
-const app = express()
-const http = require('http').Server(app)
-const io = require('socket.io')(http)
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const path = require('path');
@@ -14,12 +10,6 @@ const { initSocketAuth } = require('./sockets/auth')
 const { initSocketRoom } = require('./sockets/room/room')
 const { initSocketUrl } = require('./sockets/url')
 const { deleteUser } = require('./controllers/user/user')
-
-const connect = () => {
-  const options = { useNewUrlParser: true, useUnifiedTopology: true }
-  mongoose.connect(params.db.url, options)
-  return mongoose.connection
-}
 
 const handler = (req, res) => {
   const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
@@ -55,10 +45,16 @@ const initEngine = io => {
 }
 
 
-const create = () => {
+const create = (port) => {
   return new Promise((resolve, reject) => {
-    const app = require('express')()
-    const http = require('http').Server(app)
+    const connect = () => {
+      const options = { useNewUrlParser: true, useUnifiedTopology: true }
+      mongoose.connect(params.db.url, options)
+      return mongoose.connection
+    }
+    const express = require('express')
+    const app = new express()
+    const http = require('http').createServer(app)
     const io = require('socket.io')(http)
     const stop = (cb) => {
       io.close()
@@ -75,13 +71,13 @@ const create = () => {
     app.use(express.json())
     app.use('*', handler)
     connect()
-    .on('disconnected', connect)
-    .on('error', console.log)
+    .on('disconnected', () => {stop(() => {console.log('MONGO disconnected')})})
+    .on('error', err => {stop(() => {console.log('MONGO disconnected')})})
     .on('open', () => {
       env.fillDb().then(() => {
         initEngine(io)
-        http.listen(params.server.port, () => {
-          console.log(`server is running on port ${params.server.port}`)
+        http.listen(port || params.server.port, () => {
+          console.log(`server is running on port ${port || params.server.port}`)
           resolve({ stop })
         })
       })
