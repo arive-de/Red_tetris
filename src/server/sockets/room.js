@@ -1,6 +1,6 @@
-import { createRoom, joinRoom, leaveRoom } from '../controllers/room/room'
+const { createRoom, joinRoom, leaveRoom } = require('../controllers/room/room')
 
-export const initSocketRoom = (io, socket) => {
+const initSocketRoom = (io, socket) => {
 
   socket.on('create_room', ({ username, type }) => {
 
@@ -55,3 +55,5 @@ export const initSocketRoom = (io, socket) => {
     })
   })
 }
+
+module.exports = { initSocketRoom }

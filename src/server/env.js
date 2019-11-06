@@ -1,7 +1,7 @@
 const User = require('./models/User')
 const Room = require('./models/Room')
 
-export const fillDb = () => {
+const fillDb = () => {
   return new Promise((resolve, reject) => {
   User.collection.deleteMany().then(() => {
     User.create([{
@@ -49,3 +49,5 @@ export const fillDb = () => {
 })
 })
 }
+
+module.exports = { fillDb }

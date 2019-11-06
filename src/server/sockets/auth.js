@@ -1,8 +1,8 @@
-import { createUser } from '../controllers/user/user'
-import User from '../models/User'
-import Room from '../models/Room'
+const { createUser } = require('../controllers/user/user')
+const User = require('../models/User')
+const Room = require('../models/Room')
 
-export const initSocketAuth = (io, socket) => {
+const initSocketAuth = (io, socket) => {
 
   socket.on('auth', username => {
     createUser(username, socket.id, error => {
@@ -29,3 +29,5 @@ export const initSocketAuth = (io, socket) => {
                             running: r.running })) })
   })
 }
+
+module.exports = { initSocketAuth }

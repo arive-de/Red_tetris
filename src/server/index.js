@@ -6,14 +6,14 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const path = require('path');
 const cors = require('cors')
+const params = require('../../params')
 
-import params from '../../params'
-import fs from 'fs'
-import * as env from './env'
-import { initSocketAuth } from './sockets/auth'
-import { initSocketRoom } from './sockets/room'
-import { initSocketUrl } from './sockets/url'
-import { deleteUser } from './controllers/user/user'
+const fs = require('fs')
+const env = require('./env')
+const { initSocketAuth } = require('./sockets/auth')
+const { initSocketRoom } = require('./sockets/room')
+const { initSocketUrl } = require('./sockets/url')
+const { deleteUser } = require('./controllers/user/user')
 
 const connect = () => {
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
@@ -53,14 +53,13 @@ const initEngine = io => {
     });
   })
 }
-const main = 
 
 app.use(cors({ credentials: true, origin: 'http://localhost:8080' }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 app.use('*', handler)
 
-export const create = () => {
+const create = () => {
   return new Promise((resolve, reject) => {
     connect()
     .on('disconnected', connect)
@@ -76,3 +75,5 @@ export const create = () => {
     })
   })
 }
+
+module.exports = { create }

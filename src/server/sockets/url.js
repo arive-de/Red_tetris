@@ -1,6 +1,6 @@
-import { createByUrl } from '../controllers/url'
+const { createByUrl } =require('../controllers/url')
 
-export const initSocketUrl = (io, socket) => {
+const initSocketUrl = (io, socket) => {
 
   socket.on('url', ({ username, socketId, roomId }) => {
 
@@ -33,3 +33,5 @@ export const initSocketUrl = (io, socket) => {
   })
 
 }
+
+module.exports = { initSocketUrl }
