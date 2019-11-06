@@ -1,5 +1,5 @@
-const User = require('../models/User');
-const Room = require('../models/Room');
+const User = require('../../models/User');
+const Room = require('../../models/Room');
 
 const createByUrl = (username, socketId, roomId, cb) => {
 
@@ -64,7 +64,7 @@ const createByUrl = (username, socketId, roomId, cb) => {
       }
     })
   .catch(err => {
-    cb('can\'t store the user in db')
+    cb(err)
   })
 }
 

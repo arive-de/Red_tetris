@@ -20,7 +20,7 @@ const createRoom = (username, type, cb) => {
       cb(null, data)
     })
     .catch(err => {
-      console.log(err)
+      // console.log(err)
       cb('can\'t store the new room in db')
     })
 

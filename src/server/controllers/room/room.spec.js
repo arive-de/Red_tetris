@@ -6,12 +6,6 @@ const Room = require('../../models/Room')
 const { connect, disconnect  } = require('../../helpers.spec')
 const { createRoom, joinRoom, leaveRoom } = require('./room')
 
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised');
-
-const expect = chai.expect
-chai.use(chaiAsPromised)
-
 describe('Room Controller', function() {
   disconnect()
   connect()
@@ -60,14 +54,14 @@ describe('Room Controller', function() {
   it('leaves unknown room', function(done) {
     leaveRoom('lox', testRoomId, (err, data) => {
 
-    try {
-      Room.findOne({ roomId: 'fakeId' }).then(data => {
-        done()
-      })
-    }
-    catch (err) {
-      done(err)
-    }
+      try {
+        Room.findOne({ roomId: 'fakeId' }).then(data => {
+          done()
+        })
+      }
+      catch (err) {
+        done(err)
+      }
     })
   })
 
