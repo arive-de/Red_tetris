@@ -100,6 +100,15 @@ const Lobby = ({ error, setError }) => {
             </div>
             <br />
             <UserList />
+            <br />          
+            <div className='card text-center w-50'>
+              <div className='card-header'>
+                  Single Player Game
+              </div>
+              <div className='card-body'>
+                <button className='btn btn-primary'>Start</button>
+              </div>
+            </div>
         </div>
     )
 }
