@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:env')
 const User = require('./models/User')
 const Room = require('./models/Room')
 
@@ -14,11 +15,11 @@ const fillDb = () => {
         username: 'papa',
       }])
             .then(() => {
-              console.log('users created')
+              debug('users created')
             })
             .catch(err => {
               reject()
-              console.log(err)
+              debug(err)
             })
   
   Room.collection.deleteMany().then(() => {
@@ -46,11 +47,11 @@ const fillDb = () => {
          ])
            .then(() => {
              resolve()
-             return console.log('rooms created')
+             return debug('rooms created')
            })
            .catch(err => {
              reject()
-             return console.log(err)
+             return debug(err)
            })
   })
 })

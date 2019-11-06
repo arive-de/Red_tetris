@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require('cors')
 const params = require('../../params')
 
+const debug = require('debug')('∆:index')
 const fs = require('fs')
 const env = require('./env')
 const { initSocketAuth } = require('./sockets/auth')
@@ -15,7 +16,7 @@ const handler = (req, res) => {
   const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
   fs.readFile(path.join(__dirname, file), (err, data) => {
     if (err) {
-      console.log(err)
+      debug(err)
       res.writeHead(500)
       return res.end('Error loading index.html')
     }
@@ -25,15 +26,15 @@ const handler = (req, res) => {
 }
 
 const initEngine = io => {
-  console.log('initengine')
+  debug('initengine')
   io.on('connection', (socket) => {
-    console.log(`Socket connected: ${socket.id}`)
+    debug(`Socket connected: ${socket.id}`)
 
     initSocketAuth(io, socket)
     initSocketRoom(io, socket)
     initSocketUrl(io, socket)
     socket.on('disconnect', () => {
-      console.log(`Socket disconnected: ${socket.id}`)
+      debug(`Socket disconnected: ${socket.id}`)
       deleteUser(socket.username, socket.roomId, (error) => {
         if (socket.roomId) {
           io.to(socket.roomId).emit('logout', { error, username: socket.username, roomId: socket.roomId })
@@ -58,10 +59,10 @@ const create = (port) => {
     const io = require('socket.io')(http)
     const stop = (cb) => {
       io.close()
-      console.log('io closed')
+      debug('io closed')
       http.close(() => {
         http.unref()
-        console.log('Engine Stopped.')
+        debug('Engine Stopped.')
       })
       cb()
     }
@@ -71,13 +72,13 @@ const create = (port) => {
     app.use(express.json())
     app.use('*', handler)
     connect()
-    .on('disconnected', () => {stop(() => {console.log('MONGO disconnected')})})
-    .on('error', err => {stop(() => {console.log('MONGO disconnected')})})
+    .on('disconnected', () => {stop(() => {debug('MONGO disconnected')})})
+    .on('error', err => {stop(() => {debug('MONGO disconnected')})})
     .on('open', () => {
       env.fillDb().then(() => {
         initEngine(io)
         http.listen(port || params.server.port, () => {
-          console.log(`server is running on port ${port || params.server.port}`)
+          debug(`server is running on port ${port || params.server.port}`)
           resolve({ stop })
         })
       })

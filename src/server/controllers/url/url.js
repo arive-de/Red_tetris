@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:controller url')
 const User = require('../../models/User');
 const Room = require('../../models/Room');
 

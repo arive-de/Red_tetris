@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:socket room')
 const { createRoom, joinRoom, leaveRoom } = require('../../controllers/room/room')
 
 const initSocketRoom = (io, socket) => {
@@ -20,7 +21,7 @@ const initSocketRoom = (io, socket) => {
   socket.on('join_room', ({ roomId }) => {
     joinRoom(socket.username, roomId, (error, data) => {
       if (error === null) {
-        console.log(`${socket.username} joins the room ${roomId}`)
+        debug(`${socket.username} joins the room ${roomId}`)
         socket.roomId = data.roomId
         socket.leave('lobby')
         io.to('lobby').emit('joined_room', data)
@@ -28,19 +29,19 @@ const initSocketRoom = (io, socket) => {
         io.to(socket.roomId).emit('joined_room', data)
       }
       else {
-        console.log(error)
+        debug(error)
         socket.emit('lobby', { error })
       }
     })
   })
 
   socket.on('message', ({ message }) => {
-    console.log(`${socket.username} sent a ${message} to ${socket.roomId}`)
+    debug(`${socket.username} sent a ${message} to ${socket.roomId}`)
     io.to(socket.roomId).emit('message', { username: socket.username, message })
   })
 
   socket.on('leave_room', ({ roomId, username }) => {
-    console.log(`${socket.username} leaves the room ${roomId}`)
+    debug(`${socket.username} leaves the room ${roomId}`)
     leaveRoom(username, roomId, (error, data) => {
       if (error === null) {
         socket.roomId = null

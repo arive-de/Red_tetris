@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:controller url spec')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const assert = require('assert')

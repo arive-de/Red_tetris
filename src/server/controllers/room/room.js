@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:controller room')
 const Room = require('../../models/Room');
 
 let i = 0
@@ -15,33 +16,33 @@ const createRoom = (username, type, cb) => {
 
   newRoom.save()
     .then(data => {
-      // console.log(data)
-      // console.log(`new room added by ${username} to db`)
+      debug(data)
+      debug(`new room added by ${username} to db`)
       cb(null, data)
     })
     .catch(err => {
-      // console.log(err)
+      debug(err)
       cb('can\'t store the new room in db')
     })
 
 }
 
 const joinRoom = (username, roomId, cb) => {
-  // console.log('roomid', roomId)
+  debug('roomid', roomId)
   Room.findOne({ roomId })
     .then(room => {
-      // console.log('room found', room.players)
+      debug('room found', room.players)
       if (room.players.length === 4) {
         throw new Error('room is full')
       }
       room.players.push(username)
       room.save()
       .then(r => {
-        // console.log(`user ${username} join the room ${r.roomId} to db`)
+        debug(`user ${username} join the room ${r.roomId} to db`)
         cb(null, { roomId, username })
       })
       .catch(err => {
-        // console.log(err)
+        debug(err)
         cb('can\'t update room in db')
       })
     })
@@ -54,27 +55,27 @@ const joinRoom = (username, roomId, cb) => {
 const leaveRoom = (username, roomId, cb) => {
   Room.findOne({ roomId })
     .then(room => {
-      // console.log('room found', room.players)
+      // debug('room found', room.players)
       room.players = room.players.filter(u => u !== username)
       if (room.players.length === 0) {
         Room.deleteOne({ roomId })
         .then(r => {
-          // console.log(`user ${username} leave the room ${r.roomId} to db and delete the room`)
+          // debug(`user ${username} leave the room ${r.roomId} to db and delete the room`)
           return cb(null, { roomId, username })
         })
         .catch(err => {
-          // console.log(err)
+          // debug(err)
           cb('can\'t remove the empty room from db')
         })
       }
       else {
         room.save()
         .then(r => {
-          // console.log(`user ${username} leave the room ${r.roomId} to db`)
+          debug(`user ${username} leave the room ${r.roomId} to db`)
           cb(null, { roomId, username })
         })
         .catch(err => {
-          // console.log(err)
+          debug(err)
           cb('can\'t update room in db')
         })
       }

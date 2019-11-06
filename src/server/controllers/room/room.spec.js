@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:controller room spec')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -15,7 +16,7 @@ describe('Room Controller', function() {
 
     createRoom('lox', 'Classic', (err, data) => {
       if (err) {
-        console.log(err)
+        debug(err)
       }
       testRoomId = data.roomId
       Room.findOne({ roomId: data.roomId}).then(data => {
@@ -30,7 +31,7 @@ describe('Room Controller', function() {
 
     joinRoom('bob', testRoomId, (err, data) => {
       if (err) {
-        console.log(err)
+        debug(err)
       }
       Room.findOne({ roomId: data.roomId }).then(data => {
         assert(data.players[1] === 'bob')

@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:helper spec')
 const mongoose = require('mongoose')
 
 const connect = () => {
@@ -9,7 +10,7 @@ const connect = () => {
     const db = mongoose.connection
     db.on('error', console.error.bind(console, 'connection error'))
     db.once('open', function() {
-      console.log('DB connection [OK]')
+      debug('DB connection [OK]')
       done()
     })
   })
@@ -19,7 +20,7 @@ const disconnect = () => {
   after(function(done){
     mongoose.connection.db.dropDatabase(function(){
       mongoose.connection.close()
-      console.log('DB disconnection [OK]')
+      debug('DB disconnection [OK]')
       done()
     })
   })

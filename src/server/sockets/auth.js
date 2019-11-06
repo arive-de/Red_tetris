@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:socket auth')
 const { createUser } = require('../controllers/user/user')
 const User = require('../models/User')
 const Room = require('../models/Room')
@@ -10,7 +11,7 @@ const initSocketAuth = (io, socket) => {
         socket.emit('auth', { error })
       }
       else {
-        console.log(`set socket username ${username}`)
+        debug(`set socket username ${username}`)
         socket.username = username
         socket.roomId = null
         socket.join('lobby')

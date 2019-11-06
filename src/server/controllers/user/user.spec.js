@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:controller user spec')
 const assert = require('assert')
 const User = require('../../models/User')
 const Room = require('../../models/Room')

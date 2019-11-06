@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:socket room spec')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -16,7 +17,7 @@ describe('Room Socket', function() {
 
 //   createRoom('lox', 'Classic', (err, data) => {
 //     if (err) {
-//       console.log(err)
+//       debug(err)
 //     }
 //     testRoomId = data.roomId
 //     Room.findOne({ roomId: data.roomId}).then(data => {
@@ -31,7 +32,7 @@ describe('Room Socket', function() {
 
 //   joinRoom('bob', testRoomId, (err, data) => {
 //     if (err) {
-//       console.log(err)
+//       debug(err)
 //     }
 //     Room.findOne({ roomId: data.roomId }).then(data => {
 //       assert(data.players[1] === 'bob')

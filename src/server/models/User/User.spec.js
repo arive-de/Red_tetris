@@ -1,9 +1,6 @@
-const params = require('../../../../params')
 const User = require('./index')
 const expect = require('chai').expect
-const should = require('chai').should
-const mongoose = require('mongoose')
-const { connect, disconnect  } = require('../../helpers.spec')
+const { connect, disconnect } = require('../../helpers.spec')
 
 describe('#Model User', function() {
   connect()

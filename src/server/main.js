@@ -1,9 +1,10 @@
+const debug = require('debug')('∆:main')
 const server = require('./index')
 
 server.create()
 .then(() => {
-  console.log('server and Db are UP ^^')
+  debug('server and Db are UP ^^')
 })
 .catch(() => {
-  console.log('server caught an error')
+  debug('server caught an error')
 })

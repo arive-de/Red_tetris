@@ -1,3 +1,4 @@
+const debug = require('debug')('∆:socket url')
 const { createByUrl } = require('../controllers/url/url')
 
 const initSocketUrl = (io, socket) => {
@@ -6,7 +7,7 @@ const initSocketUrl = (io, socket) => {
 
     createByUrl(username, socketId, roomId, async (error, data) => {
       if (error) {
-        console.log(error)
+        debug(error)
         return
       }
       socket.username = username
