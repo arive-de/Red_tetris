@@ -11,7 +11,7 @@ const params = require('../../params')
 const fs = require('fs')
 const env = require('./env')
 const { initSocketAuth } = require('./sockets/auth')
-const { initSocketRoom } = require('./sockets/room')
+const { initSocketRoom } = require('./sockets/room/room')
 const { initSocketUrl } = require('./sockets/url')
 const { deleteUser } = require('./controllers/user/user')
 

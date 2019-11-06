@@ -1,4 +1,4 @@
-const { createByUrl } =require('../controllers/url')
+const { createByUrl } = require('../controllers/url/url')
 
 const initSocketUrl = (io, socket) => {
 

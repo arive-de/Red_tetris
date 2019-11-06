@@ -1,4 +1,4 @@
-const { createRoom, joinRoom, leaveRoom } = require('../controllers/room/room')
+const { createRoom, joinRoom, leaveRoom } = require('../../controllers/room/room')
 
 const initSocketRoom = (io, socket) => {
 
