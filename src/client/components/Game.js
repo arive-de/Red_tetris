@@ -31,6 +31,8 @@ const Game = ({ room }) => {
 
   useEffect(() => {
 
+    console.log(room)
+
     socket.on('message', data => {
       setMessages(ms => [...ms, data])
     })
@@ -49,45 +51,35 @@ const Game = ({ room }) => {
                   </li>
               </ul>
           </div>
-          <div className='card-body' id='lobby'>
-              {/* <div className='row'> */}
-                <div className='col-sm-12'>
+          <div className='card text-center'>
+      <div className='card-header'>
+          <ul className='nav nav-tabs card-header-tabs'>
+              <li className='nav-item'>
+                  <a className='nav-link active'>Lobby</a>
+              </li>
+          </ul>
+      </div>
+      <div className='card-body' id='lobby'>
+          <div className='row'>
+              <div className='col-sm-12'>
                   <div className='card'>
                       <div className='card-body'>
-                          <table className='table table-striped'>
-                              <thead>
-                                  <tr>
-                                      <th scope='col'>Players</th>
-                                      <th scope='col'>Ready</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                { room.players.map((player, i) =>
-                                  (
-                                <tr key={i}>
-                                  <td scope='row'>{player} { room.players[0] === player ?
-                                  <i className='fas fa-crown'></i> : '' }</td>
-                                  <td><i className='far fa-check-square'></i></td>
-                                </tr>
-                                  )
-                                )}
-                                  {/* {gameList.map((game, index) => (
-                                      <GameList game={game} key={index} />
-                                  ))} */}
-                              </tbody>
-                          </table>
+                          <div className='row d-flex justify-content-around'>
+                              <div>Players</div>
+                          </div>
+                          <div className='col'>
+                            { room.players.map((player, i) =>
+                              (<div key={i}>
+                                  <p scope='row'>{player} { room.players[0] === player ? <i className='fas fa-crown'></i> : '' }</p>
+                                </div>)
+                            )}
+                          </div>
                       </div>
                   </div>
-                  </div>
-              {/* </div> */}
-              <div className='form-check d-flex'>
-              <input className='form-check-input' id='hide' type='checkbox' value='' />
-                <input className='form-check-input' id='ready' type='checkbox' value='' />
-                <label className='form-check-label'>
-                I am ready
-                </label>
               </div>
           </div>
+      </div>
+    </div>
       </div>
       <button className='btn btn-danger' onClick={onLeave}>Leave</button>
       <div className='col-sm-12'>
@@ -106,3 +98,4 @@ const Game = ({ room }) => {
 }
 
 export default Game
+
