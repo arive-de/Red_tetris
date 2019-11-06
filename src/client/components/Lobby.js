@@ -64,14 +64,8 @@ const Lobby = ({ error, setError }) => {
                                         <div>Status</div>
                                     </div>
                                     <div className='col'>
-                                        {rooms.map((room, index) => {
-                                          if (hideShow && room && (room.players.length === 4 || room.running === true)) {
-                                            console.log('hidden')
-                                          }
-                                          else {
-                                            return (<RoomList key={index} room={room} />)
-                                          }
-                                        }
+                                        {rooms.filter(room => hideShow ? room.running === false && room.players.length !== 4 : true).map((room, index) =>
+                                         (<RoomList key={index} room={room} />)
                                         )}
                                     </div>
                                 </div>

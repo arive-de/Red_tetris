@@ -1,7 +1,12 @@
 import * as server from './index'
 
-server.create().then(() => {
+server.create()
+.then(({ stop }) => {
   console.log('server and Db are UP ^^')
-}).catch(() => {
-  console.log('err server')
+  // stop(() => {
+  //   console.log('app closing')
+  // })
+})
+.catch(() => {
+  console.log('server caught an error')
 })

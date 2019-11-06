@@ -54,13 +54,26 @@ const initEngine = io => {
   })
 }
 
-app.use(cors({ credentials: true, origin: 'http://localhost:8080' }))
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(express.json())
-app.use('*', handler)
 
 const create = () => {
   return new Promise((resolve, reject) => {
+    const app = require('express')()
+    const http = require('http').Server(app)
+    const io = require('socket.io')(http)
+    const stop = (cb) => {
+      io.close()
+      console.log('io closed')
+      http.close(() => {
+        http.unref()
+        console.log('Engine Stopped.')
+      })
+      cb()
+    }
+
+    app.use(cors({ credentials: true, origin: 'http://localhost:8080' }))
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(express.json())
+    app.use('*', handler)
     connect()
     .on('disconnected', connect)
     .on('error', console.log)
@@ -69,7 +82,7 @@ const create = () => {
         initEngine(io)
         http.listen(params.server.port, () => {
           console.log(`server is running on port ${params.server.port}`)
-          resolve()
+          resolve({ stop })
         })
       })
     })
