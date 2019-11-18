@@ -1,4 +1,5 @@
 export const SET_USERNAME = 'SET_USERNAME'
+export const SET_TYPEGAME = 'SET_TYPEGAME'
 export const SET_SOCKET = 'SET_SOCKET'
 export const GET_USERS = 'GET_USERS'
 export const ADD_USER = 'ADD_USER'
@@ -7,6 +8,11 @@ export const LOGOUT = 'LOGOUT'
 export const actSetUsername = (username) => ({
   type: SET_USERNAME,
   username,
+})
+
+export const actSetTypeGame = (typeGame) => ({
+  type: SET_TYPEGAME,
+  typeGame,
 })
 
 export const actSetSocket = (socket) => ({

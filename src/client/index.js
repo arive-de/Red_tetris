@@ -12,6 +12,7 @@ axios.defaults.baseURL = 'http://localhost:3004'
 
 const initialState = {
   username: null,
+  typeGame: false,
   isPlaying: false,
   roomId: null,
   spectr: [],

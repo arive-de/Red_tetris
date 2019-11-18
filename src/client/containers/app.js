@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers } from '../actions/user'
 import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms } from '../actions/room'
 import Home from '../components/Home'
+import Menu from '../components/Menu'
 import Lobby from '../components/Lobby'
 import Game from '../components/Game'
 import openSocket from 'socket.io-client'
@@ -17,6 +18,7 @@ const App = () => {
   const username = useSelector(state => state.username)
   const roomId = useSelector(state => state.roomId)
   const rooms = useSelector(state => state.rooms)
+  const typeGame = useSelector(state => state.typeGame)
   const [error, setError] = useState('')
   const [errorLobby, setErrorLobby] = useState('')
 
@@ -82,7 +84,11 @@ const App = () => {
       return (<div>Loading</div>)
     }
   }
-  if (username !== null) {
+  if (username !== null && typeGame === false) {
+    return (<Menu />)
+  }
+  
+  if (username !== null && typeGame === true) {
     return (<Lobby error={errorLobby} setError={setErrorLobby} />)
   }
   return (<Home error={error} setError={setError}/>)
