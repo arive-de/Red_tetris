@@ -43,33 +43,38 @@ const Lobby = ({ error, setError }) => {
         <div>
             { error && (<div className='alert alert-danger' role='alert'>
              {error}
-            </div>) }
-            <div className='card text-center'>
-                <div className='card-header'>
-                    <ul className='nav nav-tabs card-header-tabs'>
-                        <li className='nav-item'>
-                            <a className='nav-link active'>Lobby</a>
-                        </li>
-                    </ul>
+						</div>) }
+						<div className='row d-flex'>
+							<i className='fas fa-arrow-alt-circle-left fa-2x'></i>
+							<h1>Lobby</h1>
+							<button className='btn btn-primary'>join</button>
+						</div>
+            <div className=''>
+                <div className='card'>
+                    <div className='card-body'>
+                        <div className='row d-flex justify-content-around'>
+                            <div>Room</div>
+                            <div>Game</div>
+                            <div>Players</div>
+                            <div>Status</div>
+                        </div>
+                        <div className='col'>
+                            {rooms.filter(room => hideShow ? room.running === false && room.players.length !== 4 : true).map((room, index) =>
+                                (<RoomList key={index} room={room} />)
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div className='form-check d-flex justify-content-left'>
+									<input className='form-check-input' id='hide' onClick={onCheck} type='checkbox' value='' />
+									<label className='form-check-label'>
+									Hide running and full tables
+									</label>
                 </div>
                 <div className='card-body' id='lobby'>
                     <div className='row'>
                         <div className='col-sm-9'>
-                            <div className='card'>
-                                <div className='card-body'>
-                                    <div className='row d-flex justify-content-around'>
-                                        <div>Room</div>
-                                        <div>Game</div>
-                                        <div>Players</div>
-                                        <div>Status</div>
-                                    </div>
-                                    <div className='col'>
-                                        {rooms.filter(room => hideShow ? room.running === false && room.players.length !== 4 : true).map((room, index) =>
-                                         (<RoomList key={index} room={room} />)
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
+                          <UserList />
                         </div>
                         <div className='col-sm-3'>
                             <div className='card'>
@@ -90,24 +95,8 @@ const Lobby = ({ error, setError }) => {
                             </div>
                         </div>
                     </div>
-                    <div className='form-check d-flex justify-content-left'>
-                        <input className='form-check-input' id='hide' onClick={onCheck} type='checkbox' value='' />
-                        <label className='form-check-label'>
-                        Hide running and full tables
-                        </label>
-                    </div>
+
                 </div>
-            </div>
-            <br />
-            <UserList />
-            <br />          
-            <div className='card text-center w-50'>
-              <div className='card-header'>
-                  Single Player Game
-              </div>
-              <div className='card-body'>
-                <button className='btn btn-primary'>Start</button>
-              </div>
             </div>
         </div>
     )
