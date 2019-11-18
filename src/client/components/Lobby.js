@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actCreateRoom, actLeaveRoom } from '../actions/room'
-import { actLogout } from '../actions/user'
+import { actLogout, actSetTypeGame } from '../actions/user'
 import RoomList from './RoomList'
 import UserList from './UserList'
 import './Lobby.scss'
 
 const Lobby = ({ error, setError }) => {
 
+	const dispatch = useDispatch()
   const username = useSelector(state => state.username)
   const socket = useSelector(state => state.socket)
   const rooms = useSelector(state => state.rooms)
   const [type, setType] = useState('Classic')
   const [hideShow, setHideShow] = useState(false)
-
-  console.log('hidehow = ', hideShow)
 
   const onCreate = () => {
     socket.emit('create_room', { username, type });
@@ -26,7 +25,12 @@ const Lobby = ({ error, setError }) => {
 
   const onCheck = () => {
     setHideShow(!hideShow)
-  }
+	}
+
+	const onReturn = () => {
+	
+		dispatch(actSetTypeGame(false))
+	}
 
   useEffect(() => {
     socket.emit('update', {})
@@ -44,11 +48,12 @@ const Lobby = ({ error, setError }) => {
             { error && (<div className='alert alert-danger' role='alert'>
              {error}
 						</div>) }
-						<div className='row d-flex'>
-							<i className='fas fa-arrow-alt-circle-left fa-2x'></i>
-							<h1>Lobby</h1>
-							<button className='btn btn-primary'>join</button>
-						</div>
+						<nav className='navbar navbar-light bg-light'>
+							<i className='fas fa-arrow-alt-circle-left fa-2x' onClick={onReturn} />
+							<a className='navbar-brand'>Lobby</a>
+							<button className='btn btn-primary'>Join</button>
+						</nav>
+						<br/>
             <div className=''>
                 <div className='card'>
                     <div className='card-body'>
