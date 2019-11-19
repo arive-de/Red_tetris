@@ -17,7 +17,7 @@ const Menu = () => {
     <div className='card'>
       <div className='card-body'>
           <h5 className='card-title'>Menu</h5>
-            <button className='btn btn-primary'>Solo</button>
+            <button className='btn btn-primary' >Solo</button>
             <button className='btn btn-primary' onClick={onMultiplayer}>Multiplayer</button>
             <button className='btn btn-primary'>Controls</button>
             <button className='btn btn-primary'>High Scores</button>

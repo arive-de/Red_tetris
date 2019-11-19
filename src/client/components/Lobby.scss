@@ -1,0 +1,22 @@
+.table {
+  display: table;
+}
+
+.table-row {
+  display: table-row;
+}
+
+.table-cell {
+  display: table-cell;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.button {
+  width: 100px;
+  text-align: center;
+}
+
+// .table-row:nth-child(even) {
+//   background: lightgrey;
+// }

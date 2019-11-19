@@ -1,34 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actJoinRoom } from '../actions/room'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import classNames from 'classnames';
 import './RoomList.scss'
 
-const RoomList = ({ room }) => {
+const RoomList = ({ active, onClick, room }) => {
+
   const dispatch = useDispatch()
   const socket = useSelector(state => state.socket)
-  const [showHover, setShowHover] = useState(false)
-  const onJoin = () => {
-    socket.emit('join_room', { roomId: room.roomId })
-  }
-  const handleMouseIn = () => {
-    setShowHover(!showHover)
-  }
+  const [selectRow, setSelectRow] = useState(false)
 
-  const handleMouseOut = () => {
-    setShowHover(showHover)
-  }
+  let classes = classNames({
+    'table-row': true,
+    'color-row': active ? 'color-row' : ''
+  }) 
 
-  return <div className='row d-flex justify-content-around'>
-            <div className='card-text'>{room.roomId}</div>
-            <div className='card-text'>{room.type}</div>
-            <div className='col'>
-              <div className='card-text' onMouseEnter={handleMouseIn}>{room.players.length}/4</div>
-              {showHover && <div className='div-hover'>{room.players.map((m, index) => (
-                <div key={index}>{m}</div>
-              ))}</div>}
-            </div>
-            <div className='card-text'>{!room.running ? 'Open' : 'Running'}</div>
-            <div className='card-text' onClick={onJoin}><button className='btn btn-primary'>join</button></div>
+  return <div className={classes} onClick={onClick}>
+            <div className='card-text table-cell'>{room.roomId}</div>
+              <div className='card-text table-cell'>{room.type}</div>
+                <OverlayTrigger
+                  key='top'
+                  placement='top'
+                  overlay={
+                    <Tooltip id={`tooltip-top`}>
+                      {room.players.map((m, index) => (
+                        <div key={index}>{m}</div>
+                      ))}
+                    </Tooltip>
+                  }
+                >
+                <div className='card-text table-cell'>{room.players.length}/4</div>
+              </OverlayTrigger>
+            <div className='card-text table-cell'>{!room.running ? 'Open' : 'Running'}</div>
           </div>
 }
 
