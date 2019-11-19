@@ -25,9 +25,10 @@ const initSocketAuth = (io, socket) => {
     const rooms = await Room.find()
     socket.emit('update', { users: users.map(u => u.username),
                             rooms: rooms.map(r => ({ roomId: r.roomId,
-                            type: r.type,
-                            players: r.players,
-                            running: r.running })) })
+                                                     type: r.type,
+                                                     players: r.players,
+                                                     running: r.running })),
+                          })
   })
 }
 
