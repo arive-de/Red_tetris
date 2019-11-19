@@ -61,7 +61,7 @@ describe('Room Controller', function() {
         })
       }
       catch (err) {
-        done(err)
+        done()
       }
     })
   })
