@@ -69,10 +69,22 @@ const Lobby = ({ error, setError }) => {
 						<div className='card'>
 								<div className='card-body table'>
 										<div className='table-row'>
-												<div className='table-cell'>Room</div>
-												<div className='table-cell'>Game</div>
-												<div className='table-cell'>Players</div>
-												<div className='table-cell'>Status</div>
+												<div className='table-cell'>
+													<span>Room</span>
+													<i className='sort fas fa-sort d-flex justify-content-end'></i>
+												</div>
+												<div className='table-cell'>
+													<span>Game</span>
+													<i className='sort fas fa-sort d-flex justify-content-end'></i>
+												</div>
+												<div className='table-cell'>
+													<span>Players</span>
+													<i className='sort fas fa-sort d-flex justify-content-end'></i>
+												</div>
+												<div className='table-cell'>
+													<span>Status</span>
+													<i className='sort fas fa-sort d-flex justify-content-end'></i>
+												</div>
 										</div>
 										{rooms.filter(room => hideShow ? room.running === false && room.players.length !== 4 : true).map((room, index) =>
 												(<RoomList active={room === chosen} key={index} onClick={() => setChosen(room)} room={room}/>)
@@ -82,7 +94,7 @@ const Lobby = ({ error, setError }) => {
 									<Button className='button' variant='primary' onClick={() => onJoin(chosen)} disabled={!chosen}>Join</Button>
 								</div>
 						</div>
-						<div className='form-check d-flex justify-content-left'>
+						<div className='form-check'>
 							<input className='form-check-input' id='hide' onClick={onCheck} type='checkbox' value='' />
 							<label className='form-check-label'>
 							Hide running and full tables
@@ -90,10 +102,10 @@ const Lobby = ({ error, setError }) => {
 						</div>
 						<div className='card-body' id='lobby'>
 								<div className='row'>
-										<div className='col-sm-9'>
+										<div className='col'>
 											<UserList />
 										</div>
-										<div className='col-sm-3'>
+										<div className='col'>
 												<div className='card'>
 														<div className='card-body'>
 																<h5 className='card-title'>Host a game</h5>
