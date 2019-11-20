@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import Game from './Game'
 
 const Room = ({ room }) => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Room = ({ room }) => {
   }
 
   const onPlay = () => {
-    socket.emit('play', room.roomId);
+    socket.emit('play_game', { roomId: room.roomId });
   }
 
   const onLeave = () => {
@@ -40,6 +41,10 @@ const Room = ({ room }) => {
       socket.removeListener('message')
     }
   }, [])
+
+  if (isPlaying) {
+    return <Game room={room} />
+  }
 
   return (
     <div>
@@ -73,6 +78,7 @@ const Room = ({ room }) => {
         </div>
       </div>
       <button className='btn btn-danger' onClick={onLeave}>Leave</button>
+      { username === room.players[0] ? <button className='btn btn-primary' onClick={onPlay}>Play</button> : null }
       <div className='col-sm-12'>
         <div className='card'>
             <div className='card-body'>

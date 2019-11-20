@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers, actSetTypeGame } from '../actions/user'
-import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms } from '../actions/room'
+import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms, actPlayGame } from '../actions/room'
 import Home from '../components/Home'
 import Menu from '../components/Menu'
 import Lobby from '../components/Lobby'
@@ -61,19 +61,22 @@ const App = () => {
     })
     socket.on('created_room', data => {
       dispatch(actCreateRoom(data))
-    });
+    })
     socket.on('logout', data => {
       dispatch(actLogout(data))
     })
     socket.on('left_room', data => {
       dispatch(actLeaveRoom(data))
-    });
+    })
     socket.on('joined_room', data => {
       dispatch(actJoinRoom(data))
     })
     socket.on('update', ({ users, rooms }) => {
       dispatch(actGetRooms(rooms))
       dispatch(actGetUsers(users))
+    })
+    socket.on('play_game', data => {
+      dispatch(actPlayGame(data))
     })
   }
 

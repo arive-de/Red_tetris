@@ -86,4 +86,18 @@ const leaveRoom = (username, roomId, cb) => {
 
 }
 
-module.exports = { createRoom, joinRoom, leaveRoom }
+const playGame = (roomId, cb) => {
+  Room.findOne({ roomId })
+    .then(room => {
+      room.running = true
+      room.save()
+      .then(r => {
+        cb(null, { roomId })
+      })
+    })
+    .catch(err => {
+      cb(err.message)
+    })
+}
+
+module.exports = { createRoom, joinRoom, leaveRoom, playGame }
