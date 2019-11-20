@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const assert = require('assert')
 const Room = require('../../models/Room')
 const { connect, disconnect  } = require('../../helpers.spec')
-const { createRoom, joinRoom, leaveRoom } = require('./room')
+const { createRoom, joinRoom, leaveRoom, playGame } = require('./room')
 
 describe('Room Controller', function() {
   disconnect()
@@ -84,6 +84,22 @@ describe('Room Controller', function() {
         assert(err === 'room is full')
         done()
       }
+    })
+  })
+
+  it('play a game', function(done) {
+
+    createRoom('michel', 'Classic', (err, data) => {
+      if (err) {
+        debug(err)
+        done()
+      }
+      playGame(data.roomId, (err, data) => {
+        Room.findOne({ roomId: data.roomId }).then(data => {
+          assert(data.running === true)
+          done()
+        })
+      })
     })
   })
 })

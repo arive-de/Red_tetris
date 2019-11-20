@@ -55,6 +55,17 @@ const initSocketRoom = (io, socket) => {
       }
     })
   })
+
+  socket.on('play', ({ roomId }) => {
+    playGame(roomId, (error, data) => {
+      if (error === null) {
+        io.to(roomId).emit('play')
+        io.to('lobby').emit('play')
+      } else {
+        // emit error somewhere
+      }
+    })
+  })
 }
 
 module.exports = { initSocketRoom }

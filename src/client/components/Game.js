@@ -1,43 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-const Room = ({ room }) => {
+const Game = ({ room }) => {
   const dispatch = useDispatch();
-  const [message, setMessage] = useState('')
-  const [messages, setMessages] = useState([])
   const username = useSelector(state => state.username)
-  const isPlaying = useSelector(state => state.isPlaying)
   const socket = useSelector(state => state.socket)
 
-  const onChange = (e) => {
-    e.preventDefault()
-    setMessage(e.target.value)
-  }
-
-  const sendMessage = (e) => {
-    if (e.key === 'Enter') {
-      socket.emit('message', { roomId: room.roomdId, username, message })
-      setMessage('')
-    }
-  }
-
-  const onPlay = () => {
-    socket.emit('play', { roomId: room.roomId });
-  }
-
-  const onLeave = () => {
-    socket.emit('leave_room', { username, roomId: room.roomId })
+  const onStop = () => {
+    socket.emit('stop', room.roomId);
   }
 
   useEffect(() => {
-
-    console.log(room)
-
-    socket.on('message', data => {
-      setMessages(ms => [...ms, data])
-    })
+    console.log('Game component useEffect')
     return () => {
-      socket.removeListener('message')
     }
   }, [])
 
@@ -73,7 +48,6 @@ const Room = ({ room }) => {
         </div>
       </div>
       <button className='btn btn-danger' onClick={onLeave}>Leave</button>
-      { username === room.players[0] ? <button className='btn btn-primary' onClick={onPlay}>Play</button> : null }
       <div className='col-sm-12'>
         <div className='card'>
             <div className='card-body'>
@@ -89,5 +63,5 @@ const Room = ({ room }) => {
     )
 }
 
-export default Room
+export default Game
 

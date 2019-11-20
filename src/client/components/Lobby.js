@@ -43,19 +43,29 @@ const Lobby = ({ error, setError }) => {
     socket.emit('update', {})
   }, [])
 
+  const sortRooms = (filter) => (a, b) => {
+    if (filter === 'players') {
+      return a.players.length - b.players.length
+    }
+    if (filter === 'running') {
+      return a.running - b.running
+    }
+    if (filter === 'type') {
+      return a.type.localeCompare(b.type)
+    }
+    if (filter === 'roomId') {
+      return a.roomId.localeCompare(b.roomId)
+    }
+  }
+
   useEffect(() => {
     // setError(error)
     return () => {
       setError(null)
     }
-  }, [])
+  }, [sortField])
 
-  const sortRooms = (filter) => (a, b) => {
-    if (filter === 'players') {
-      return a.players.length - b.players.length
-    }
-    return a[filter] - b[filter]
-  }
+  
 
   return (
     <div>
@@ -90,10 +100,10 @@ const Lobby = ({ error, setError }) => {
                         </div>
                         <div className='table-cell'>
                           <span>Status</span>
-                          <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('status') }} />
+                          <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('running') }} />
                         </div>
                     </div>
-                    {rooms.filter(room => hideShow ? room.running === false && room.players.length !== 4 : true).sort(sortRooms(sortField)).map((room, index) =>
+                    {rooms.sort(sortRooms(sortField)).filter(room => hideShow ? room.running === false && room.players.length !== 4 : true).map((room, index) =>
                         (<RoomList active={room === chosen} key={index} onClick={() => setChosen(room)} room={room}/>)
                     )}
                 </div>
