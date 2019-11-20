@@ -7,10 +7,10 @@ import classNames from 'classnames';
 import './RoomList.scss'
 
 const RoomList = ({ active, onClick, room }) => {
-  let classes = classNames({
+  const classes = classNames({
     'table-row': true,
-    'color-row': active ? 'color-row' : ''
-  }) 
+    'color-row': active ? 'color-row' : '',
+  })
 
   return (<div className={classes} onClick={onClick}>
             <div className='card-text table-cell'>{room.roomId}</div>
@@ -19,7 +19,7 @@ const RoomList = ({ active, onClick, room }) => {
                   key='top'
                   placement='top'
                   overlay={
-                    <Tooltip id={`tooltip-top`}>
+                    <Tooltip id='tooltip-top'>
                       {room.players.map((m, index) => (
                         <div key={index}>{m}</div>
                       ))}

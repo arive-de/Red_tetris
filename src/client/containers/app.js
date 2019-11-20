@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers } from '../actions/user'
+import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers, actSetTypeGame } from '../actions/user'
 import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms } from '../actions/room'
 import Home from '../components/Home'
 import Menu from '../components/Menu'
@@ -41,7 +41,7 @@ const App = () => {
     if (res && res[1] && res[2]) {
       const roomId = res[1]
       const username = res[2]
-  
+      dispatch(actSetTypeGame(true))
       socket.emit('url', { username, socketId: socket.socketId, roomId })
     }
 

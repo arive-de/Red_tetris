@@ -113,6 +113,7 @@ describe('Server', function() {
                 socket5.emit('auth', user5)
                 socket5.on('auth', () => {
                   done()
+                  socket5.removeListener('auth')
                 })
               })
             })

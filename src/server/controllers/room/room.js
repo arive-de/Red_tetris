@@ -47,7 +47,7 @@ const joinRoom = (username, roomId, cb) => {
       })
     })
     .catch(err => {
-      cb(err)
+      cb(err.message)
     })
 
 }
@@ -81,7 +81,7 @@ const leaveRoom = (username, roomId, cb) => {
       }
     })
     .catch(err => {
-      throw new Error(err)
+      cb(err.message)
     })
 
 }
