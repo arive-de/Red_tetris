@@ -24,7 +24,7 @@ const gameReducer = (state, action) => {
         return r
       }).filter(r => r.players.length > 0) }
   case PLAY_GAME:
-    return { ...state, isPlaying: state.roomId !== null && roomId === state.roomId ? true : state.isPlaying, rooms: rooms.map(r => {
+    return { ...state, isPlaying: state.roomId !== null && roomId === state.roomId ? true : state.isPlaying, rooms: state.rooms.map(r => {
       if (r.roomId === roomId) {
         r.running = true
       }

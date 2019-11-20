@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import Game from './Game'
 
 const Room = ({ room }) => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Room = ({ room }) => {
   }
 
   const onPlay = () => {
-    socket.emit('play', { roomId: room.roomId });
+    socket.emit('play_game', { roomId: room.roomId });
   }
 
   const onLeave = () => {
@@ -40,6 +41,10 @@ const Room = ({ room }) => {
       socket.removeListener('message')
     }
   }, [])
+
+  if (isPlaying) {
+    return <Game room={room} />
+  }
 
   return (
     <div>
