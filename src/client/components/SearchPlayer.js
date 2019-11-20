@@ -4,6 +4,7 @@ import './SearchPlayer.scss'
 
 const UserList = () => {
   const userList = useSelector(state => state.userList)
+
   const [activeSuggestion, setActiveSuggestion] = useState(0)
   const [filteredSuggestions, setFilteredSuggestions] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
@@ -33,6 +34,9 @@ const UserList = () => {
     if (e.keyCode === 13) {
       setActiveSuggestion(0)
       setShowSuggestions(false)
+      
+      // le player fait entré : il doit rejoindre le userInput en question (si c'est possible)
+
       setUserInput(filteredSuggestions[activeSuggestion])
     }
     else if (e.keyCode === 38) {
@@ -91,7 +95,7 @@ const UserList = () => {
             <div className='input-group-prepend'>
                 <span className='input-group-text' id='basic-addon1'><i className='fas fa-search'></i></span>
             </div>
-            <input className='form-control' onChange={onChange} onKeyDown={onKeyDown} type='text' value={userInput}/>
+            <input className='form-control shadow-none' onChange={onChange} onKeyDown={onKeyDown} type='text' value={userInput}/>
         </div>
       {/* </div> */}
       {suggestionsListComponent}
