@@ -113,6 +113,7 @@ describe('Server', function() {
                 socket5.emit('auth', user5)
                 socket5.on('auth', () => {
                   done()
+                  socket5.removeListener('auth')
                 })
               })
             })
@@ -214,52 +215,109 @@ describe('Server', function() {
 
     afterEach(function(done) {
       [socket1, socket2, socket3, socket4, socket5]
-      .forEach(sock => sock && sock.connected && socket2.removeAllListeners())
+      .forEach(sock => sock && sock.connected && sock.removeAllListeners())
       done()
     })
     after(function(done) {
       socket1 && socket1.connected && socket1.disconnect()
       socket2 && socket2.connected && socket2.disconnect()
+      socket3 && socket3.connected && socket3.disconnect()
+      socket4 && socket4.connected && socket4.disconnect()
+      socket5 && socket5.connected && socket5.disconnect()
+
       done()
     })
   })
 
   describe('Socket url', function() {
     let socket1
+    let socket2
+    let socket3
+    let socket4
+    let socket5
+
     const user1 = 'user1'
+    const user2 = 'user2'
+    const user3 = 'user3'
+    const user4 = 'user4'
+    const user5 = 'user5'
     const roomId1 = 'roomdId1'
 
     before(function(done) {
       socket1 = ioClient.connect('http://localhost:3005', { forceNew: true })
       socket1.on('connect', () => {
-        socket1.emit('url', { username: user1, socketId: socket1.socketId, roomId: roomId1 })
-        done()
+        socket2 = ioClient.connect('http://localhost:3005', { forceNew: true })
+        socket2.on('connect', () => {
+          socket3 = ioClient.connect('http://localhost:3005', { forceNew: true })
+          socket3.on('connect', () => {
+            socket4 = ioClient.connect('http://localhost:3005', { forceNew: true })
+            socket4.on('connect', () => {
+              socket5 = ioClient.connect('http://localhost:3005', { forceNew: true })
+              socket5.on('connect', () => {
+                done()
+              })
+            })
+          })
+        })
       })
     })
 
     it('user1 is connected and created a room', function(done) {
-      socket1.emit('update')
-      socket1.on('update', data => {
 
-        assert(data.users.indexOf(user1) !== -1)
+      socket1.emit('url', { username: user1, socketId: socket1.socketId, roomId: roomId1 })
+
+      socket1.on('created_room', data => {
+        assert(data.players[0] === user1)
+        assert(data.type === 'Classic')
+        assert(data.running === false)
+        done()
       })
-      done()
-      // socket1.on('created_room', data => {
-      //   roomId = data.roomId
-      //   assert(data.players[0] === user1)
-      //   assert(data.type === 'Classic')
-      //   assert(data.running === false)
-      //   done()
-      // })
+    })
+
+    it('user2 is connected and joined a room', function(done) {
+      socket2.emit('url', { username: user2, socketId: socket2.socketId, roomId: roomId1 })
+
+      socket2.on('joined_room', data => {
+        assert(data.roomId === roomId1)
+        done()
+      })
+    })
+
+    it('user5 can\'t get in because room is full', function(done) {
+      socket3.emit('url', { username: user3, socketId: socket3.socketId, roomId: roomId1 })
+      socket3.on('joined_room', data => {
+        assert(data.roomId === roomId1)
+        socket4.emit('url', { username: user4, socketId: socket4.socketId, roomId: roomId1 })
+        socket3.removeListener('joined_room')
+      })
+      socket4.on('joined_room', data => {
+        assert(data.roomId === roomId1)
+        socket4.emit('update')
+        socket4.on('update', (data) => {
+          done()
+        })
+        socket4.removeListener('joined_room')
+        socket4.removeListener('update')
+        socket5.emit('url', { username: user5, socketId: socket5.socketId, roomId: roomId1 })
+        socket5.on('lobby', (data) => {
+          assert(data.error === 'room is full')
+          done()
+        })
+      })
     })
 
     afterEach(function(done) {
-      socket1 && socket1.connected && socket1.disconnect()
+      [socket1, socket2, socket3, socket4, socket5].forEach((socket) => socket.removeAllListeners())
       done()
     })
-
+    
     after(function(done) {
       socket1 && socket1.connected && socket1.disconnect()
+      socket2 && socket2.connected && socket2.disconnect()
+      socket3 && socket3.connected && socket3.disconnect()
+      socket4 && socket4.connected && socket4.disconnect()
+      socket5 && socket5.connected && socket5.disconnect()
+      // socket1.removeAllListeners()
       done()
     })
   })
