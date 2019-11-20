@@ -15,7 +15,7 @@ const Lobby = ({ error, setError }) => {
   const socket = useSelector(state => state.socket)
   const rooms = useSelector(state => state.rooms)
 	const [type, setType] = useState('Classic')
-	const [chosen, setChosen] = useState()
+	const [chosen, setChosen] = useState(null)
   const [hideShow, setHideShow] = useState(false)
 
   const onCreate = () => {
@@ -31,7 +31,6 @@ const Lobby = ({ error, setError }) => {
 	}
 
 	const onReturn = () => {
-	
 		dispatch(actSetTypeGame(false))
 	}
 
@@ -91,7 +90,7 @@ const Lobby = ({ error, setError }) => {
 										)}
 								</div>
 								<div className='text-center'>
-									<Button className='button' variant='primary' onClick={() => onJoin(chosen)} disabled={!chosen}>Join</Button>
+									<Button className='button' disabled={chosen === null || chosen.players.length === 4} onClick={() => onJoin(chosen)} variant='primary' >Join</Button>
 								</div>
 						</div>
 						<div className='form-check'>
@@ -119,7 +118,7 @@ const Lobby = ({ error, setError }) => {
 																				<option value='Ghost'>Ghost </option>
 																		</select>
 																</div>
-																<Button variant='primary' onClick={onCreate}>Create</Button>
+																<Button onClick={onCreate} variant='primary'>Create</Button>
 														</div>
 												</div>
 										</div>

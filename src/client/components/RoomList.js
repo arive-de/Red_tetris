@@ -7,17 +7,12 @@ import classNames from 'classnames';
 import './RoomList.scss'
 
 const RoomList = ({ active, onClick, room }) => {
-
-  const dispatch = useDispatch()
-  const socket = useSelector(state => state.socket)
-  const [selectRow, setSelectRow] = useState(false)
-
   let classes = classNames({
     'table-row': true,
     'color-row': active ? 'color-row' : ''
   }) 
 
-  return <div className={classes} onClick={onClick}>
+  return (<div className={classes} onClick={onClick}>
             <div className='card-text table-cell'>{room.roomId}</div>
               <div className='card-text table-cell'>{room.type}</div>
                 <OverlayTrigger
@@ -34,7 +29,7 @@ const RoomList = ({ active, onClick, room }) => {
                 <div className='card-text table-cell'>{room.players.length}/4</div>
               </OverlayTrigger>
             <div className='card-text table-cell'>{!room.running ? 'Open' : 'Running'}</div>
-          </div>
+          </div>)
 }
 
 // PUT ON CLICK MODAL

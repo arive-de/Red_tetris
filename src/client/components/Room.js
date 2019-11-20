@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-const Game = ({ room }) => {
+const Room = ({ room }) => {
   const dispatch = useDispatch();
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
@@ -88,5 +88,5 @@ const Game = ({ room }) => {
     )
 }
 
-export default Game
+export default Room
 

@@ -5,7 +5,7 @@ import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms } from '../action
 import Home from '../components/Home'
 import Menu from '../components/Menu'
 import Lobby from '../components/Lobby'
-import Game from '../components/Game'
+import Room from '../components/Room'
 import openSocket from 'socket.io-client'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.scss'
@@ -79,7 +79,7 @@ const App = () => {
 
   if (username !== null && roomId !== null) {
     if (rooms.find(r => r.roomId === roomId)) {
-      return (<Game room={rooms.find(r => r.roomId === roomId)} />)
+      return (<Room room={rooms.find(r => r.roomId === roomId)} />)
     }
     else {
       return (<div>Loading</div>)
