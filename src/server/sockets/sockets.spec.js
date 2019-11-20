@@ -87,7 +87,7 @@ describe('Server', function() {
     })
   })
 
-  describe('Socket room', function(done) {
+  describe('Socket room', function() {
     let socket1, socket2, socket3, socket4, socket5
     let roomId
     const user1 = 'user1'
@@ -220,6 +220,46 @@ describe('Server', function() {
     after(function(done) {
       socket1 && socket1.connected && socket1.disconnect()
       socket2 && socket2.connected && socket2.disconnect()
+      done()
+    })
+  })
+
+  describe('Socket url', function() {
+    let socket1
+    const user1 = 'user1'
+    const roomId1 = 'roomdId1'
+
+    before(function(done) {
+      socket1 = ioClient.connect('http://localhost:3005', { forceNew: true })
+      socket1.on('connect', () => {
+        socket1.emit('url', { username: user1, socketId: socket1.socketId, roomId: roomId1 })
+        done()
+      })
+    })
+
+    it('user1 is connected and created a room', function(done) {
+      socket1.emit('update')
+      socket1.on('update', data => {
+
+        assert(data.users.indexOf(user1) !== -1)
+      })
+      done()
+      // socket1.on('created_room', data => {
+      //   roomId = data.roomId
+      //   assert(data.players[0] === user1)
+      //   assert(data.type === 'Classic')
+      //   assert(data.running === false)
+      //   done()
+      // })
+    })
+
+    afterEach(function(done) {
+      socket1 && socket1.connected && socket1.disconnect()
+      done()
+    })
+
+    after(function(done) {
+      socket1 && socket1.connected && socket1.disconnect()
       done()
     })
   })

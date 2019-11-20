@@ -62,7 +62,6 @@ const UserList = () => {
           {filteredSuggestions.map((suggestion, index) => {
             let className;
 
-            // Flag the active suggestion with a class
             if (index === activeSuggestion) {
               className = 'suggestion-active'
             }
