@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import './UserList.scss'
+import './SearchPlayer.scss'
 
 const UserList = () => {
   const userList = useSelector(state => state.userList)
@@ -62,7 +62,6 @@ const UserList = () => {
           {filteredSuggestions.map((suggestion, index) => {
             let className;
 
-            // Flag the active suggestion with a class
             if (index === activeSuggestion) {
               className = 'suggestion-active'
             }
