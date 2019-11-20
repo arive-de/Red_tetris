@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import './UserList.scss'
+import './SearchPlayer.scss'
 
 const UserList = () => {
   const userList = useSelector(state => state.userList)

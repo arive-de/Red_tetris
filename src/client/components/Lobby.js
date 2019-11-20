@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { actCreateRoom, actLeaveRoom } from '../actions/room'
 import { actLogout, actSetTypeGame } from '../actions/user'
 import RoomList from './RoomList'
-import UserList from './UserList'
+import SearchPlayer from './SearchPlayer'
 import './Lobby.scss'
 import Navbar from 'react-bootstrap/navbar'
 import Button from 'react-bootstrap/button'
@@ -102,7 +102,7 @@ const Lobby = ({ error, setError }) => {
 						<div className='card-body' id='lobby'>
 								<div className='row'>
 										<div className='col'>
-											<UserList />
+											<SearchPlayer />
 										</div>
 										<div className='col'>
 												<div className='card'>
