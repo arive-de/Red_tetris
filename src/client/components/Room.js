@@ -77,7 +77,7 @@ const Room = ({ room }) => {
             </div>
         </div>
       </div>
-      <button className='btn btn-danger' onClick={onLeave}>Leave</button>
+      <button id='leaveRoomButton' className='btn btn-danger' onClick={onLeave}>Leave</button>
       { username === room.players[0] ? <button id='playButton' className='btn btn-primary' onClick={onPlay}>Play</button> : null }
       <div className='col-sm-12'>
         <div className='card'>
