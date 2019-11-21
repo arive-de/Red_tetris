@@ -29,7 +29,7 @@ const Lobby = ({ error, setError }) => {
 
   const onCheck = () => {
     setHideShow(!hideShow)
-      }
+  }
 
   const onReturn = () => {
     dispatch(actSetTypeGame(false))

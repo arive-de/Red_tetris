@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import './SearchPlayer.scss'
 
-const UserList = () => {
+const SearchPlayer = () => {
   const userList = useSelector(state => state.userList)
 
   const [activeSuggestion, setActiveSuggestion] = useState(0)
@@ -64,26 +64,24 @@ const UserList = () => {
       suggestionsListComponent = (
         <ul className='suggestions'>
           {filteredSuggestions.map((suggestion, index) => {
-            let className;
-
+            let className
             if (index === activeSuggestion) {
               className = 'suggestion-active'
             }
-
             return (
               <li className={className} key={suggestion} onClick={onClick}>
                 {suggestion}
-              </li>
-            )
+              </li>)
           })}
         </ul>
       )
-    } else {
+    }
+    else {
       suggestionsListComponent = (
         <div className='no-suggestions'>
           <em>No suggestions, you're on your own!</em>
         </div>
-      );
+      )
     }
   }
 
@@ -103,4 +101,4 @@ const UserList = () => {
   )
 }
 
-export default (UserList)
+export default (SearchPlayer)
