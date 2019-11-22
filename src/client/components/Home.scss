@@ -1,7 +1,10 @@
-.container {
-  height: 700px;
+#home-box {
+  border: 2px solid red;
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
-.card-container {
+#card-container {
   width: 300px;
 }

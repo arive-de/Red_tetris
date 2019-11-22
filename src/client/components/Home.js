@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-import './Lobby.scss'
+import './Home.scss'
 
 const Home = ({ error, setError }) => {
   
@@ -29,7 +29,7 @@ const Home = ({ error, setError }) => {
   }, [error])
 
   return (
-    <div className='container d-flex flex-row mx-auto'>
+    <div className='d-flex flex-row' id='home-box'>
       <div className='card justify-content-center align-self-center mx-auto'>
         <div className='card-container card-body text-center'>
           <h5 className='card-title'>Red Tetris</h5>
