@@ -92,10 +92,10 @@ describe('App component', () => {
     wrapper.update()
     expect(wrapper.find(Room)).to.have.length(1)
     expect(wrapper.find(Room).props().room.roomId).to.equal(roomId)
-    wrapper.find(Room).find('input').simulate('keyDown', { target: { key: 'Enter' } })
-    wrapper.find(Room).find('#leaveRoomButton').simulate('click')
     wrapper.find(Room).find('input').simulate('change', { target: { value: 'message' } })
     expect(wrapper.find(Room).find('input').prop('value')).to.equal('message')
+    wrapper.find(Room).find('input').simulate('keyDown', { target: { key: 'Enter' } })
+    wrapper.find(Room).find('#leaveRoomButton').simulate('click')
     done()
   })
 
@@ -106,7 +106,6 @@ describe('App component', () => {
     wrapper.update()
     expect(wrapper.find(Game)).to.have.length(1)
     expect(wrapper.find(Game).props().room.running).to.equal(true)
-
     done()
   })
 
