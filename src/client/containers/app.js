@@ -20,7 +20,7 @@ const App = () => {
   const roomId = useSelector(state => state.roomId)
   const rooms = useSelector(state => state.rooms)
   const typeGame = useSelector(state => state.typeGame)
-  const [error, setError] = useState('')
+  const [errorHome, setErrorHome] = useState('')
   const [errorLobby, setErrorLobby] = useState('')
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const App = () => {
 
     socket.on('auth', data => {
       if (data.error) {
-        setError(data.error)
+        setErrorHome(data.error)
         return
       }
       dispatch(actSetUsername(data.username))
@@ -95,7 +95,7 @@ const App = () => {
   if (username !== null && typeGame === true) {
     return (<Lobby error={errorLobby} setError={setErrorLobby} />)
   }
-  return (<Home error={error} setError={setError}/>)
+  return (<Home error={errorHome} setError={setErrorHome}/>)
 }
 
 export default (App)

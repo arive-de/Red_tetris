@@ -29,7 +29,7 @@ const Lobby = ({ error, setError }) => {
 
   const onCheck = () => {
     setHideShow(!hideShow)
-      }
+  }
 
   const onReturn = () => {
     dispatch(actSetTypeGame(false))
@@ -108,7 +108,7 @@ const Lobby = ({ error, setError }) => {
                     )}
                 </div>
                 <div className='text-center'>
-                  <Button className='button' disabled={chosen === null} onClick={() => onJoin(chosen)} variant='primary' >Join</Button>
+                  <Button id='joinRoomButton' className='button' disabled={chosen === null} onClick={() => onJoin(chosen)} variant='primary' >Join</Button>
                 </div>
             </div>
             <div className='form-check'>
