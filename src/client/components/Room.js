@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Game from './Game'
+import Header from './Header'
+import ListGroup from 'react-bootstrap/ListGroup'
+import './Room.scss'
 
 const Room = ({ room }) => {
   const dispatch = useDispatch();
@@ -9,6 +12,8 @@ const Room = ({ room }) => {
   const username = useSelector(state => state.username)
   const isPlaying = useSelector(state => state.isPlaying)
   const socket = useSelector(state => state.socket)
+
+  const title = 'Room' + room.roomId
 
   const onChange = (e) => {
     e.preventDefault()
@@ -48,36 +53,33 @@ const Room = ({ room }) => {
 
   return (
     <div>
-      <div className='card text-center'>
-        <div className='card-header'>
-            <ul className='nav nav-tabs card-header-tabs'>
-                <li className='nav-item'>
-                    <a className='nav-link active'>Room #{room.roomId}</a>
-                </li>
-            </ul>
-        </div>
-        <div className='card-body' id='lobby'>
-            <div className='row'>
-                <div className='col-sm-12'>
-                    <div className='card'>
-                        <div className='card-body'>
-                            <div className='row d-flex justify-content-around'>
-                                <div>Players</div>
-                            </div>
-                            <div className='col'>
-                              { room.players.map((player, i) =>
-                                (<div key={i}>
-                                    <p scope='row'>{player} { room.players[0] === player ? <i className='fas fa-crown'></i> : '' }</p>
-                                  </div>)
-                              )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div>
+      <Header title={title}></Header>
       <button id='leaveRoomButton' className='btn btn-danger' onClick={onLeave}>Leave</button>
+      {/* {player} { room.players[0] === player ? <i className='fas fa-crown'></i> : '' } */}              
+      <ListGroup className='list-group'>
+      { room.players.map((player, i) =>
+        (<div key={i}>
+            {i === 0 && <ListGroup.Item variant='success'>
+              <div className='row'>
+                <div className='player'>{player}</div>
+                <div className='victories'>5 victories</div>
+              </div>
+            </ListGroup.Item>}
+            {i !== 0 && i !== room.players.length - 1 && <ListGroup.Item>
+              <div className='row'>
+                <div className='player'>{player}</div>
+                <div className='victories'>5 victories</div>
+              </div>
+            </ListGroup.Item>}
+            {i === room.players.length - 1 && <ListGroup.Item variant='danger'>
+            <div className='row'>
+                <div className='player'>{player}</div>
+                <div className='victories'>5 victories</div>
+              </div>
+            </ListGroup.Item>}
+          </div>)
+      )}
+      </ListGroup>
       { username === room.players[0] ? <button id='playButton' className='btn btn-primary' onClick={onPlay}>Play</button> : null }
       <div className='col-sm-12'>
         <div className='card'>

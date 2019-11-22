@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actCreateRoom, actLeaveRoom } from '../actions/room'
-import { actLogout, actSetTypeGame } from '../actions/user'
+import { actLogout } from '../actions/user'
 import RoomList from './RoomList'
 import SearchPlayer from './SearchPlayer'
 import './Lobby.scss'
+import Header from './Header'
 import Navbar from 'react-bootstrap/navbar'
 import Button from 'react-bootstrap/button'
 
@@ -19,6 +20,8 @@ const Lobby = ({ error, setError }) => {
   const [hideShow, setHideShow] = useState(false)
   const [sortField, setSortField] = useState('roomId')
 
+  const title = 'Lobby'
+
   const onCreate = () => {
     socket.emit('create_room', { username, type });
   }
@@ -29,10 +32,6 @@ const Lobby = ({ error, setError }) => {
 
   const onCheck = () => {
     setHideShow(!hideShow)
-  }
-
-  const onReturn = () => {
-    dispatch(actSetTypeGame(false))
   }
 
   const onJoin = (room) => {
@@ -72,15 +71,7 @@ const Lobby = ({ error, setError }) => {
         { error && (<div className='alert alert-danger' role='alert'>
           {error}
         </div>) }
-        <Navbar>
-          <Navbar.Brand><i className='fas fa-arrow-alt-circle-left fa-2x' onClick={onReturn} /></Navbar.Brand>
-          <Navbar.Toggle />
-          <Navbar.Collapse className='justify-content-center'>
-            <Navbar.Text>
-              <h2>Lobby</h2>
-            </Navbar.Text>
-          </Navbar.Collapse>
-        </Navbar>
+        <Header title={title}></Header>
         <br/>
         <div className=''>
             <div className='card'>
