@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actCreateRoom, actLeaveRoom } from '../actions/room'
-import { actLogout } from '../actions/user'
+import { actLogout, actSetTypeGame } from '../actions/user'
 import RoomList from './RoomList'
 import SearchPlayer from './SearchPlayer'
 import './Lobby.scss'
@@ -64,14 +64,13 @@ const Lobby = ({ error, setError }) => {
     }
   }, [sortField])
 
-  
+  const onReturn = () => {
+    dispatch(actSetTypeGame(false))
+  }
 
   return (
     <div>
-        { error && (<div className='alert alert-danger' role='alert'>
-          {error}
-        </div>) }
-        <Header title={title}></Header>
+        <Header error={error} setError={setError} title={title} onReturn={onReturn}></Header>
         <br/>
         <div className=''>
             <div className='card'>
