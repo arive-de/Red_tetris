@@ -4,21 +4,14 @@ import { useDispatch } from 'react-redux'
 import Navbar from 'react-bootstrap/navbar'
 import Button from 'react-bootstrap/button'
 
-const Header = ({ error, setError, title }) => {
-
-  const dispatch = useDispatch()
-
-  const onReturn = () => {
-    dispatch(actSetTypeGame(false))
-  }
-
+const Header = ({ error, setError, title, onReturn }) => {
   return (
     <div>
         { error && (<div className='alert alert-danger' role='alert'>
           {error}
         </div>) }
         <Navbar>
-          <Navbar.Brand><i className='fas fa-arrow-alt-circle-left fa-2x' onClick={onReturn} /></Navbar.Brand>
+          <Navbar.Brand><i className='leaveButton fas fa-arrow-alt-circle-left fa-2x' onClick={onReturn} /></Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className='justify-content-center'>
             <Navbar.Text>

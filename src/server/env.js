@@ -40,7 +40,7 @@ const fillDb = () => {
       {
         roomId: 'xx69',
         type: 'Ghost',
-        players: ['Diam', 'Pol'],
+        players: ['Diam', 'Pol', 'alox'],
         running: true,
         leader: 'Diam',
       },

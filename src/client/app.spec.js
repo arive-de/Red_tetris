@@ -95,7 +95,7 @@ describe('App component', () => {
     wrapper.find(Room).find('input').simulate('change', { target: { value: 'message' } })
     expect(wrapper.find(Room).find('input').prop('value')).to.equal('message')
     wrapper.find(Room).find('input').simulate('keyDown', { target: { key: 'Enter' } })
-    wrapper.find(Room).find('#leaveRoomButton').simulate('click')
+    wrapper.find(Room).find('.leaveButton').simulate('click')
     done()
   })
 

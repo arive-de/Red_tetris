@@ -13,8 +13,6 @@ const Room = ({ room }) => {
   const isPlaying = useSelector(state => state.isPlaying)
   const socket = useSelector(state => state.socket)
 
-  const title = 'Room' + room.roomId
-
   const onChange = (e) => {
     e.preventDefault()
     setMessage(e.target.value)
@@ -31,7 +29,7 @@ const Room = ({ room }) => {
     socket.emit('play_game', { roomId: room.roomId });
   }
 
-  const onLeave = () => {
+  const onReturn = () => {
     socket.emit('leave_room', { username, roomId: room.roomId })
   }
 
@@ -40,7 +38,7 @@ const Room = ({ room }) => {
     console.log(room)
 
     socket.on('message', data => {
-      setMessages(ms => [...ms, data])
+      setMessages(ms => [...ms, data].slice(-11))
     })
     return () => {
       socket.removeListener('message')
@@ -51,50 +49,43 @@ const Room = ({ room }) => {
     return <Game room={room} />
   }
 
+  const rankInfos = [['1st', 'warning'], ['2nd', 'secondary'], ['3rd', 'danger'], ['4th', 'light']]
   return (
     <div>
-      <Header title={title}></Header>
-      <button id='leaveRoomButton' className='btn btn-danger' onClick={onLeave}>Leave</button>
-      {/* {player} { room.players[0] === player ? <i className='fas fa-crown'></i> : '' } */}              
+      <Header title={`room ${room.roomId}`} onReturn={onReturn}></Header>
+    <div className='m-3 d-flex flex-column'>
+      <div id='leaderBoard' className='w-50 align-self-center '>
       <ListGroup className='list-group'>
       { room.players.map((player, i) =>
-        (<div key={i}>
-            {i === 0 && <ListGroup.Item variant='success'>
-              <div className='row'>
-                <div className='player'>{player}</div>
-                <div className='victories'>5 victories</div>
+          <ListGroup.Item variant={rankInfos[i][1]} key={i}>
+            <div className='d-flex flex-row justify-content-around p-2 bd-highlight'>
+                <div className='' id ='rank'>{`${rankInfos[i][0]}`}</div>
+                <div className=' font-weight-bold' id ='player'>{player}</div>
+                <div className='' id ='victories'> 5 victories</div>
               </div>
-            </ListGroup.Item>}
-            {i !== 0 && i !== room.players.length - 1 && <ListGroup.Item>
-              <div className='row'>
-                <div className='player'>{player}</div>
-                <div className='victories'>5 victories</div>
-              </div>
-            </ListGroup.Item>}
-            {i === room.players.length - 1 && <ListGroup.Item variant='danger'>
-            <div className='row'>
-                <div className='player'>{player}</div>
-                <div className='victories'>5 victories</div>
-              </div>
-            </ListGroup.Item>}
-          </div>)
+            </ListGroup.Item>
       )}
       </ListGroup>
-      { username === room.players[0] ? <button id='playButton' className='btn btn-primary' onClick={onPlay}>Play</button> : null }
-      <div className='col-sm-12'>
+      </div>
+      <div className='align-self-center m-4'>
+      { username === room.players[3] ? <button id='playButton' className='btn btn-primary ' onClick={onPlay}>Play</button> : null }
+      </div>
+      <div id='chat' className='col-sm-12 align-self-center '>
         <div className='card'>
-            <div className='card-body'>
-                <h5 className='card-title'>Chat</h5>
-               { messages.map((m, index) => (<div key={index}>{m.username}: {m.message}</div>))}
+          <div id='logoChat' className='p-2'>
+          <i class='fas fa-comment fa-spin fa-2x'></i>
+          </div>
+            <div id='messageBox' className='card-body overflow-hidden d-flex flex-column flex-nowrap'>
+               { messages.map((m, index) => (<div className='h-10' key={index}>{m.username}: {m.message.substr(0, 120)}</div>))}
             </div>
         </div>
         <div>
           <input className='form-control' onChange={onChange} onKeyDown={sendMessage} placeholder='Say something...' value={message}></input>
         </div>
       </div>
+      </div>
     </div>
     )
 }
-
 export default Room
 
