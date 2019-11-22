@@ -1,76 +1,89 @@
-const express = require('express')
+const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const path = require('path');
-const userRouter = require('./routes/user')
-const roomRouter = require('./routes/room')
 const cors = require('cors')
+const params = require('../../params')
 
-import fs from 'fs'
-import debug from 'debug'
-import * as env from './env'
-import { initSocketRoom } from './room'
+const debug = require('debug')('∆:index')
+const fs = require('fs')
+const env = require('./env')
+const { initSocketAuth } = require('./sockets/auth')
+const { initSocketRoom } = require('./sockets/room/room')
+const { initSocketUrl } = require('./sockets/url')
+const { deleteUser } = require('./controllers/user/user')
 
-const logerror = debug('tetris:error'),
-loginfo = debug('tetris:info')
-
-const initApp = (app, expr, params, cb) => {
-  const { host, port } = params
-  const handler = (req, res) => {
-    const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
-    fs.readFile(path.join(__dirname, file), (err, data) => {
-      if (err) {
-        logerror(err)
-        res.writeHead(500)
-        return res.end('Error loading index.html')
-      }
-      res.writeHead(200)
-      res.end(data)
-    })
-  }
-  app.listen({ host, port }, () => {
-    loginfo(`tetris listen on ${params.url}`)
-    cb()
+const handler = (req, res) => {
+  const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
+  fs.readFile(path.join(__dirname, file), (err, data) => {
+    if (err) {
+      debug(err)
+      res.writeHead(500)
+      return res.end('Error loading index.html')
+    }
+    res.writeHead(200)
+    res.end(data)
   })
-  expr.use(cors())
-  expr.use(bodyParser.urlencoded({ extended: false }))
-  expr.use(express.json())
-  expr.use('/api/user', userRouter)
-  expr.use('/api/room', roomRouter)
-  expr.use('/', handler)
 }
 
 const initEngine = io => {
+  debug('initengine')
   io.on('connection', (socket) => {
-    loginfo(`Socket connected: ${socket.id}`)
+    debug(`Socket connected: ${socket.id}`)
 
-    socket.on('action', (action) => {
-      if (action.type === 'server/ping') {
-        socket.emit('action', { type: 'pong' })
-      }
-    })
+    initSocketAuth(io, socket)
     initSocketRoom(io, socket)
-    socket.on('disconnect', () => loginfo(`Socket disconnected: ${socket.id}`));
+    initSocketUrl(io, socket)
+    socket.on('disconnect', () => {
+      debug(`Socket disconnected: ${socket.id}`)
+      deleteUser(socket.username, socket.roomId, (error) => {
+        if (socket.roomId) {
+          io.to(socket.roomId).emit('logout', { error, username: socket.username, roomId: socket.roomId })
+        }
+        io.to('lobby').emit('logout', { error, username: socket.username, roomId: socket.roomId })
+      })
+    });
   })
 }
 
-export function create(params) {
-  const promise = new Promise( (resolve, reject) => {
-    const expr = express()
-    const app = require('http').Server(expr)
-    env.initDb();
-    initApp(app, expr, params, () => {
-      const io = require('socket.io')(app)
-      const stop = (cb) => {
-        io.close()
-        app.close(() => {
-          app.unref()
+
+const create = (port) => {
+  return new Promise((resolve, reject) => {
+    const connect = () => {
+      const options = { useNewUrlParser: true, useUnifiedTopology: true }
+      mongoose.connect(params.db.url, options)
+      return mongoose.connection
+    }
+    const express = require('express')
+    const app = new express()
+    const http = require('http').createServer(app)
+    const io = require('socket.io')(http)
+    const stop = (cb) => {
+      io.close()
+      debug('io closed')
+      http.close(() => {
+        http.unref()
+        debug('Engine Stopped.')
+      })
+      cb()
+    }
+
+    app.use(cors({ credentials: true, origin: 'http://localhost:8080' }))
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(express.json())
+    app.use('*', handler)
+    connect()
+    .on('disconnected', () => {stop(() => {debug('MONGO disconnected')})})
+    .on('error', err => {stop(() => {debug('MONGO disconnected')})})
+    .on('open', () => {
+      env.fillDb().then(() => {
+        initEngine(io)
+        http.listen(port || params.server.port, () => {
+          debug(`server is running on port ${port || params.server.port}`)
+          resolve({ stop })
         })
-        loginfo('Engine stopped.')
-        cb()
-      }
-      initEngine(io)
-      resolve({ stop })
+      })
     })
   })
-  return promise
 }
+
+module.exports = { create }

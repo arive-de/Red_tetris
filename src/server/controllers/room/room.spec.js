@@ -1,0 +1,106 @@
+const debug = require('debug')('∆:controller room spec')
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+const assert = require('assert')
+const Room = require('../../models/Room')
+const { connect, disconnect  } = require('../../helpers.spec')
+const { createRoom, joinRoom, leaveRoom, playGame } = require('./room')
+
+describe('Room Controller', function() {
+  disconnect()
+  connect()
+  let testRoomId = 'xx'
+
+  it('creates a room', function(done) {
+
+    createRoom('lox', 'Classic', (err, data) => {
+      if (err) {
+        debug(err)
+      }
+      testRoomId = data.roomId
+      Room.findOne({ roomId: data.roomId}).then(data => {
+        assert(data.players[0] === 'lox')
+        assert(data.type === 'Classic')
+        done()
+      })
+    })
+  })
+
+  it('joins a room', function(done) {
+
+    joinRoom('bob', testRoomId, (err, data) => {
+      if (err) {
+        debug(err)
+      }
+      Room.findOne({ roomId: data.roomId }).then(data => {
+        assert(data.players[1] === 'bob')
+        done()
+      })
+    })
+  })
+
+  it('leaves a room', function(done) {
+
+    leaveRoom('lox', testRoomId, (err, data) => {
+
+      Room.findOne({ roomId: data.roomId }).then(data => {
+        assert(data.players[0] === 'bob')
+        assert(data.players.length === 1)
+        done()
+      })
+    })
+  })
+
+  it('leaves unknown room', function(done) {
+    leaveRoom('lox', testRoomId, (err, data) => {
+
+      try {
+        Room.findOne({ roomId: 'fakeId' }).then(data => {
+          done()
+        })
+      }
+      catch (err) {
+        done()
+      }
+    })
+  })
+
+  it('join full room', function(done) {
+    const fullRoom =  new Room({
+      players: ['jo', 'yo', 'mo', 'no'],
+      roomId: 'xxma',
+      type: 'Classic',
+      running: false,
+    })
+    fullRoom.save().then(data => {
+      
+      try {
+        joinRoom('bibi', 'xxma', (data) => {
+          done()
+        })
+      }
+      catch (err) {
+        assert(err === 'room is full')
+        done()
+      }
+    })
+  })
+
+  it('play a game', function(done) {
+
+    createRoom('michel', 'Classic', (err, data) => {
+      if (err) {
+        debug(err)
+        done()
+      }
+      playGame(data.roomId, (err, data) => {
+        Room.findOne({ roomId: data.roomId }).then(data => {
+          assert(data.running === true)
+          done()
+        })
+      })
+    })
+  })
+})
+

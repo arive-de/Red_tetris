@@ -1,51 +1,61 @@
-const mongoose = require('mongoose');
+const debug = require('debug')('∆:env')
 const User = require('./models/User')
 const Room = require('./models/Room')
 
-export function initDb() {
-
-  mongoose.connect('mongodb://localhost:27017/redtetris', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(
-       () => {
-         console.log('Database is connected');
-         User.collection.drop().then(() => {
-           User.create([{
-             username: 'mama',
-           },
-           {
-             username: 'alix',
-           }])
+const fillDb = () => {
+  return new Promise((resolve, reject) => {
+  User.collection.deleteMany().then(() => {
+    User.create([{
+      username: 'mama',
+    },
+      {
+        username: 'alix',
+      },
+      {
+        username: 'papa',
+      }])
             .then(() => {
-              console.log('users created')
+              debug('users created')
             })
             .catch(err => {
-              console.log(err)
+              reject()
+              debug(err)
             })
-         })
-         Room.collection.drop().then(() => {
-           Room.create([{
-             roomId: 'xx04',
-             type: 'Classic',
-             players: ['lox', 'bob'],
-             status: false,
-           },
-           {
-             roomId: 'xx05',
-             type: 'Classic',
-             players: ['Joe', 'Robby'],
-             status: false,
-           },
+  
+  Room.collection.deleteMany().then(() => {
+    Room.create([{
+      roomId: 'xx04',
+      type: 'Classic',
+      players: ['lox', 'bob', 'prout', 'toupie'],
+      running: false,
+      leader: 'lox',
+    },
+      {
+        roomId: 'xx05',
+        type: 'Classic',
+        players: ['Joe', 'Robby'],
+        running: false,
+        leader: 'Joe',
+      },
+      {
+        roomId: 'xx69',
+        type: 'Ghost',
+        players: ['Diam', 'Pol'],
+        running: true,
+        leader: 'Diam',
+      },
          ])
            .then(() => {
-             console.log('rooms created')
+             resolve()
+             return debug('rooms created')
            })
            .catch(err => {
-             console.log(err)
+             reject()
+             return debug(err)
            })
-         })
-       },
-        err => {
-          console.log(`Can not connect to the database ${err}`);
-        }
-    );
+  })
+})
+})
 }
+
+module.exports = { fillDb }

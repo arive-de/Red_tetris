@@ -14,7 +14,7 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader',
       options: {
-        presets: ['@babel/react'],
+        presets: ['@babel/react', '@babel/env'],
       },
 
     },
@@ -26,5 +26,6 @@ module.exports = {
 
   devServer: {
     disableHostCheck: true,
+    historyApiFallback: true,
   },
 };
