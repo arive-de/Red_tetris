@@ -14,13 +14,21 @@ const Menu = () => {
   }
 
   return (
-    <div className='card'>
+    <div className='container card text-center'>
       <div className='card-body'>
           <h5 className='card-title'>Menu</h5>
+          <div>
             <button className='btn btn-primary' >Solo</button>
+          </div>
+          <div>
             <button className='btn btn-primary' onClick={onMultiplayer}>Multiplayer</button>
-            <button className='btn btn-primary'>Controls</button>
-            <button className='btn btn-primary'>High Scores</button>
+          </div>
+          <div>
+            <button className='btn btn-primary'>Controls</button>            
+          </div>
+          <div>
+            <button className='btn btn-primary'>High Scores</button>          
+          </div>
       </div>
     </div>
   )
