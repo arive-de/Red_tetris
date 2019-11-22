@@ -14,8 +14,9 @@ const Menu = () => {
   }
 
   return (
-    <div className='container card text-center'>
-      <div className='card-body'>
+    <div className='container d-flex flex-row mx-auto'>
+      <div className='card justify-content-center align-self-center mx-auto'>
+        <div className='card-container card-body text-center'>
           <h5 className='card-title'>Menu</h5>
           <div>
             <button className='btn btn-primary' >Solo</button>
@@ -29,11 +30,10 @@ const Menu = () => {
           <div>
             <button className='btn btn-primary'>High Scores</button>          
           </div>
+          </div>
       </div>
     </div>
   )
 }
 
 export default (Menu)
-
-
