@@ -29,19 +29,20 @@ const Home = ({ error, setError }) => {
   }, [error])
 
   return (
-      <div className='card text-center'>
-        <div className='card-body'>
-          <h5 className='card-title'>Red tetris</h5>
-          <div className='form-group d-flex flex-column align-items-center'>
-            <input className='form-control' onChange={onChange}
-              onKeyDown={handleKeyDown} placeholder='Type in a username' ></input>
+    <div className='container d-flex flex-row mx-auto'>
+      <div className='card justify-content-center align-self-center mx-auto'>
+        <div className='card-container card-body text-center'>
+          <h5 className='card-title'>Red Tetris</h5>
+            <div className='form-group d-flex flex-column align-items-center'>
+              <input className='form-control' onChange={onChange}
+                onKeyDown={handleKeyDown} placeholder='Type in a username' ></input>
+            </div>
           </div>
-        </div>
-        { error && (<div className='alert alert-danger' role='alert'>
-            {error}
+          { error && (<div className='alert alert-danger' role='alert'>
+              {error}
         </div>) }
       </div>
-
+    </div>
     )
 }
 
