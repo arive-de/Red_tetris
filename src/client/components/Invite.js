@@ -21,7 +21,7 @@ const Invite = ({ room }) => {
       <div className='' >
         <input id='friendInput' className='form-control' onChange={onChange} placeholder='Invite a friend' value={friend}></input>
       </div>
-      <i className='fas fa-link fa-2x' onClick={onClick}></i>
+      <i id='friendButton' className='fas fa-link fa-2x' onClick={onClick}></i>
     </div>
   )
 }

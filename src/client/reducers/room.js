@@ -1,4 +1,4 @@
-import { GET_ROOMS, CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM, PLAY_GAME } from '../actions/room'
+import { GET_ROOMS, CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM, PLAY_GAME, STOP_GAME } from '../actions/room'
 
 const gameReducer = (state, action) => {
   const { username, roomId, room, rooms } = action
@@ -19,6 +19,7 @@ const gameReducer = (state, action) => {
     return { ...state, roomId: username === state.username ? null : state.roomId,
       isPlaying: username === state.username ? false : state.isPlaying, rooms: state.rooms.map(r => {
         if (r.roomId === roomId) {
+          r.leaderBoard = r.leaderBoard.splice(r.players.indexOf(username), 1)
           r.players = r.players.filter(p => p !== username)
         }
         return r
@@ -30,7 +31,15 @@ const gameReducer = (state, action) => {
       }
       return r
     }),
-    }
+  }
+  case STOP_GAME:
+    return { ...state, isPlaying: false, rooms: state.rooms.map(r => {
+      if (r.roomId === roomId && r.players.length === 1) {
+        r.running = false
+      }
+      return r
+    }),
+  }
   default:
     return state
   }

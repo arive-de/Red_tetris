@@ -17,6 +17,7 @@ const Home = ({ error, setError }) => {
     if (e.key === 'Enter') {
       // Faire les checks sur l'input
       socket.emit('auth', username)
+      socket.emit('highscore')
     }
   }
 
@@ -27,7 +28,7 @@ const Home = ({ error, setError }) => {
       setError(null)
     }
   }, [error])
-
+  // handleKeyDown({ key: 'Enter' })
   return (
     <div className='d-flex flex-row' id='home-box'>
       <div className='card justify-content-center align-self-center mx-auto'>

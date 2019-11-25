@@ -72,8 +72,8 @@ const create = (port) => {
     app.use(express.json())
     app.use('*', handler)
     connect()
-    .on('disconnected', () => {stop(() => {debug('MONGO disconnected')})})
-    .on('error', err => {stop(() => {debug('MONGO disconnected')})})
+    .on('disconnected', () => { stop(() => { debug('MONGO disconnected') }) })
+    .on('error', err => { stop(() => { debug('MONGO disconnected') }) })
     .on('open', () => {
       env.fillDb().then(() => {
         initEngine(io)

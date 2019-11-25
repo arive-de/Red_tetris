@@ -18,7 +18,7 @@ const connect = () => {
 
 const disconnect = () => {
   after(function(done){
-    mongoose.connection.db.dropDatabase(function(){
+    mongoose.connection.db.dropDatabase(() => {
       mongoose.connection.close()
       debug('DB disconnection [OK]')
       done()

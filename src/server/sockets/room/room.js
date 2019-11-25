@@ -1,5 +1,5 @@
 const debug = require('debug')('∆:socket room')
-const { createRoom, joinRoom, leaveRoom, playGame } = require('../../controllers/room/room')
+const { createRoom, joinRoom, leaveRoom, playGame, stopGame } = require('../../controllers/room/room')
 
 const initSocketRoom = (io, socket) => {
 
@@ -61,6 +61,17 @@ const initSocketRoom = (io, socket) => {
       if (error === null) {
         io.to(roomId).emit('play_game', roomId)
         io.to('lobby').emit('play_game', roomId)
+      } else {
+        // emit error somewhere
+      }
+    })
+  })
+
+  socket.on('stop_game', ({ roomId }) => {
+    stopGame(roomId, (error, data) => {
+      if (error === null) {
+        io.to(roomId).emit('stop_game', roomId)
+        io.to('lobby').emit('stop_game', roomId)
       } else {
         // emit error somewhere
       }

@@ -3,6 +3,7 @@ export const CREATE_ROOM = 'CREATE_ROOM'
 export const JOIN_ROOM = 'JOIN_ROOM'
 export const LEAVE_ROOM = 'LEAVE_ROOM'
 export const PLAY_GAME = 'PLAY_GAME'
+export const STOP_GAME = 'STOP_GAME'
 
 export const actCreateRoom = (room) => ({
   type: CREATE_ROOM,
@@ -28,5 +29,10 @@ export const actGetRooms = (rooms) => ({
 
 export const actPlayGame = (roomId) => ({
   type: PLAY_GAME,
+  roomId,
+})
+
+export const actStopGame = (roomId) => ({
+  type: STOP_GAME,
   roomId,
 })

@@ -19,9 +19,6 @@ const createUser = (username, socketId, cb) => {
           debug(`new user ${user.username} added to db`)
           cb()
         })
-        .catch(err => {
-          return cb('can\'t store the user in db')
-        })
       }
       else {
         return cb('user already exists')

@@ -2,6 +2,7 @@ const debug = require('debug')('∆:socket auth')
 const { createUser } = require('../controllers/user/user')
 const User = require('../models/User')
 const Room = require('../models/Room')
+const Highscore = require('../models/Highscore')
 
 const initSocketAuth = (io, socket) => {
 
@@ -30,6 +31,14 @@ const initSocketAuth = (io, socket) => {
                                                      running: r.running,
                                                     leaderBoard: r.leaderBoard })),
                           })
+  })
+
+  socket.on('highscore', async () => {
+    const highscores = await Highscore.find()
+    socket.emit('highscore', highscores.map(h => ({
+      username: h.username,
+      score: h.score,
+    })))
   })
 }
 

@@ -95,10 +95,6 @@ const leaveRoom = (username, roomId, cb) => {
           debug(`user ${username} leave the room ${r.roomId} to db`)
           cb(null, { roomId, username })
         })
-        .catch(err => {
-          debug(err)
-          cb('can\'t update room in db')
-        })
       }
     })
     .catch(err => {
@@ -121,4 +117,18 @@ const playGame = (roomId, cb) => {
     })
 }
 
-module.exports = { createRoom, joinRoom, leaveRoom, playGame }
+const stopGame = (roomId, cb) => {
+  Room.findOne({ roomId })
+    .then(room => {
+      room.running = false
+      room.save()
+      .then(r => {
+        cb(null, { roomId })
+      })
+    })
+    .catch(err => {
+      cb(err.message)
+    })
+}
+
+module.exports = { createRoom, joinRoom, leaveRoom, playGame, stopGame }

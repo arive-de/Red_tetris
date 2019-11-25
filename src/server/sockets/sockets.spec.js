@@ -213,6 +213,22 @@ describe('Server', function() {
       })
     })
 
+    it('user2 starts the game', function(done) {
+      socket2.emit('play_game', { roomId })
+      socket3.on('play_game', data => {
+        assert(data === roomId)
+        done()
+      })
+    })
+
+    it('user2 stops the game', function(done) {
+      socket2.emit('stop_game', { roomId })
+      socket3.on('stop_game', data => {
+        assert(data === roomId)
+        done()
+      })
+    })
+
     afterEach(function(done) {
       [socket1, socket2, socket3, socket4, socket5]
       .forEach(sock => sock && sock.connected && sock.removeAllListeners())

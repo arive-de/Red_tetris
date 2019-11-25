@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers, actSetTypeGame } from '../actions/user'
+import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers, actSetTypeGame, actGetHighscores } from '../actions/user'
 import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms, actPlayGame } from '../actions/room'
 import Home from '../components/Home'
 import Menu from '../components/Menu'
@@ -78,8 +78,10 @@ const App = () => {
     socket.on('play_game', data => {
       dispatch(actPlayGame(data))
     })
+    socket.on('highscore', data => {
+      dispatch(actGetHighscores(data))
+    })
   }
-
   if (username !== null && roomId !== null) {
     if (rooms.find(r => r.roomId === roomId)) {
       return (<Room room={rooms.find(r => r.roomId === roomId)} />)

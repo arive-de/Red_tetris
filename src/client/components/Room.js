@@ -47,7 +47,7 @@ const Room = ({ room }) => {
   }, [])
 
   if (isPlaying) {
-    return <Game room={room} />
+    return <Game room={room} solo={room.roomId === undefined ? true : false} />
   }
 
   const rankInfos = [['1st', 'warning'], ['2nd', 'secondary'], ['3rd', 'danger'], ['4th', 'light']]
@@ -71,7 +71,7 @@ const Room = ({ room }) => {
       </ListGroup>
       </div>
       <div className='align-self-center m-4'>
-      { username === room.players[3] ? <button id='playButton' className='btn btn-primary ' onClick={onPlay}>Play</button> : null }
+      { username === room.players[0] ? <button id='playButton' className='btn btn-primary ' onClick={onPlay}>Play</button> : null }
       </div>
       <div id='chat' className='col-sm-12 align-self-center '>
         <div className='card'>

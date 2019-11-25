@@ -1,4 +1,4 @@
-import { SET_USERNAME, SET_TYPEGAME, SET_SOCKET, GET_USERS, ADD_USER, LOGOUT } from '../actions/user'
+import { SET_USERNAME, SET_TYPEGAME, SET_SOCKET, GET_USERS, ADD_USER, LOGOUT, GET_HIGHSCORES } from '../actions/user'
 
 const deleteUser = (state, username, roomId) => {
   const userList = state.userList.filter(u => u !== username)
@@ -32,6 +32,8 @@ const reducer = (state, action) => {
     return { ...state, userList: [...state.userList, action.username] }
   case LOGOUT:
     return deleteUser(state, username, action.roomId)
+  case GET_HIGHSCORES:
+    return { ...state, highscores: action.highscores }
   default:
     return state
   }
