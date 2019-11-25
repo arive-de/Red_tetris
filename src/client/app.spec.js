@@ -30,7 +30,7 @@ describe('App component', () => {
       roomId: null,
       spectr: [],
       socket: null,
-      rooms: [{roomId: 'test', players: ['john'], running: false, type: 'Classic' }],
+      rooms: [{ roomId: 'test', players: ['john'], running: false, type: 'Classic', leaderBoard: [0] }],
       userList: ['mama', 'mimi'],
     }
   
@@ -86,7 +86,7 @@ describe('App component', () => {
   })
 
   it('create a room', function(done) {
-    store.dispatch(actCreateRoom({ roomId, players: [username], running: false, type: 'Classic' }))
+    store.dispatch(actCreateRoom({ roomId, players: [username], running: false, type: 'Classic', leaderBoard: [0] }))
     const state = store.getState()
     expect(state.roomId).to.equal(roomId)
     wrapper.update()

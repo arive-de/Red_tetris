@@ -12,7 +12,7 @@ describe('Url Controller', function() {
   disconnect()
   connect()
   it('creates a user and a room', function(done) {
-    createByUrl('lox', 'socketId', 'roomId', (err, data) => {
+    createByUrl('lox', 'roomId', (err, data) => {
 
       User.findOne({ username: 'lox' }).then(data => {
         assert(data.username === 'lox')
@@ -26,7 +26,7 @@ describe('Url Controller', function() {
   })
 
   it('can\'t create user', function(done) {
-    createByUrl('lox', 'socketId', 'roomId', (err, data) => {
+    createByUrl('lox', 'roomId', (err, data) => {
 
         User.findOne({ username: 'lox' }).then(data => {
           assert(err === 'username already exists')

@@ -264,7 +264,7 @@ describe('Server', function() {
 
     it('user1 is connected and created a room', function(done) {
 
-      socket1.emit('url', { username: user1, socketId: socket1.socketId, roomId: roomId1 })
+      socket1.emit('url', { username: user1, roomId: roomId1 })
 
       socket1.on('created_room', data => {
         assert(data.players[0] === user1)
@@ -275,7 +275,7 @@ describe('Server', function() {
     })
 
     it('user2 is connected and joined a room', function(done) {
-      socket2.emit('url', { username: user2, socketId: socket2.socketId, roomId: roomId1 })
+      socket2.emit('url', { username: user2, roomId: roomId1 })
 
       socket2.on('joined_room', data => {
         assert(data.roomId === roomId1)
@@ -284,10 +284,10 @@ describe('Server', function() {
     })
 
     it('user5 can\'t get in because room is full', function(done) {
-      socket3.emit('url', { username: user3, socketId: socket3.socketId, roomId: roomId1 })
+      socket3.emit('url', { username: user3, roomId: roomId1 })
       socket3.on('joined_room', data => {
         assert(data.roomId === roomId1)
-        socket4.emit('url', { username: user4, socketId: socket4.socketId, roomId: roomId1 })
+        socket4.emit('url', { username: user4, roomId: roomId1 })
         socket3.removeListener('joined_room')
       })
       socket4.on('joined_room', data => {
@@ -298,7 +298,7 @@ describe('Server', function() {
         })
         socket4.removeListener('joined_room')
         socket4.removeListener('update')
-        socket5.emit('url', { username: user5, socketId: socket5.socketId, roomId: roomId1 })
+        socket5.emit('url', { username: user5, roomId: roomId1 })
         socket5.on('lobby', (data) => {
           assert(data.error === 'room is full')
           done()

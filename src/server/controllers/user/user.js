@@ -43,6 +43,7 @@ const deleteUser = (username, roomId, cb) => {
     if (roomId !== null) {
       Room.findOne({ roomId })
       .then(room => {
+        room.leaderBoard = room.leaderBoard.splice(room.players.indexOf(username), 1)
         room.players = room.players.filter(u => u !== username)
         if (room.players.length === 0) {
           return Room.deleteOne({ roomId })
@@ -50,21 +51,12 @@ const deleteUser = (username, roomId, cb) => {
             debug(`room ${roomId} deleted because the user ${username} was the last player`)
             return cb()
           })
-          .catch(err => {
-            return cb('something wrong happen while accesssing the db')
-          })
         }
         Room.updateOne({ _id: room._id }, { $set: { players: room.players } })
         .then(() => {
           debug(`the user ${username} has been deleted from the room ${roomId}`)
           return cb()
         })
-        .catch(err => {
-          cb('something wrong happen while accesssing the db')
-        })
-      })
-      .catch(err => {
-        return cb('can\'t find the room in db')
       })
     }
     else {

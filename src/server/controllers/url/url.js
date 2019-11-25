@@ -2,10 +2,9 @@ const debug = require('debug')('∆:controller url')
 const User = require('../../models/User');
 const Room = require('../../models/Room');
 
-const createByUrl = (username, socketId, roomId, cb) => {
+const createByUrl = (username, roomId, cb) => {
 
   const newUser = new User({
-    socketId,
     username,
   })
 
@@ -14,6 +13,7 @@ const createByUrl = (username, socketId, roomId, cb) => {
     roomId,
     type: 'Classic',
     running: false,
+    leaderBoard: [0],
   })
 
   User.findOne({
@@ -45,6 +45,7 @@ const createByUrl = (username, socketId, roomId, cb) => {
               // if (room.running === true) {
               //   // implementer un systeme plus tard
               // }
+              room.leaderBoard.push(0)
               room.players.push(username)
               room.save()
               .then(r => {

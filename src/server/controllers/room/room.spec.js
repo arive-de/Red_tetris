@@ -10,7 +10,7 @@ const { createRoom, joinRoom, leaveRoom, playGame } = require('./room')
 describe('Room Controller', function() {
   disconnect()
   connect()
-  let testRoomId = 'xx'
+  let testRoomId
 
   it('creates a room', function(done) {
 
@@ -21,6 +21,7 @@ describe('Room Controller', function() {
       testRoomId = data.roomId
       Room.findOne({ roomId: data.roomId}).then(data => {
         assert(data.players[0] === 'lox')
+        assert(data.leaderBoard[0] === 0)
         assert(data.type === 'Classic')
         done()
       })
@@ -35,6 +36,7 @@ describe('Room Controller', function() {
       }
       Room.findOne({ roomId: data.roomId }).then(data => {
         assert(data.players[1] === 'bob')
+        assert(data.leaderBoard[1] === 0)
         done()
       })
     })
@@ -47,6 +49,8 @@ describe('Room Controller', function() {
       Room.findOne({ roomId: data.roomId }).then(data => {
         assert(data.players[0] === 'bob')
         assert(data.players.length === 1)
+        assert(data.leaderBoard[0] === 0)
+        assert(data.leaderBoard.length === 1)
         done()
       })
     })
@@ -54,15 +58,10 @@ describe('Room Controller', function() {
 
   it('leaves unknown room', function(done) {
     leaveRoom('lox', testRoomId, (err, data) => {
-
-      try {
         Room.findOne({ roomId: 'fakeId' }).then(data => {
+          assert(data === null)
           done()
         })
-      }
-      catch (err) {
-        done()
-      }
     })
   })
 
@@ -74,16 +73,10 @@ describe('Room Controller', function() {
       running: false,
     })
     fullRoom.save().then(data => {
-      
-      try {
-        joinRoom('bibi', 'xxma', (data) => {
-          done()
-        })
-      }
-      catch (err) {
+      joinRoom('bibi', 'xxma', (err, data) => {
         assert(err === 'room is full')
         done()
-      }
+      })
     })
   })
 

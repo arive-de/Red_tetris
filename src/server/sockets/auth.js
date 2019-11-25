@@ -27,7 +27,8 @@ const initSocketAuth = (io, socket) => {
                             rooms: rooms.map(r => ({ roomId: r.roomId,
                                                      type: r.type,
                                                      players: r.players,
-                                                     running: r.running })),
+                                                     running: r.running,
+                                                    leaderBoard: r.leaderBoard })),
                           })
   })
 }

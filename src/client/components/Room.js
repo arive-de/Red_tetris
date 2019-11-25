@@ -50,18 +50,19 @@ const Room = ({ room }) => {
   }
 
   const rankInfos = [['1st', 'warning'], ['2nd', 'secondary'], ['3rd', 'danger'], ['4th', 'light']]
+  const sortedPlayers = room.players.map((p, i) => ({ username: p, score: room.leaderBoard[i] })).sort((a, b) => b.score - a.score)
   return (
     <div>
       <Header title={`room ${room.roomId}`} onReturn={onReturn}></Header>
     <div className='m-3 d-flex flex-column'>
       <div id='leaderBoard' className='w-50 align-self-center '>
       <ListGroup className='list-group'>
-      { room.players.map((player, i) =>
+      { sortedPlayers.map((player, i) =>
           <ListGroup.Item variant={rankInfos[i][1]} key={i}>
             <div className='d-flex flex-row justify-content-around p-2 bd-highlight'>
                 <div className='' id ='rank'>{`${rankInfos[i][0]}`}</div>
-                <div className=' font-weight-bold' id ='player'>{player}</div>
-                <div className='' id ='victories'> 5 victories</div>
+                <div className=' font-weight-bold' id ='player'>{player.username}</div>
+                <div className='' id ='victories'>{player.score} win{player.score > 1 ? 's' : ''}</div>
               </div>
             </ListGroup.Item>
       )}
@@ -76,7 +77,7 @@ const Room = ({ room }) => {
           <i className='fas fa-comment fa-spin fa-2x'></i>
           </div>
             <div id='messageBox' className='card-body overflow-hidden d-flex flex-column flex-nowrap'>
-               { messages.map((m, index) => (<div className='h-10' key={index}>{m.username}: {m.message.substr(0, 120)}</div>))}
+               { messages.map((m, index) => (<div className={`h-10 bg-${rankInfos[sortedPlayers.findIndex(p => p.username === username)][1]}`} key={index}>{m.username}: {m.message.substr(0, 120)}</div>))}
             </div>
         </div>
         <div>

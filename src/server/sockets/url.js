@@ -3,9 +3,9 @@ const { createByUrl } = require('../controllers/url/url')
 
 const initSocketUrl = (io, socket) => {
 
-  socket.on('url', ({ username, socketId, roomId }) => {
+  socket.on('url', ({ username, roomId }) => {
 
-    createByUrl(username, socketId, roomId, async (error, data) => {
+    createByUrl(username, roomId, async (error, data) => {
       if (error) {
         debug(error)
         return

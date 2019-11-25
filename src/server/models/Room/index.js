@@ -17,6 +17,7 @@ const RoomSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  leaderBoard: [Number],
 })
 
 module.exports = mongoose.model('rooms', RoomSchema)

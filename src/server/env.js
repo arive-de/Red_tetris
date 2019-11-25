@@ -28,21 +28,23 @@ const fillDb = () => {
       type: 'Classic',
       players: ['lox', 'bob', 'prout', 'toupie'],
       running: false,
-      leader: 'lox',
+      leaderBoard: [0, 0, 0, 0],
     },
       {
         roomId: 'xx05',
         type: 'Classic',
         players: ['Joe', 'Robby'],
         running: false,
-        leader: 'Joe',
+        leaderBoard: [3, 7],
+
       },
       {
         roomId: 'xx69',
         type: 'Ghost',
         players: ['Diam', 'Pol', 'alox'],
         running: true,
-        leader: 'Diam',
+        leaderBoard: [1, 0, 5],
+
       },
          ])
            .then(() => {

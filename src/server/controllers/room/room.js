@@ -1,17 +1,36 @@
 const debug = require('debug')('∆:controller room')
 const Room = require('../../models/Room');
 
-let i = 0
+const genRoomId = async () => {
+  let roomIds = await Room.find({})
+  roomIds = roomIds.map(r => r.roomId)
+  debug(roomIds)
+  if (roomIds.length === 0) {
+    debug('no room yet')
+    return (String.fromCharCode(Math.floor(Math.random() * 26) + 97,
+                                Math.floor(Math.random() * 26) + 97,
+                                Math.floor(Math.random() * 10) + 48,
+                                Math.floor(Math.random() * 10) + 48))
+  }
+  let roomId = roomIds[0]
+  while (roomIds.indexOf(roomId) >= 0) {
+    roomId = String.fromCharCode(Math.floor(Math.random() * 26) + 97,
+                                 Math.floor(Math.random() * 26) + 97,
+                                 Math.floor(Math.random() * 10) + 48,
+                                 Math.floor(Math.random() * 10) + 48)
+    debug(roomId)
+  }
+  return roomId
+}
 
-const createRoom = (username, type, cb) => {
-
-  i = i + 1
+const createRoom = async (username, type, cb) => {
 
   const newRoom = new Room({
     players: [username],
-    roomId: `xx${i}`,
+    roomId: await genRoomId(),
     type,
     running: false,
+    leaderBoard: [0],
   })
 
   newRoom.save()
@@ -36,6 +55,7 @@ const joinRoom = (username, roomId, cb) => {
         throw new Error('room is full')
       }
       room.players.push(username)
+      room.leaderBoard.push(0)
       room.save()
       .then(r => {
         debug(`user ${username} join the room ${r.roomId} to db`)
@@ -56,6 +76,7 @@ const leaveRoom = (username, roomId, cb) => {
   Room.findOne({ roomId })
     .then(room => {
       // debug('room found', room.players)
+      room.leaderBoard = room.leaderBoard.splice(room.players.indexOf(username), 1)
       room.players = room.players.filter(u => u !== username)
       if (room.players.length === 0) {
         Room.deleteOne({ roomId })

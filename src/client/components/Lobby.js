@@ -21,7 +21,7 @@ const Lobby = ({ error, setError }) => {
   const [sortField, setSortField] = useState('roomId')
 
   const title = 'Lobby'
-
+console.log(rooms)
   const onCreate = () => {
     socket.emit('create_room', { username, type });
   }
