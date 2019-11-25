@@ -13,6 +13,24 @@ const fillDb = () => {
       },
       {
         username: 'papa',
+      },
+      {
+        username: 'lox',
+      },
+      {
+        username: 'Joe',
+      },
+      {
+        username: 'Robby',
+      },
+      {
+        username: 'Diam',
+      },
+      {
+        username: 'Pol',
+      },
+      {
+        username: 'alox',
       }])
             .then(() => {
               debug('users created')

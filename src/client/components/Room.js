@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Game from './Game'
 import Header from './Header'
+import Invite from './Invite'
 import ListGroup from 'react-bootstrap/ListGroup'
 import './Room.scss'
 
@@ -54,6 +55,7 @@ const Room = ({ room }) => {
   return (
     <div>
       <Header title={`room ${room.roomId}`} onReturn={onReturn}></Header>
+      <Invite room={room} />
     <div className='m-3 d-flex flex-column'>
       <div id='leaderBoard' className='w-50 align-self-center '>
       <ListGroup className='list-group'>
@@ -77,11 +79,14 @@ const Room = ({ room }) => {
           <i className='fas fa-comment fa-spin fa-2x'></i>
           </div>
             <div id='messageBox' className='card-body overflow-hidden d-flex flex-column flex-nowrap'>
-               { messages.map((m, index) => (<div className={`h-10 bg-${rankInfos[sortedPlayers.findIndex(p => p.username === username)][1]}`} key={index}>{m.username}: {m.message.substr(0, 120)}</div>))}
+               { messages.map((m, index) => (
+                <div className={`h-10 bg-${rankInfos[sortedPlayers.findIndex(p => p.username === username)][1]}`} key={index}>
+                  <span className='font-weight-bold'>{m.username}:</span> {m.message.substr(0, 120)}
+                </div>))}
             </div>
         </div>
         <div>
-          <input className='form-control' onChange={onChange} onKeyDown={sendMessage} placeholder='Say something...' value={message}></input>
+          <input id='messageInput' className='form-control' onChange={onChange} onKeyDown={sendMessage} placeholder='Say something...' value={message}></input>
         </div>
       </div>
       </div>

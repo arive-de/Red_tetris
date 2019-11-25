@@ -108,7 +108,7 @@ console.log(rooms)
             <div className='card-body' id='lobby'>
                 <div className='row'>
                     <div className='col'>
-                      <SearchPlayer />
+                      <SearchPlayer rooms={rooms} onJoin={onJoin}/>
                     </div>
                     <div className='col'>
                         <div className='card'>
@@ -116,10 +116,9 @@ console.log(rooms)
                                 <h5 className='card-title'>Host a game</h5>
                                 <div className='input-group mb-3'>
                                     <div className='input-group-prepend'>
-                                        <label className='input-group-text' htmlFor='inputGroupSelect01'>Type</label>
+                                        <label className='input-group-text'>Type</label>
                                     </div>
-                                    <select className='custom-select' onChange={onChange} value={type} >
-                                        {/* <option defaultValue>Choose...</option> */}
+                                    <select className='custom-select' onChange={onChange} value={type}>
                                         <option value='Classic'>Classic</option>
                                         <option value='Ghost'>Ghost </option>
                                     </select>

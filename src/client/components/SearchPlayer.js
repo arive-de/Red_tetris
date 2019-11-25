@@ -1,8 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import './SearchPlayer.scss'
+import { join } from 'path'
 
-const SearchPlayer = () => {
+const SearchPlayer = ({ rooms, onJoin }) => {
   const userList = useSelector(state => state.userList)
 
   const [activeSuggestion, setActiveSuggestion] = useState(0)
@@ -15,45 +16,40 @@ const SearchPlayer = () => {
     const filteredSuggestions = userList.filter((m) => {
       return m.startsWith(e.target.value)
     })
-
     setFilteredSuggestions(filteredSuggestions)
     setActiveSuggestion(0)
     setShowSuggestions(true)
   }
 
-  const onClick = (e) => {
-
-    setActiveSuggestion(0)
-    setFilteredSuggestions([])
-    setShowSuggestions(false)
-    setUserInput(e.target.innerText)
+  const onJoinRoom = (user) => () => {
+    const joinedRoom = rooms.find(r => r.players.indexOf(user) !== -1)
+    if (joinedRoom === undefined) {
+        return
+    }
+    onJoin(joinedRoom)
   }
 
   const onKeyDown = (e) => {
 
     if (e.keyCode === 13) {
-      setActiveSuggestion(0)
+      onJoinRoom(filteredSuggestions[activeSuggestion])()
       setShowSuggestions(false)
-      
-      // le player fait entré : il doit rejoindre le userInput en question (si c'est possible)
-
-      setUserInput(filteredSuggestions[activeSuggestion])
+      setActiveSuggestion(0)
     }
     else if (e.keyCode === 38) {
       if (activeSuggestion === 0) {
         return
       }
 
-      setActiveSuggestion(activeSuggestion - 1)
+      setActiveSuggestion(x => x - 1)
     }
     else if (e.keyCode === 40) {
 
       console.log(filteredSuggestions)
-      if (activeSuggestion - 1 === filteredSuggestions.length) {
+      if (activeSuggestion === filteredSuggestions.length - 1) {
         return
       }
-
-      setActiveSuggestion(activeSuggestion + 1)
+      setActiveSuggestion(x => x + 1)
     }
   }
 
@@ -69,7 +65,7 @@ const SearchPlayer = () => {
               className = 'suggestion-active'
             }
             return (
-              <li className={className} key={suggestion} onClick={onClick}>
+              <li className={className} key={index} onClick={onJoinRoom(suggestion)}>
                 {suggestion}
               </li>)
           })}
