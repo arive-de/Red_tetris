@@ -73,7 +73,7 @@ const Room = ({ room }) => {
       <div id='chat' className='col-sm-12 align-self-center '>
         <div className='card'>
           <div id='logoChat' className='p-2'>
-          <i class='fas fa-comment fa-spin fa-2x'></i>
+          <i className='fas fa-comment fa-spin fa-2x'></i>
           </div>
             <div id='messageBox' className='card-body overflow-hidden d-flex flex-column flex-nowrap'>
                { messages.map((m, index) => (<div className='h-10' key={index}>{m.username}: {m.message.substr(0, 120)}</div>))}
