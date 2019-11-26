@@ -4,6 +4,7 @@ import { actCreateRoom, actLeaveRoom } from '../actions/room'
 import { actLogout, actSetTypeGame } from '../actions/user'
 import RoomList from './RoomList'
 import SearchPlayer from './SearchPlayer'
+import Table from './Table'
 import './Lobby.scss'
 import Header from './Header'
 import Navbar from 'react-bootstrap/navbar'
@@ -131,6 +132,7 @@ console.log(rooms)
 
             </div>
         </div>
+        <Table></Table>
     </div>
     )
 }
