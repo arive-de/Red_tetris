@@ -8,28 +8,31 @@ import './RoomList.scss'
 
 const RoomList = ({ active, onClick, room }) => {
   const classes = classNames({
-    'table-row': true,
+    'flex-table row': true,
     'color-row': active ? 'color-row' : '',
   })
 
-  return (<div className={classes} onClick={onClick}>
-            <div className='card-text table-cell'>{room.roomId}</div>
-              <div className='card-text table-cell'>{room.type}</div>
-                <OverlayTrigger
-                  key='top'
-                  placement='top'
-                  overlay={
-                    <Tooltip id='tooltip-top'>
-                      {room.players.map((m, index) => (
-                        <div key={index}>{m}</div>
-                      ))}
-                    </Tooltip>
-                  }
-                >
-                <div className='card-text table-cell'>{room.players.length}/4</div>
-              </OverlayTrigger>
-            <div className='card-text table-cell'>{!room.running ? 'Open' : 'Running'}</div>
-          </div>)
+  return (
+
+    <div className={classes} onClick={onClick} role="rowgroup">
+      <div className="flex-row first" role="cell">{room.roomId}</div>
+      <div className="flex-row" role="cell">{room.type}</div>
+      <OverlayTrigger
+          key='top'
+          placement='top'
+          overlay={
+            <Tooltip id='tooltip-top'>
+              {room.players.map((m, index) => (
+                <div key={index}>{m}</div>
+              ))}
+            </Tooltip>
+          }
+        >
+        <div className="flex-row" role="cell">{room.players.length}/4</div>
+      </OverlayTrigger>
+      <div className="flex-row" role="cell">{!room.running ? 'Open' : 'Running'}</div>
+    </div>
+  )
 }
 
 // PUT ON CLICK MODAL

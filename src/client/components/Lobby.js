@@ -4,7 +4,6 @@ import { actCreateRoom, actLeaveRoom } from '../actions/room'
 import { actLogout, actSetTypeGame } from '../actions/user'
 import RoomList from './RoomList'
 import SearchPlayer from './SearchPlayer'
-import Table from './Table'
 import './Lobby.scss'
 import Header from './Header'
 import Navbar from 'react-bootstrap/navbar'
@@ -75,28 +74,30 @@ console.log(rooms)
         <br/>
         <div className=''>
             <div className='card'>
-                <div className='card-body table'>
-                    <div className='table-row'>
-                        <div className='table-cell'>
-                          <span>Room</span>
-                          <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('roomId') }} />
-                        </div>
-                        <div className='table-cell'>
-                          <span>Game</span>
-                          <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('type') }} />
-                        </div>
-                        <div className='table-cell'>
-                          <span>Players</span>
-                          <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('players') }} />
-                        </div>
-                        <div className='table-cell'>
-                          <span>Status</span>
-                          <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('running') }} />
-                        </div>
+                <div className='card-body'>
+                <div className="table-container" role="table" aria-label="Destinations">
+                  <div className="flex-table header" role="rowgroup">
+                    <div className="flex-row first" role="columnheader">
+                      Room
+                      <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('roomId') }} />
                     </div>
-                    {rooms.sort(sortRooms(sortField)).filter(room => hideShow ? room.running === false && room.players.length !== 4 : true).map((room, index) =>
-                        (<RoomList active={room === chosen} key={index} onClick={() => setChosen(room)} room={room}/>)
-                    )}
+                    <div className="flex-row" role="columnheader">
+                      Game
+                      <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('type') }} />
+                    </div>
+                    <div className="flex-row" role="columnheader">
+                      Players
+                      <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('players') }} />
+                    </div>
+                    <div className="flex-row" role="columnheader">
+                      Status
+                      <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('running') }} />
+                    </div>
+                  </div>
+                  {rooms.sort(sortRooms(sortField)).filter(room => hideShow ? room.running === false && room.players.length !== 4 : true).map((room, index) =>
+                  (<RoomList active={room === chosen} key={index} onClick={() => setChosen(room)} room={room}/>)
+                  )}
+                </div>
                 </div>
                 <div className='text-center'>
                   <Button id='joinRoomButton' className='button' disabled={chosen === null} onClick={() => onJoin(chosen)} variant='primary' >Join</Button>
@@ -132,7 +133,6 @@ console.log(rooms)
 
             </div>
         </div>
-        <Table></Table>
     </div>
     )
 }

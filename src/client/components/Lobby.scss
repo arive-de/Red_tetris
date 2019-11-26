@@ -1,16 +1,119 @@
-.table {
-  display: table;
+$table-header: #1976D2;
+$table-header-border: #1565C0;
+$table-border: #d9d9d9;
+$row-bg: #f4f2f1;
+
+div {
+  box-sizing: border-box;
 }
 
-.table-row {
-  display: table-row;
+.table-container {
+  display: block;
+  margin: 2em auto;
+  width: 100%;
+  max-width: 800px;
 }
 
-.table-cell {
-  display: table-cell;
-  padding: 10px;
-  border: 1px solid black;
+.flex-table {
+  display: flex;
+  flex-flow: row wrap;
+  border-left: solid 1px $table-border;
+  transition: 0.5s;
+  &:first-of-type {
+    border-top: solid 1px $table-header-border;
+    border-left: solid 1px $table-header-border;
+    // border-top-left-radius: 5px;
+  }
+  &:first-of-type .flex-row {
+    background: $table-header;
+    color: white;
+    border-color: $table-header-border;
+  }
+
+  // &.row:nth-child(odd) .flex-row {             // TROUVER UN MOYEN DE METTRE UN HOVER SUR UN NESTED CHILD ODD
+  //   background: $row-bg;
+  // }
+
+  &:hover {
+    background: #8fa4ff;
+    transition: 500ms;
+  }
 }
+
+.flex-row {
+  width: calc(100% / 4);
+  // text-align: center;
+  padding: 0.5em 0.5em;
+  border-right: solid 1px $table-border;
+  border-bottom: solid 1px $table-border;
+  // &:nth-last-child(1) {
+  //   border-top-right-radius: 5px;
+  // }
+  // &:last-of-type {
+  //   &:first-of-type {                  // Last child and first child
+  //     border-top-right-radius: 5px;
+  //   }
+  // }
+}
+
+.rowspan {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.flex-cell {
+  width: calc(100% / 3); //1px = border right
+  text-align: center;
+  padding: 0.5em 0.5em;
+  border-right: solid 1px $table-border;
+  //flex: 1 1 33.3%;
+  &:last-child {
+    // border-right: 0;
+  }
+}
+
+// @media all and (max-width: 767px) {
+//   .flex-row {
+//     width: calc(100% / 3); //1px = border right
+    
+//    &.first {
+//      width: 100%;
+//    }
+//   }
+// }
+
+// @media all and (max-width: 430px) {
+  
+//   .flex-table {
+//     .flex-row {
+//       border-bottom: 0;
+//     }
+//     .flex-row:last-of-type {
+//       border-bottom: solid 1px $table-border;
+//     }
+//   }
+  
+//   .header {
+//     .flex-row {
+//       border-bottom: solid 1px;
+//     }
+//   }
+  
+//   .flex-row {
+//     width: 100%; //1px = border right
+    
+//    &.first {
+//      width: 100%;
+//      border-bottom: solid 1px $table-border;
+//    }
+//   }
+
+//   .flex-cell {
+//     width: 100%; //1px = border right
+//   }
+// }
 
 .button {
   width: 100px;
@@ -20,7 +123,3 @@
 .sort {
   margin-top: -20px;
 }
-
-// .table-row:nth-child(even) {
-//   background: lightgrey;
-// }
