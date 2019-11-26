@@ -61,8 +61,6 @@ const initSocketRoom = (io, socket) => {
       if (error === null) {
         io.to(roomId).emit('play_game', roomId)
         io.to('lobby').emit('play_game', roomId)
-      } else {
-        // emit error somewhere
       }
     })
   })
@@ -72,8 +70,6 @@ const initSocketRoom = (io, socket) => {
       if (error === null) {
         io.to(roomId).emit('stop_game', roomId)
         io.to('lobby').emit('stop_game', roomId)
-      } else {
-        // emit error somewhere
       }
     })
   })

@@ -83,15 +83,13 @@ const SearchPlayer = ({ rooms, onJoin }) => {
 
   return (
     <Fragment>
-      {/* <div className='card-header'> */}
         Connected players
         <div className='input-group'>
             <div className='input-group-prepend'>
                 <span className='input-group-text' id='basic-addon1'><i className='fas fa-search'></i></span>
             </div>
-            <input className='form-control shadow-none' onChange={onChange} onKeyDown={onKeyDown} type='text' value={userInput}/>
+            <input id='searchPlayerInput' className='form-control shadow-none' onChange={onChange} onKeyDown={onKeyDown} type='text' value={userInput}/>
         </div>
-      {/* </div> */}
       {suggestionsListComponent}
     </Fragment>
   )

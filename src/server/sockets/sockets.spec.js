@@ -32,7 +32,7 @@ describe('Server', function() {
     })
 
     afterEach(function(done) {
-      socket1 && socket1.connected && socket1.disconnect()
+      socket1 && socket1.connected && socket1.disconnect() && socket1.removeAllListeners()
       socket2 && socket2.connected && socket2.disconnect()
       done()
     })
@@ -74,8 +74,8 @@ describe('Server', function() {
       socket2 = ioClient.connect('http://localhost:3005', { forceNew: true })
       socket2.on('connect', () => {
         socket2.emit('auth', username2)
-        socket2.on('auth', (data) => {
-          assert(data.username === username2)
+        socket2.on('auth', data => {
+          expect(data.username).to.equal(username2)
           socket1.emit('update')
           socket1.on('update', data => {
             assert(data.users.indexOf(username1) !== -1)

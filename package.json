@@ -12,6 +12,7 @@
     "test:back": "mocha 'src/server/**/*.spec.js' -t 5000 --exit",
     "test:front": "mocha -r @babel/register -r ignore-styles -r ./test/helpers.js -r ./test/dom.js 'src/client/**/*.spec.js' -t 5000 --exit",
     "test": "mocha -r @babel/register -r ignore-styles -r ./test/helpers.js -r ./test/dom.js 'src/**/*.spec.js' -t 5000 --exit",
+    "mytest": "mocha -r @babel/register -r ignore-styles -r ./test/helpers.js -r ./test/dom.js --exit",
     "coverage": "NODE_ENV=test nyc npm run test",
     "coverage:front": "NODE_ENV=test nyc npm run test:front"
   },
