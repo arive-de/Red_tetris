@@ -14,9 +14,9 @@ const RoomList = ({ active, onClick, room }) => {
 
   return (
 
-    <div className={classes} onClick={onClick} role="rowgroup">
-      <div className="flex-row first" role="cell">{room.roomId}</div>
-      <div className="flex-row" role="cell">{room.type}</div>
+    <div className={classes} onClick={onClick} role='rowgroup'>
+      <div className='flex-row first' role='cell'>{room.roomId}</div>
+      <div className='flex-row' role='cell'>{room.type}</div>
       <OverlayTrigger
           key='top'
           placement='top'
@@ -28,9 +28,9 @@ const RoomList = ({ active, onClick, room }) => {
             </Tooltip>
           }
         >
-        <div className="flex-row" role="cell">{room.players.length}/4</div>
+        <div className='flex-row' role='cell'>{room.players.length}/4</div>
       </OverlayTrigger>
-      <div className="flex-row" role="cell">{!room.running ? 'Open' : 'Running'}</div>
+      <div className='flex-row' role='cell'>{!room.running ? 'Open' : 'Running'}</div>
     </div>
   )
 }
