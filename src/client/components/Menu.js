@@ -27,11 +27,11 @@ const Menu = () => {
   return (
     <div className='d-flex flex-column justify-content-around' id='menu-box'>
       <div className='align-self-stretch' >
-        <div className='d-flex flex-row justify-content-around'>
+        <div className='d-flex row justify-content-around'>
           <ListGroup className='list-group'>
             {highscores.sort((a, b) => b.score - a.score).map((player, i) =>
             (<ListGroup.Item variant='warning' key={i}>
-              <div className='d-flex flex-row justify-content-around p-2 bd-highlight'>
+              <div className='d-flex row justify-content-around p-2 bd-highlight'>
                 <div><i className='fas fa-trophy'></i></div>'
                 <div className=' font-weight-bold' id ='highscoreUsername'>{player.username}</div>
                 <div className='' id ='highscoreScore'>{player.score} pts</div>

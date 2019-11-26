@@ -30,7 +30,7 @@ const Home = ({ error, setError }) => {
   }, [error])
   // handleKeyDown({ key: 'Enter' })
   return (
-    <div className='d-flex flex-row' id='home-box'>
+    <div className='d-flex row' id='home-box'>
       <div className='card justify-content-center align-self-center mx-auto'>
         <div className='card-container card-body text-center'>
           <h5 className='card-title'>Red Tetris</h5>

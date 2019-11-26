@@ -75,21 +75,21 @@ console.log(rooms)
         <div className=''>
             <div className='card'>
                 <div className='card-body'>
-                <div className="table-container" role="table" aria-label="Destinations">
-                  <div className="flex-table header" role="rowgroup">
-                    <div className="flex-row first" role="columnheader">
+                <div className='table-container' role='table'>
+                  <div className='flex-table header' role='rowgroup'>
+                    <div className='flex-row first' role='columnheader'>
                       Room
                       <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('roomId') }} />
                     </div>
-                    <div className="flex-row" role="columnheader">
+                    <div className='flex-row' role='columnheader'>
                       Game
                       <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('type') }} />
                     </div>
-                    <div className="flex-row" role="columnheader">
+                    <div className='flex-row' role='columnheader'>
                       Players
                       <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('players') }} />
                     </div>
-                    <div className="flex-row" role="columnheader">
+                    <div className='flex-row' role='columnheader'>
                       Status
                       <i className='sort fas fa-sort d-flex justify-content-end' onClick={() => { setSortField('running') }} />
                     </div>
@@ -105,7 +105,7 @@ console.log(rooms)
             </div>
             <div className='form-check'>
               <input className='form-check-input' id='hide' onClick={onCheck} type='checkbox' value='' />
-              <i className="fas fa-filter"></i>
+              <i className='fas fa-filter'></i>
             </div>
             <div className='card-body' id='lobby'>
                 <div className='row'>

@@ -17,7 +17,7 @@ const Invite = ({ room }) => {
     navigator.clipboard.writeText(url)
   }
   return (
-    <div className='d-flex flex-row justify-content-end'>
+    <div className='d-flex row justify-content-end'>
       <div className='' >
         <input id='friendInput' className='form-control' onChange={onChange} placeholder='Invite a friend' value={friend}></input>
       </div>
