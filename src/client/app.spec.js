@@ -79,6 +79,8 @@ describe('App component', () => {
     wrapper.find(SearchPlayer).find('input').simulate('change', { target: { value: 'm' } })
     expect(wrapper.find(SearchPlayer).find('li')).to.have.length(2)
     wrapper.find(SearchPlayer).find('input').simulate('change', { target: { value: 'jane' } })
+    wrapper.find(SearchPlayer).find('input').simulate('keyDown', { keyCode: 38 })
+    wrapper.find(SearchPlayer).find('input').simulate('keyDown', { keyCode: 40 })
     wrapper.find(SearchPlayer).find('li').simulate('click')
     wrapper.find(Lobby).find('select').simulate('change', { target: { value: 'Ghost' } })
     expect(wrapper.find(Lobby).find('select').prop('value')).to.equal('Ghost')
