@@ -24,6 +24,7 @@ const UP = 38
 const RIGHT = 39
 const DOWN = 40
 
+
 const Game = ({ solo, room }) => {
   const dispatch = useDispatch()
   const username = useSelector(state => state.username)
@@ -90,7 +91,7 @@ const Game = ({ solo, room }) => {
     console.log('Game useEffect []')
     const intervalPiece = setInterval(() => {
       savedCallback.current()
-    }, 1000)
+    }, 700)
     if (leader) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
@@ -113,33 +114,44 @@ const Game = ({ solo, room }) => {
     const nextPiece = dropBottom(piece, grid)
     setLastPiece(piece)
     setPiece(nextPiece)
-    setGrid(g => updateGrid(lastPiece, nextPiece, pieceType, g))
+    setGrid(g => updateGrid(lastPiece, piece, pieceType, g))
   }
   
   const handleLeft = () => {
     const nextPiece = moveLeft(piece)
-    if (!canFit(piece, nextPiece, grid)) {
+    if (!canFit(lastPiece, nextPiece, grid)) {
       return
     }
     setLastPiece(piece)
     setPiece(nextPiece)
-    // setGrid(g => updateGrid(lastPiece, nextPiece, pieceType, g))
+    setGrid(g => updateGrid(lastPiece, piece, pieceType, g))
   }
 
   const handleRight = () => {
     const nextPiece = moveRight(piece)
-    if (!canFit(piece, nextPiece, grid)) {
+    if (!canFit(lastPiece, nextPiece, grid)) {
       return
     }
     setLastPiece(piece)
     setPiece(nextPiece)
-    // setGrid(g => updateGrid(lastPiece, nextPiece, pieceType, g))
+    setGrid(g => updateGrid(lastPiece, piece, pieceType, g))
+  }
+
+  const handleDown = () => {
+    const [ok, nextPiece] = canDrop(piece, grid)
+    if (!ok) {
+      return
+    }
+    setLastPiece(piece)
+    setPiece(nextPiece)
+    setGrid(g => updateGrid(lastPiece, piece, pieceType, g))
   }
 
   const onKeyDown = (e) => {
     switch(e.keyCode) {
       case DOWN:
         console.log('DOWN')
+        handleDown()
         break
       case UP:
         console.log('UP')
