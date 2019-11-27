@@ -169,9 +169,18 @@ const rotationTypes = type => [1, 0, 3, 2, 5, 4, 7, 8, 9, 6, 11, 12, 13, 10, 15,
 
 const rotationFuncs = (piece, type) => [r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17][type](piece)
 
-const canFit = (piece, grid) => piece.every(x => x < 200 && x >= 0 && grid[x] !== 0) && piece.filter(x => (x + 1 ) % 10 === 0 || x % 10 === 0).length > 2 
+const canFit = (lastPiece, piece, grid) => {
+  const pieceFitInGrid = piece.every(x => x < 200 && x >= 0 && (grid[x] === 0 || lastPiece.indexOf(x) !== -1))
+  const blockWall = !(piece.filter(x => x % 10 === 0).length > 0 && piece.filter(x => (x + 1) % 10 === 0).length > 0)
+  return (pieceFitInGrid && blockWall)
+}
 
-const canDrop = (piece, grid) => [!piece.some(x => x + 10 > 199 || grid[x + 10] !== 0), piece.map(x => x + 10)]
+const canDrop = (piece, grid) => {
+  const nextPiece = piece.map(x => x + 10)
+  piece.forEach(x => grid[x] = 0)
+  const ok = !piece.some(x => x + 10 > 199 || grid[x + 10] !== 0)
+  return [ok, nextPiece]
+}
 
 const moveRight = (piece) => piece.map(x => x + 1)
 
@@ -180,7 +189,7 @@ const moveLeft = (piece) => piece.map(x => x - 1)
 const updateGrid = (oldPiece, newPiece, type, grid) => {
   const newGrid = [...grid]
   oldPiece.forEach(x => newGrid[x] = 0)
-  newPiece.forEach(x => newGrid[x] = type)
+  newPiece.forEach(x => newGrid[x] = type + 1)
   return newGrid
 }
 

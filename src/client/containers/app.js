@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers, actSetTypeGame, actGetHighscores } from '../actions/user'
-import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms, actPlayGame } from '../actions/room'
+import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms, actPlayGame, actStopGame } from '../actions/room'
 import Home from '../components/Home'
 import Menu from '../components/Menu'
 import Lobby from '../components/Lobby'
@@ -30,11 +30,8 @@ const App = () => {
   }, [])
 
   if (!storeSocket) {
-
     dispatch(actSetSocket(socket))
-
     const url = document.createElement('a')
-
     url.href = window.location.href
     const res = url.hash.match(/^#(.*)\[(.*)\]$/)
   
@@ -78,10 +75,16 @@ const App = () => {
     socket.on('play_game', data => {
       dispatch(actPlayGame(data))
     })
+    socket.on('stop_game', data => {
+      dispatch(actStopGame(data))
+    })
     socket.on('highscore', data => {
       dispatch(actGetHighscores(data))
     })
+    // FOR GAME DEV
+    socket.emit('auth', 'cbarb')
   }
+
   if (username !== null && roomId !== null) {
     if (rooms.find(r => r.roomId === roomId)) {
       return (<Room room={rooms.find(r => r.roomId === roomId)} />)

@@ -24,6 +24,9 @@ const Menu = () => {
     dispatch(actPlayGame(undefined))
   }
 
+  // FOR GAME Dev
+  onClickSolo()
+
   return (
     <div className='d-flex flex-column justify-content-around' id='menu-box'>
       <div className='align-self-stretch' >

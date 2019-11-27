@@ -1,0 +1,53 @@
+#gameContainer {
+  border: 2px solid red;
+  height: 90%;
+  width: 80%;
+  max-width: 1000px;
+  position: absolute;
+}
+
+#gridContainer {
+  border: 2px orange solid;
+}
+
+.spectrum {
+  border: 2px solid black;
+}
+
+.gridCell {
+  width: 10%;
+}
+.gridCell1 {
+  border: 1px grey solid;
+}
+
+.gridCell2 {
+  border: 1px blue solid;
+}
+
+#gameControlsInput {
+  position: absolute;
+  top: -1000px;
+} 
+
+.emptyCell {
+  background-color: whitesmoke;
+}
+.piece1 {
+  background-color: Crimson; 
+}
+.piece2 {
+  background-color: Gold; 
+}
+.piece3 {
+  background-color: OliveDrab;
+}
+.piece4 {
+  background-color: teal; 
+}
+.piece5 {
+  background-color: blueviolet; 
+}
+.piece6 {
+  background-color: Plum; 
+}

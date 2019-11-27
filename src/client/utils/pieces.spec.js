@@ -88,7 +88,7 @@ describe('pieces functions', () => {
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p0 cannot fit v2', (done) => {
@@ -99,7 +99,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p1 ok', (done) => {
@@ -127,7 +127,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p2 ok', (done) => {
@@ -150,12 +150,12 @@ describe('pieces functions', () => {
   it('rotation p2 cannot fit', (done) => {
     const type = 2
     const piece = [
-      1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p3 ok', (done) => {
@@ -183,7 +183,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p4 ok', (done) => {
@@ -211,7 +211,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p5 ok', (done) => {
@@ -239,7 +239,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p6 ok', (done) => {
@@ -267,7 +267,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p7 ok', (done) => {
@@ -295,7 +295,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p8 ok', (done) => {
@@ -317,13 +317,8 @@ describe('pieces functions', () => {
   })
   it('rotation p8 cannot fit', (done) => {
     const type = 8
-    const piece = [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-      0, 0, 0, 1, 1, 1, 0, 0, 0, 0,
-    ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    const piece = [181, 190, 191, 192]
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p9 ok', (done) => {
@@ -351,7 +346,7 @@ describe('pieces functions', () => {
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p10 ok', (done) => {
@@ -379,7 +374,7 @@ describe('pieces functions', () => {
       1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p11 ok', (done) => {
@@ -407,7 +402,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p12 ok', (done) => {
@@ -435,7 +430,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p13 ok', (done) => {
@@ -457,13 +452,8 @@ describe('pieces functions', () => {
   })
   it('rotation p13 cannot fit', (done) => {
     const type = 13
-    const piece = [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
-    ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    const piece = [189, 197, 198, 199]
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p14 ok', (done) => {
@@ -491,7 +481,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
       0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p15 ok', (done) => {
@@ -513,13 +503,8 @@ describe('pieces functions', () => {
   })
   it('rotation p15 cannot fit', (done) => {
     const type = 15
-    const piece = [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
-    ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    const piece = [184, 194, 195, 196]
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p16 ok', (done) => {
@@ -547,7 +532,7 @@ describe('pieces functions', () => {
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('rotation p17 ok', (done) => {
@@ -575,7 +560,7 @@ describe('pieces functions', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ].map((x, i) => x === 1 ? i : -42).filter(x => x >= 0)
-    expect(canFit(rotationFuncs(piece, type), grid)).to.equal(false)
+    expect(canFit(piece, rotationFuncs(piece, type), grid)).to.equal(false)
     done()
   })
   it('addblockline 1', (done) => {
@@ -645,12 +630,12 @@ describe('pieces functions', () => {
     done()
   })
   it('update grid', (done) => {
-    const grid = [1, 1, 1, 1, ...Array(196).fill(0)]
+    const grid = [2, 2, 2, 2, ...Array(196).fill(0)]
     const oldPiece = [0, 1, 2, 3]
     const newPiece = [1, 2, 3, 4]
     const type = 1
 
-    expect(updateGrid(oldPiece, newPiece, type, grid)).to.deep.equal([0, 1, 1, 1, 1, ...Array(195).fill(0)])
+    expect(updateGrid(oldPiece, newPiece, type, grid)).to.deep.equal([0, 2, 2, 2, 2, ...Array(195).fill(0)])
     done()
   })
   it('drop bottom floor', (done) => {
