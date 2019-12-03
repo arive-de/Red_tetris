@@ -171,14 +171,16 @@ const rotationFuncs = (piece, type) => [r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, 
 
 const canFit = (lastPiece, piece, grid) => {
   const pieceFitInGrid = piece.every(x => x < 200 && x >= 0 && (grid[x] === 0 || lastPiece.indexOf(x) !== -1))
-  const blockWall = !(piece.filter(x => x % 10 === 0).length > 0 && piece.filter(x => (x + 1) % 10 === 0).length > 0)
+  const blockWall = !([...piece, ...lastPiece].filter(x => x % 10 === 0).length > 0 && [...piece, ...lastPiece].filter(x => (x + 1) % 10 === 0).length > 0)
   return (pieceFitInGrid && blockWall)
 }
 
 const canDrop = (piece, grid) => {
   const nextPiece = piece.map(x => x + 10)
+  const type = grid[piece[0]]
   piece.forEach(x => grid[x] = 0)
   const ok = !piece.some(x => x + 10 > 199 || grid[x + 10] !== 0)
+  piece.forEach(x => grid[x] = type)
   return [ok, nextPiece]
 }
 
@@ -211,6 +213,11 @@ const dropBottom = (piece, grid) => {
   return dropBottom(next, grid)
 }
 
+const gameOver = (piece, grid) => {
+  console.log('gameover', canDrop(piece, grid), piece.some(x => x < 10))
+  return (!canDrop(piece, grid)[0] && piece.some(x => x < 10))
+}
+
 export {
   pieces,
   rotationTypes,
@@ -223,4 +230,5 @@ export {
   addBlockLine,
   getSpectrum,
   dropBottom,
+  gameOver,
 }

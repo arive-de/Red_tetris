@@ -1,22 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useReducer } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actLeaveRoom, actStopGame } from '../actions/room'
 import Header from './Header'
 import classNames from 'classnames'
+import { gameReducer } from '../reducers/game'
 import './Game.scss'
-import {
-  pieces as startPieces,
-  rotationTypes,
-  rotationFuncs,
-  canFit,
-  canDrop,
-  moveRight,
-  moveLeft,
-  updateGrid,
-  addBlockLine,
-  getSpectrum,
-  dropBottom,
-} from '../utils/pieces'
 
 const SPACE = 32
 const LEFT = 37
@@ -24,19 +12,20 @@ const UP = 38
 const RIGHT = 39
 const DOWN = 40
 
-
 const Game = ({ solo, room }) => {
+  const intialGameState = {
+    type: 0,
+    piece: null,
+    pieces: [],
+    grid: Array(200).fill(0),
+    spectrums: room.players.filter(u => u !== username).reduce((acc, user) => acc[user] = Array(10).fill(0), {}),
+    end: false,
+  }
   const dispatch = useDispatch()
   const username = useSelector(state => state.username)
   const socket = useSelector(state => state.socket)
   const [gamers, setGamers] = useState([true, true, true, true].slice(0, room.players.length))
-  const [grid, setGrid] = useState(Array(200).fill(0))
-  const [pieceType, setPieceType] = useState(0)
-  const [pieces, setPieces] = useState([])
-  const [piece, setPiece] = useState(null)
-  const [lastPiece, setLastPiece] = useState(null)
-  const spectrums = useState(room.players.filter(u => u !== username).reduce((acc, user) => acc[user] = Array(10).fill(0), {}))
-  const savedCallback = useRef()
+  const [gameState, dispatchGame] = useReducer(gameReducer, intialGameState)
   const leader = username === room.players[0]
 
   const onStop = () => {
@@ -51,57 +40,32 @@ const Game = ({ solo, room }) => {
     }
   }
 
-  const loopIntervalFunc = () => {
-    console.log('in interval', piece, pieces)
-    if (!piece) {
-      return
-    }
-    setGrid(g => updateGrid(lastPiece, piece, pieceType, g))
-    const [ok, nextPiece] = canDrop(piece, grid)
-    if (ok) {
-      setLastPiece(piece)
-      setPiece(nextPiece)
-      return
-    }
-    const newType = pieces[0]
-    const newPiece = startPieces[newType]
-    setPieceType(newType)
-    setPiece(newPiece)
-    setLastPiece(newPiece)
-    setPieces(pieces.slice(1))
-  }
-
   useEffect(() => {
     console.log('useEffect Game')
-    console.log(pieces, piece, pieceType)
-    savedCallback.current = loopIntervalFunc
   })
 
   useEffect(() => {
     console.log('Game useEffect [pieces]')
-    console.log(pieces, piece)
-    if (pieces.length === 3 && leader) {
+    if (gameState.pieces.length === 3 && leader) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
     return () => {
     }
-  }, [pieces])
+  }, [gameState.pieces])
 
   useEffect(() => {
     console.log('Game useEffect []')
     const intervalPiece = setInterval(() => {
-      savedCallback.current()
+      dispatchGame({ type: 'TICK' })
     }, 700)
     if (leader) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
     socket.on('get_pieces', newPieces => {
-      const nextPieces = [...pieces, ...newPieces]
-      const nextType = nextPieces[0]
-      setPieceType(nextType)
-      setPiece(startPieces[nextType])
-      setLastPiece(startPieces[nextType])
-      setPieces(nextPieces.slice(1))
+      dispatchGame({ type: 'GET_PIECES', pieces: newPieces })
+      if (!gameState.end) {
+        dispatchGame({ type: 'START' })
+      }
     })
     return () => {
       console.log('unmount Game')
@@ -110,67 +74,34 @@ const Game = ({ solo, room }) => {
     }
   }, [])
 
-  const handleSpace = () => {
-    const nextPiece = dropBottom(piece, grid)
-    setLastPiece(piece)
-    setPiece(nextPiece)
-    setGrid(g => updateGrid(lastPiece, piece, pieceType, g))
-  }
-  
-  const handleLeft = () => {
-    const nextPiece = moveLeft(piece)
-    if (!canFit(lastPiece, nextPiece, grid)) {
+  const onKeyUp = (e) => {
+    if (gameState.piece === null) {
       return
     }
-    setLastPiece(piece)
-    setPiece(nextPiece)
-    setGrid(g => updateGrid(lastPiece, piece, pieceType, g))
-  }
-
-  const handleRight = () => {
-    const nextPiece = moveRight(piece)
-    if (!canFit(lastPiece, nextPiece, grid)) {
+    console.log('onKeyUp', e)
+    switch (e.keyCode) {
+    case DOWN:
+      console.log('DOWN')
+      dispatchGame({ type: 'SPEED' })
       return
-    }
-    setLastPiece(piece)
-    setPiece(nextPiece)
-    setGrid(g => updateGrid(lastPiece, piece, pieceType, g))
-  }
-
-  const handleDown = () => {
-    const [ok, nextPiece] = canDrop(piece, grid)
-    if (!ok) {
+    case UP:
+      console.log('UP')
+      dispatchGame({ type: 'ROTATE' })
       return
-    }
-    setLastPiece(piece)
-    setPiece(nextPiece)
-    setGrid(g => updateGrid(lastPiece, piece, pieceType, g))
-  }
-
-  const onKeyDown = (e) => {
-    switch(e.keyCode) {
-      case DOWN:
-        console.log('DOWN')
-        handleDown()
-        break
-      case UP:
-        console.log('UP')
-        break
-      case SPACE:
-        console.log('SPACE')
-        handleSpace()
-        break
-      case LEFT:
-        console.log('LEFT')
-        handleLeft()
-        break
-      case RIGHT:
-        console.log('RIGHT')
-        handleRight()
-        break
-      default:
-        console.log('useless key', e.keyCode)
-          
+    case SPACE:
+      console.log('SPACE')
+      dispatchGame({ type: 'DROP' })
+      return
+    case LEFT:
+      console.log('LEFT')
+      dispatchGame({ type: 'LEFT' })
+      return
+    case RIGHT:
+      console.log('RIGHT')
+      dispatchGame({ type: 'RIGHT' })
+      return
+    default:
+      console.log('useless key', e.keyCode)
     }
   }
   const colors = ['emptyCell',
@@ -182,7 +113,7 @@ const Game = ({ solo, room }) => {
                   'piece6', 'piece6', 'piece6', 'piece6']
   return (
     <div>
-      <input id='gameControlsInput' onKeyDown={onKeyDown} tabIndex={-1} autoFocus></input>
+      <input autoFocus id='gameControlsInput' onKeyDown={onKeyUp} tabIndex={-1} />
       <Header onReturn={onStop} title={`GAME ${solo ? 'SOLO' : 'MULTIPLAYER'}`} />
       <div className='d-flex justify-content-center'>
         <div className='d-flex flex-row justifiy-content-around flex-1 m-2' id='gameContainer'>
@@ -195,13 +126,13 @@ const Game = ({ solo, room }) => {
             </div>
           </div>
           <div className='w-50 m-2 d-flex flex-row flex-wrap' id='gridContainer'>
-            {
-              grid.map((cell, i) => (
+            {gameState.end ? 'LOST' :
+              gameState.grid.map((cell, i) => (
                 <div className={classNames({
                   gridCell: true,
-                  gridCell1: i % 2 === 0 ? true : false,
-                  gridCell2: i % 2 !== 0 ? true : false,
-                  [colors[cell]]: true
+                  gridCell1: i % 2 === 0,
+                  gridCell2: i % 2 !== 0,
+                  [colors[cell]]: true,
                 })} key={i} >{cell}</div>
               ))
             }
