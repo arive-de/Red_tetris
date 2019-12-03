@@ -13,11 +13,10 @@ import {
   updateFullLine,
 } from '../utils/pieces'
 
-
-
 const handleTick = (state) => {
   const { type, piece, pieces, grid, spectrums } = state
   const [ok, nextPiece] = canDrop(piece, grid)
+
   if (!ok) {
     if (startPieces[pieces[0]].some(c => state.grid[c] !== 0)) {
       console.log('GAMEOVER !!')
