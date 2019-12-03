@@ -23,7 +23,6 @@ const Home = ({ error, setError }) => {
 
   useEffect(() => {
     setError(error)
-    
     return () => {
       setError(null)
     }

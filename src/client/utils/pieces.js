@@ -213,9 +213,19 @@ const dropBottom = (piece, grid) => {
   return dropBottom(next, grid)
 }
 
-const gameOver = (piece, grid) => {
-  console.log('gameover', canDrop(piece, grid), piece.some(x => x < 10))
-  return (!canDrop(piece, grid)[0] && piece.some(x => x < 10))
+const updateFullLine = (grid) => {
+  let newGrid = []
+  let nbLine = 0
+  Array(20).fill(0).forEach((x, i) => {
+    const line = grid.slice(i * 10, i * 10 + 10)
+    if (line.every(c => c > 0)) {
+      newGrid.unshift(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+      nbLine = nbLine + 1
+      return
+    }
+    newGrid.push(...line)
+  })
+  return [newGrid, nbLine]
 }
 
 export {
@@ -230,5 +240,5 @@ export {
   addBlockLine,
   getSpectrum,
   dropBottom,
-  gameOver,
+  updateFullLine,
 }

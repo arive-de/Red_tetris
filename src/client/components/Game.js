@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useReducer } from 'react'
+import React, { useEffect, useState, useReducer, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actLeaveRoom, actStopGame } from '../actions/room'
 import Header from './Header'
 import classNames from 'classnames'
 import { gameReducer } from '../reducers/game'
+import { pieces as startPieces } from '../utils/pieces'
 import './Game.scss'
 
 const SPACE = 32
@@ -15,10 +16,11 @@ const DOWN = 40
 const Game = ({ solo, room }) => {
   const intialGameState = {
     type: 0,
-    piece: null,
+    piece: [],
     pieces: [],
     grid: Array(200).fill(0),
     spectrums: room.players.filter(u => u !== username).reduce((acc, user) => acc[user] = Array(10).fill(0), {}),
+    lines: 0,
     end: false,
   }
   const dispatch = useDispatch()
@@ -45,8 +47,13 @@ const Game = ({ solo, room }) => {
   })
 
   useEffect(() => {
+    console.log('useEffect Game [lines]')
+    console.log(`attack other with ${gameState.lines} lines`)
+  }, [gameState.lines])
+
+  useEffect(() => {
     console.log('Game useEffect [pieces]')
-    if (gameState.pieces.length === 3 && leader) {
+    if (gameState.pieces.length === 4 && leader) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
     return () => {
@@ -63,9 +70,6 @@ const Game = ({ solo, room }) => {
     }
     socket.on('get_pieces', newPieces => {
       dispatchGame({ type: 'GET_PIECES', pieces: newPieces })
-      if (!gameState.end) {
-        dispatchGame({ type: 'START' })
-      }
     })
     return () => {
       console.log('unmount Game')
@@ -78,7 +82,7 @@ const Game = ({ solo, room }) => {
     if (gameState.piece === null) {
       return
     }
-    console.log('onKeyUp', e)
+    // console.log('onKeyUp', e)
     switch (e.keyCode) {
     case DOWN:
       console.log('DOWN')
@@ -104,6 +108,7 @@ const Game = ({ solo, room }) => {
       console.log('useless key', e.keyCode)
     }
   }
+
   const colors = ['emptyCell',
                   'piece1', 'piece1',
                   'piece2', 'piece2',
@@ -111,6 +116,14 @@ const Game = ({ solo, room }) => {
                   'piece4', 'piece4', 'piece4', 'piece4',
                   'piece5', 'piece5', 'piece5', 'piece5',
                   'piece6', 'piece6', 'piece6', 'piece6']
+  const incomingPiece = gameState.piece.length ? startPieces[gameState.pieces[0]].map((x, i) => {
+    if (x >= 30) return x - 21
+    if (x >= 20) return x - 15
+    if (x >= 10) return x - 9
+    if (x >= 0) return x - 3
+  }) : []
+  const incomingPieceGrid = Array(16).fill(0)
+  incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[0] || 0 })
   return (
     <div>
       <input autoFocus id='gameControlsInput' onKeyDown={onKeyUp} tabIndex={-1} />
@@ -140,6 +153,17 @@ const Game = ({ solo, room }) => {
           <div className='gameSide d-flex flex-column justify-content-between align-items-stretch w-25'>
             <div className='spectrum h-50 m-2'>
               incoming Piece
+              <div id='incomingPiece' className='d-flex flex-row flex-wrap w-100'>
+                {
+                  incomingPieceGrid.map((cell, i) =>
+                  (<div className={classNames({
+                    'incomingPieceCell': true,
+                    'bg-secondary': cell,
+                    gridCell1: i % 2 === 0,
+                    gridCell2: i % 2 !== 0,
+                  })} key={i} >{cell}</div>))
+                }
+              </div>
             </div>
             <div className='spectrum h-50 m-2'>
               spectrum 3
