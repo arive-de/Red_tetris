@@ -15,10 +15,12 @@ import {
 
 const handleTick = (state) => {
   if (state.piece === null) {
+    console.log('goes here')
     return state
   }
   const { type, piece, pieces, grid, spectrums } = state
   const [ok, nextPiece] = canDrop(piece, grid)
+
   if (!ok) {
     return {
       ...state,
