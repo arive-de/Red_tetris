@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useReducer, useCallback } from 'react'
+import React, { useEffect, useState, useReducer } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actLeaveRoom, actStopGame } from '../actions/room'
 import Header from './Header'
+import Wall from './Wall'
 import classNames from 'classnames'
 import { gameReducer } from '../reducers/game'
 import { pieces as startPieces } from '../utils/pieces'
@@ -14,6 +15,8 @@ const RIGHT = 39
 const DOWN = 40
 
 const Game = ({ solo, room }) => {
+  const dispatch = useDispatch()
+  const username = useSelector(state => state.username)
   const intialGameState = {
     type: 0,
     piece: [],
@@ -23,8 +26,6 @@ const Game = ({ solo, room }) => {
     lines: 0,
     end: false,
   }
-  const dispatch = useDispatch()
-  const username = useSelector(state => state.username)
   const socket = useSelector(state => state.socket)
   const [gamers, setGamers] = useState([true, true, true, true].slice(0, room.players.length))
   const [gameState, dispatchGame] = useReducer(gameReducer, intialGameState)
@@ -126,6 +127,7 @@ const Game = ({ solo, room }) => {
   incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[0] || 0 })
   return (
     <div>
+      <Wall mute={true} />
       <input autoFocus id='gameControlsInput' onKeyDown={onKeyUp} tabIndex={-1} />
       <Header onReturn={onStop} title={`GAME ${solo ? 'SOLO' : 'MULTIPLAYER'}`} />
       <div className='d-flex justify-content-center'>

@@ -19,7 +19,6 @@ const handleTick = (state) => {
 
   if (!ok) {
     if (startPieces[pieces[0]].some(c => state.grid[c] !== 0)) {
-      console.log('GAMEOVER !!')
       return {
         ...state,
         piece: [],
@@ -102,7 +101,6 @@ const handleRotate = (state) => {
 }
 
 const gameReducer = (state, action) => {
-  // console.log('gameReducer', state, action)
   if (state.end) {
     return state
   }

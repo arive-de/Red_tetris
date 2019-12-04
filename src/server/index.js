@@ -8,7 +8,8 @@ const debug = require('debug')('∆:index')
 const fs = require('fs')
 const env = require('./env')
 const { initSocketAuth } = require('./sockets/auth')
-const { initSocketRoom } = require('./sockets/room/room')
+const { initSocketRoom } = require('./sockets/room')
+const { initSocketGame } = require('./sockets/game')
 const { initSocketUrl } = require('./sockets/url')
 const { deleteUser } = require('./controllers/user/user')
 
@@ -29,10 +30,10 @@ const initEngine = io => {
   debug('initengine')
   io.on('connection', (socket) => {
     debug(`Socket connected: ${socket.id}`)
-
     initSocketAuth(io, socket)
     initSocketRoom(io, socket)
     initSocketUrl(io, socket)
+    initSocketGame(io, socket)
     socket.on('disconnect', () => {
       debug(`Socket disconnected: ${socket.id}`)
       deleteUser(socket.username, socket.roomId, (error) => {

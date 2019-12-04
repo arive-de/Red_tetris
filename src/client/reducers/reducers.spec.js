@@ -2,7 +2,7 @@ import reducer from '../reducers'
 import { actSetUsername, actSetTypeGame, actSetSocket, actGetUsers, actAddUser, actLogout, actGetHighscores } from '../actions/user'
 import { actGetRooms, actCreateRoom, actJoinRoom, actLeaveRoom, actPlayGame, actStopGame } from '../actions/room'
 
-describe('game reducer', () => {
+describe('user reducer', () => {
   let input
   let expectedOutput
   let action

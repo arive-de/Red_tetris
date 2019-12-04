@@ -1,6 +1,6 @@
 const debug = require('debug')('∆:app spec')
 import React from 'react';
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
@@ -15,7 +15,6 @@ import RoomList from './components/RoomList'
 import Invite from './components/Invite'
 import { actSetUsername, actSetTypeGame } from './actions/user'
 import { actCreateRoom, actPlayGame } from './actions/room';
-import { exact } from 'prop-types';
 import { fillDb } from '../server/env'
 
 describe('App component', () => {

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actCreateRoom, actLeaveRoom } from '../actions/room'
-import { actLogout, actSetTypeGame } from '../actions/user'
+import { actSetTypeGame } from '../actions/user'
 import RoomList from './RoomList'
+import Wall from './Wall'
 import SearchPlayer from './SearchPlayer'
-import './Lobby.scss'
 import Header from './Header'
-import Navbar from 'react-bootstrap/navbar'
-import Button from 'react-bootstrap/button'
+import './Lobby.scss'
+import Button from 'react-bootstrap/Button'
 
 const Lobby = ({ error, setError }) => {
 
@@ -21,7 +20,6 @@ const Lobby = ({ error, setError }) => {
   const [sortField, setSortField] = useState('roomId')
 
   const title = 'Lobby'
-console.log(rooms)
   const onCreate = () => {
     socket.emit('create_room', { username, type });
   }
@@ -58,11 +56,10 @@ console.log(rooms)
   }
 
   useEffect(() => {
-    // setError(error)
     return () => {
       setError(null)
     }
-  }, [sortField])
+  }, [])
 
   const onReturn = () => {
     dispatch(actSetTypeGame(false))
@@ -70,6 +67,7 @@ console.log(rooms)
 
   return (
     <div>
+      <Wall/>
         <Header error={error} setError={setError} title={title} onReturn={onReturn}></Header>
         <br/>
         <div className=''>

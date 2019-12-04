@@ -7,7 +7,6 @@ import Menu from '../components/Menu'
 import Lobby from '../components/Lobby'
 import Room from '../components/Room'
 import openSocket from 'socket.io-client'
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.scss'
 
 const socket = openSocket('http://localhost:3004')

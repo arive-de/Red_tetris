@@ -4,6 +4,7 @@ import Game from './Game'
 import Header from './Header'
 import Invite from './Invite'
 import ListGroup from 'react-bootstrap/ListGroup'
+import Wall from './Wall'
 import './Room.scss'
 
 const Room = ({ room }) => {
@@ -54,6 +55,7 @@ const Room = ({ room }) => {
   const sortedPlayers = room.players.map((p, i) => ({ username: p, score: room.leaderBoard[i] })).sort((a, b) => b.score - a.score)
   return (
     <div>
+      <Wall />
       <Header title={`room ${room.roomId}`} onReturn={onReturn}></Header>
       <Invite room={room} />
     <div className='m-3 d-flex flex-column'>
