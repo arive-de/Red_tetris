@@ -14,6 +14,7 @@ const UP = 38
 const RIGHT = 39
 const DOWN = 40
 
+let intervalPiece
 const Game = ({ solo, room }) => {
   const dispatch = useDispatch()
   const username = useSelector(state => state.username)
@@ -25,6 +26,7 @@ const Game = ({ solo, room }) => {
     spectrums: room.players.filter(u => u !== username).reduce((acc, user) => acc[user] = Array(10).fill(0), {}),
     lines: 0,
     end: false,
+    score: 0,
   }
   const socket = useSelector(state => state.socket)
   const [gamers, setGamers] = useState([true, true, true, true].slice(0, room.players.length))
@@ -63,7 +65,7 @@ const Game = ({ solo, room }) => {
 
   useEffect(() => {
     console.log('Game useEffect []')
-    const intervalPiece = setInterval(() => {
+    intervalPiece = setInterval(() => {
       dispatchGame({ type: 'TICK' })
     }, 700)
     if (leader) {
@@ -96,6 +98,10 @@ const Game = ({ solo, room }) => {
     case SPACE:
       console.log('SPACE')
       dispatchGame({ type: 'DROP' })
+      clearInterval(intervalPiece)
+      intervalPiece = setInterval(() => {
+        dispatchGame({ type: 'TICK' })
+      }, 700)
       return
     case LEFT:
       console.log('LEFT')
@@ -124,7 +130,7 @@ const Game = ({ solo, room }) => {
     if (x >= 0) return x - 3
   }) : []
   const incomingPieceGrid = Array(16).fill(0)
-  incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[0] || 0 })
+  incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[0] + 1 || 0 })
   return (
     <div>
       <Wall mute={true} />
@@ -155,16 +161,21 @@ const Game = ({ solo, room }) => {
           <div className='gameSide d-flex flex-column justify-content-between align-items-stretch w-25'>
             <div className='spectrum h-50 m-2'>
               incoming Piece
-              <div id='incomingPiece' className='d-flex flex-row flex-wrap w-100'>
-                {
-                  incomingPieceGrid.map((cell, i) =>
-                  (<div className={classNames({
-                    'incomingPieceCell': true,
-                    'bg-secondary': cell,
-                    gridCell1: i % 2 === 0,
-                    gridCell2: i % 2 !== 0,
-                  })} key={i} >{cell}</div>))
-                }
+              <div className='d-flex flex-column'>
+                <div id='incomingPiece' className='d-flex flex-row flex-wrap w-100'>
+                  {
+                    incomingPieceGrid.map((cell, i) =>
+                    (<div className={classNames({
+                      'incomingPieceCell': true,
+                      'bg-secondary': cell,
+                      gridCell1: i % 2 === 0,
+                      gridCell2: i % 2 !== 0,
+                    })} key={i} >{cell}</div>))
+                  }
+                </div>
+                <div className=''>
+                  SCORE: {gameState.score} 
+                </div>
               </div>
             </div>
             <div className='spectrum h-50 m-2'>

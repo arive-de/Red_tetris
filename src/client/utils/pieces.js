@@ -213,8 +213,8 @@ const dropBottom = (piece, grid) => {
   return dropBottom(next, grid)
 }
 
-const updateFullLine = (grid) => {
-  let newGrid = []
+const updateFullLine = (grid, piece, type) => {
+  const newGrid = []
   let nbLine = 0
   Array(20).fill(0).forEach((x, i) => {
     const line = grid.slice(i * 10, i * 10 + 10)
@@ -225,6 +225,7 @@ const updateFullLine = (grid) => {
     }
     newGrid.push(...line)
   })
+  piece.forEach(c => { newGrid[c] = type + 1 })
   return [newGrid, nbLine]
 }
 

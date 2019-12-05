@@ -13,6 +13,8 @@ import {
   updateFullLine,
 } from '../utils/pieces'
 
+const scoring = [40, 100, 300, 1200]
+
 const handleTick = (state) => {
   const { type, piece, pieces, grid, spectrums } = state
   const [ok, nextPiece] = canDrop(piece, grid)
@@ -25,14 +27,15 @@ const handleTick = (state) => {
         end: true,
       }
     }
-    const [newGrid, nbLine] = updateFullLine(grid)
+    const [newGrid, nbLine] = updateFullLine(grid, startPieces[pieces[0]], pieces[0])
     return {
       ...state,
       type: pieces[0],
       piece: startPieces[pieces[0]],
       pieces: pieces.slice(1),
-      grid: updateGrid(startPieces[pieces[0]], startPieces[pieces[0]], pieces[0], newGrid),
+      grid: newGrid,
       lines: nbLine,
+      score: nbLine > 0 ? state.score + scoring[nbLine - 1] : state.score,
     }
   }
   return {
@@ -68,10 +71,28 @@ const handleMove = (state, fn, arg) => {
   }
 }
 
+const handleDrop = (state, arg) => {
+  const { type, piece, pieces, grid } = state
+  const nextPiece = dropBottom(piece, arg)
+  if (!canFit(piece, nextPiece, grid)) {
+    return state
+  }
+  const [newGrid, nbLine] = updateFullLine(updateGrid(piece, nextPiece, type, grid), startPieces[pieces[0]], pieces[0])
+  return {
+    ...state,
+    type: pieces[0],
+    piece: startPieces[pieces[0]],
+    pieces: pieces.slice(1),
+    grid: newGrid,
+    lines: nbLine,
+    score: nbLine > 0 ? state.score + scoring[nbLine - 1] : state.score,
+  }
+}
+
 const handlePieces = (state, newPieces) => {
   const nextState = {
     ...state,
-    pieces: [...state.pieces, ...newPieces]
+    pieces: [...state.pieces, ...newPieces],
   }
   if (state.piece.length) {
     return nextState
@@ -112,7 +133,7 @@ const gameReducer = (state, action) => {
   case 'RIGHT':
     return handleMove(state, moveRight)
   case 'DROP':
-    return handleMove(state, dropBottom, [...state.grid])
+    return handleDrop(state, [...state.grid])
   case 'ROTATE':
     return handleRotate(state)
   case 'GET_PIECES':
