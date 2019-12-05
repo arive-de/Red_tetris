@@ -163,11 +163,20 @@ const p17 = [4, 5, 6, 16]
 // r to p14 [-5, 5, 14, 15]
 const r17 = ([a, b, c, d]) => [a - 9, b, c + 8, d - 1]
 
-const pieces = [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17]
+//    ##
+//    ##
+//
+//
+const p18 = [4, 5, 14, 15]
 
-const rotationTypes = type => [1, 0, 3, 2, 5, 4, 7, 8, 9, 6, 11, 12, 13, 10, 15, 16, 17, 14][type]
+// r to p18 [4, 5, 14, 15]
+const r18 = ([a, b, c, d]) => [a, b, c, d]
 
-const rotationFuncs = (piece, type) => [r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17][type](piece)
+const pieces = [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18]
+
+const rotationTypes = type => [1, 0, 3, 2, 5, 4, 7, 8, 9, 6, 11, 12, 13, 10, 15, 16, 17, 14, 18][type]
+
+const rotationFuncs = (piece, type) => [r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18][type](piece)
 
 const canFit = (lastPiece, piece, grid) => {
   const pieceFitInGrid = piece.every(x => x < 200 && x >= 0 && (grid[x] === 0 || lastPiece.indexOf(x) !== -1))
@@ -202,7 +211,7 @@ const addBlockLine = (n, grid) => {
 
 const getSpectrum = grid => {
   // Array(10).map(a, j => Array(20).map((x, i) => grid[j * 10 + i]).findIndex(s => s <= 0))
-  return grid.map(x => x > 0 ? 1 : 0)
+  return grid.map(x => x > 0 ? 1 : x < 0 ? -1 : 0)
 }
 
 const dropBottom = (piece, grid) => {

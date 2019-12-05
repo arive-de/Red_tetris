@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { actLeaveRoom, actStopGame } from '../actions/room'
 import Header from './Header'
 import Wall from './Wall'
+import Spectrum from './Spectrum'
 import classNames from 'classnames'
 import { gameReducer } from '../reducers/game'
-import { pieces as startPieces } from '../utils/pieces'
+import { pieces as startPieces,
+          getSpectrum } from '../utils/pieces'
 import './Game.scss'
 
 const SPACE = 32
@@ -23,7 +25,7 @@ const Game = ({ solo, room }) => {
     piece: [],
     pieces: [],
     grid: Array(200).fill(0),
-    spectrums: room.players.filter(u => u !== username).reduce((acc, user) => acc[user] = Array(10).fill(0), {}),
+    spectrums: [0, 0, 0].map(x => Array(200).fill(0)),
     lines: 0,
     end: false,
     score: 0,
@@ -50,12 +52,17 @@ const Game = ({ solo, room }) => {
   })
 
   useEffect(() => {
+    console.log('useEffect Game OVER')
+  }, [gameState.end])
+
+  useEffect(() => {
     console.log('useEffect Game [lines]')
     console.log(`attack other with ${gameState.lines} lines`)
   }, [gameState.lines])
 
   useEffect(() => {
     console.log('Game useEffect [pieces]')
+    socket.emit('spectrum', getSpectrum(gameState.grid))
     if (gameState.pieces.length === 4 && leader) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
@@ -131,6 +138,7 @@ const Game = ({ solo, room }) => {
   }) : []
   const incomingPieceGrid = Array(16).fill(0)
   incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[0] + 1 || 0 })
+  const players = room.players.filter(u => u !== username)
   return (
     <div>
       <Wall mute={true} />
@@ -140,10 +148,10 @@ const Game = ({ solo, room }) => {
         <div className='d-flex flex-row justifiy-content-around flex-1 m-2' id='gameContainer'>
           <div className='gameSide d-flex flex-column justify-content-between align-items-stretch w-25'>
             <div className='spectrum h-50 m-2'>
-              spectrum 1
+            <Spectrum mute={players.length < 1} grid={gameState.spectrums[0]} username={players[0]}/>
             </div>
             <div className='spectrum h-50 m-2'>
-              spectrum 2
+            <Spectrum mute={players.length < 2} grid={gameState.spectrums[1]} username={players[1]}/>
             </div>
           </div>
           <div className='w-50 m-2 d-flex flex-row flex-wrap' id='gridContainer'>
@@ -179,7 +187,7 @@ const Game = ({ solo, room }) => {
               </div>
             </div>
             <div className='spectrum h-50 m-2'>
-              spectrum 3
+            <Spectrum mute={players.length < 3} grid={gameState.spectrums[2]} username={players[2]}/>
             </div>
           </div>
 
