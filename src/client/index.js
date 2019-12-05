@@ -12,7 +12,6 @@ const initialState = {
   typeGame: false,
   isPlaying: false,
   roomId: null,
-  spectr: [],
   socket: null,
   rooms: [],
   userList: [],

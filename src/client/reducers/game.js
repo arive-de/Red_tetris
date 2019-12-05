@@ -8,7 +8,6 @@ import {
   moveLeft,
   updateGrid,
   addBlockLine,
-  getSpectrum,
   dropBottom,
   updateFullLine,
 } from '../utils/pieces'
@@ -127,6 +126,12 @@ const handleSpectrum = (state, { index, spectrum }) => {
   return { ...state, spectrums: newSpectrums }
 }
 
+const handleBlockLines = (state, lines) => {
+  const { grid, piece, type } = state
+  const newGrid = addBlockLine(lines, grid, piece, type)
+  return { ...state, grid: newGrid }
+}
+
 const gameReducer = (state, action) => {
   if (state.end) {
     return state
@@ -146,8 +151,8 @@ const gameReducer = (state, action) => {
     return handlePieces(state, action.pieces)
   case 'SPEED':
     return handleDown(state)
-  case 'ADD_LINES':
-    return { ...state }
+  case 'BLOCKLINES':
+    return handleBlockLines(state, action.lines)
   case 'SPECTRUM':
     return handleSpectrum(state, action)
   default:

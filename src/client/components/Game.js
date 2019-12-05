@@ -60,6 +60,10 @@ const Game = ({ solo, room }) => {
   useEffect(() => {
     console.log('useEffect Game [lines]')
     console.log(`attack other with ${gameState.lines} lines`)
+    if (gameState.lines <= 1) {
+      return
+    }
+    socket.emit('blockLines', gameState.lines)
   }, [gameState.lines])
 
   useEffect(() => {
@@ -88,6 +92,11 @@ const Game = ({ solo, room }) => {
     socket.on('spectrum', ({ username, spectrum }) => {
         const indexPlayer = players.indexOf(username)
         dispatchGame({ type: 'SPECTRUM', index: indexPlayer, spectrum })
+    })
+    socket.on('blockLines', lines => {
+      console.log('blocklines listener', lines)
+      dispatchGame({ type: 'BLOCKLINES', lines: lines - 1 })
+      // socket.emit('spectrum', getSpectrum(gameState.grid, gameState.piece))
     })
     return () => {
       console.log('unmount Game')
@@ -170,6 +179,7 @@ const Game = ({ solo, room }) => {
                   gridCell1: i % 2 === 0,
                   gridCell2: i % 2 !== 0,
                   [colors[cell]]: true,
+                  blockCell: cell === -1,
                 })} key={i} >{cell}</div>
               ))
             }

@@ -29,6 +29,7 @@ const Spectrum = ({ grid, username, mute }) => {
                   gridCell: true,
                   gridCell1: i % 2 === 0,
                   gridCell2: i % 2 !== 0,
+                  blockCell: cell === -1,
                   [colors[cell]]: true,
                 }, 'spectrumCell')} key={i} >.</div>
               ))

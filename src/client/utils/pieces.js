@@ -204,9 +204,13 @@ const updateGrid = (oldPiece, newPiece, type, grid) => {
   return newGrid
 }
 
-const addBlockLine = (n, grid) => {
-  const newGrid = [...grid, ...Array(10 * n).fill(-1)]
-  return newGrid.slice(n * 10)
+const addBlockLine = (n, grid, piece, type) => {
+  let newGrid = [...grid, ...Array(10 * n).fill(-1)]
+  piece.forEach(c => { newGrid[c] = 0 })
+  newGrid = newGrid.slice(n * 10)
+  piece.forEach(c => { newGrid[c] = type + 1})
+
+  return newGrid
 }
 
 const getSpectrum = (grid, piece) => {
@@ -236,6 +240,7 @@ const updateFullLine = (grid, piece, type) => {
     newGrid.push(...line)
   })
   piece.forEach(c => { newGrid[c] = type + 1 })
+  console.log('updatefullline', grid, newGrid)
   return [newGrid, nbLine]
 }
 
