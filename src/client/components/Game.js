@@ -34,6 +34,8 @@ const Game = ({ solo, room }) => {
   const [gamers, setGamers] = useState([true, true, true, true].slice(0, room.players.length))
   const [gameState, dispatchGame] = useReducer(gameReducer, intialGameState)
   const leader = username === room.players[0]
+  const players = room.players.filter(u => u !== username)
+
 
   const onStop = () => {
     if (solo) {
@@ -62,8 +64,10 @@ const Game = ({ solo, room }) => {
 
   useEffect(() => {
     console.log('Game useEffect [pieces]')
-    socket.emit('spectrum', getSpectrum(gameState.grid))
-    if (gameState.pieces.length === 4 && leader) {
+    if (!solo) {
+      socket.emit('spectrum', getSpectrum(gameState.grid, gameState.piece))
+    }
+    if (gameState.pieces.length === 4) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
     return () => {
@@ -81,9 +85,14 @@ const Game = ({ solo, room }) => {
     socket.on('get_pieces', newPieces => {
       dispatchGame({ type: 'GET_PIECES', pieces: newPieces })
     })
+    socket.on('spectrum', ({ username, spectrum }) => {
+        const indexPlayer = players.indexOf(username)
+        dispatchGame({ type: 'SPECTRUM', index: indexPlayer, spectrum })
+    })
     return () => {
       console.log('unmount Game')
       socket.removeListener('get_pieces')
+      socket.removeListener('spectrum')
       clearInterval(intervalPiece)
     }
   }, [])
@@ -138,7 +147,6 @@ const Game = ({ solo, room }) => {
   }) : []
   const incomingPieceGrid = Array(16).fill(0)
   incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[0] + 1 || 0 })
-  const players = room.players.filter(u => u !== username)
   return (
     <div>
       <Wall mute={true} />

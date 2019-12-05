@@ -121,6 +121,12 @@ const handleRotate = (state) => {
   }
 }
 
+const handleSpectrum = (state, { index, spectrum }) => {
+  const newSpectrums = [...state.spectrums]
+  newSpectrums[index] = spectrum
+  return { ...state, spectrums: newSpectrums }
+}
+
 const gameReducer = (state, action) => {
   if (state.end) {
     return state
@@ -142,6 +148,8 @@ const gameReducer = (state, action) => {
     return handleDown(state)
   case 'ADD_LINES':
     return { ...state }
+  case 'SPECTRUM':
+    return handleSpectrum(state, action)
   default:
     return state
   }

@@ -29,6 +29,9 @@ const initSocketGame = (io, socket) => {
     io.to(roomId).emit('get_pieces', pieces)
   })
 
+  socket.on('spectrum', spectrum => {
+    io.to(socket.roomId).emit('spectrum', { username: socket.username, spectrum })
+  })
 }
 
 module.exports = { initSocketGame }

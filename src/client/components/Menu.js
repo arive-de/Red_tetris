@@ -22,7 +22,7 @@ const Menu = () => {
     dispatch(actPlayGame(undefined))
   }
   // FOR GAME Dev
-  onClickSolo()
+  // onClickSolo()
 
   return (
     <div>

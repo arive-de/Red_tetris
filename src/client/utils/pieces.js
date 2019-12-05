@@ -209,9 +209,10 @@ const addBlockLine = (n, grid) => {
   return newGrid.slice(n * 10)
 }
 
-const getSpectrum = grid => {
-  // Array(10).map(a, j => Array(20).map((x, i) => grid[j * 10 + i]).findIndex(s => s <= 0))
-  return grid.map(x => x > 0 ? 1 : x < 0 ? -1 : 0)
+const getSpectrum = (grid, piece) => {
+  const newGrid = grid.map(x => x > 0 ? 1 : x < 0 ? -1 : 0)
+  piece.forEach(c => { newGrid[c] = 0 })
+  return newGrid
 }
 
 const dropBottom = (piece, grid) => {

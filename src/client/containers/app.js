@@ -9,7 +9,7 @@ import Room from '../components/Room'
 import openSocket from 'socket.io-client'
 import './app.scss'
 
-const socket = openSocket('http://localhost:3004')
+const socket = openSocket(`http://${window.location.hostname}:3004`)
 
 const App = () => {
 
@@ -81,7 +81,7 @@ const App = () => {
       dispatch(actGetHighscores(data))
     })
     // FOR GAME DEV
-    socket.emit('auth', 'cbarb')
+    // socket.emit('auth', 'cbarb')
   }
 
   if (username !== null && roomId !== null) {
