@@ -11,7 +11,8 @@ const Wall = ({ mute }) => {
   'piece3', 'piece3',
   'piece4', 'piece4', 'piece4', 'piece4',
   'piece5', 'piece5', 'piece5', 'piece5',
-  'piece6', 'piece6', 'piece6', 'piece6']
+  'piece6', 'piece6', 'piece6', 'piece6',
+  'piece7']
 
   useEffect(() => {
     if (mute) {

@@ -34,10 +34,12 @@ const p16 = x => [x, x + 1, x + 33, x + 66]
 
 const p17 = x => [x, x + 1, x + 2, x + 35]
 
-const pieces = [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17]
+const p18 = x => [x, x + 1, x + 33, x + 34]
+
+const pieces = [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18]
 
 const handleTick = (grid) => {
-  const indexPiece = Math.floor(Math.random() * 18)
+  const indexPiece = Math.floor(Math.random() * 19)
   const startColumn = Math.floor(Math.random() * 27) + 3
   const newGrid = [...Array(33).fill(0), ...grid.slice(0, 1518)]
   pieces[indexPiece](startColumn).forEach(c => { newGrid[c] = indexPiece + 1 })
