@@ -5,6 +5,7 @@ export const GET_USERS = 'GET_USERS'
 export const ADD_USER = 'ADD_USER'
 export const LOGOUT = 'LOGOUT'
 export const GET_HIGHSCORES = 'GET_HIGHSCORES'
+export const ADD_WIN = 'ADD_WIN'
 
 export const actSetUsername = (username) => ({
   type: SET_USERNAME,
@@ -40,4 +41,10 @@ export const actGetUsers = (users) => ({
 export const actGetHighscores = (highscores) => ({
   type: GET_HIGHSCORES,
   highscores,
+})
+
+export const actAddWin = (roomId, username) => ({
+  type: ADD_WIN,
+  roomId,
+  username,
 })

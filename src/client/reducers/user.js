@@ -1,4 +1,4 @@
-import { SET_USERNAME, SET_TYPEGAME, SET_SOCKET, GET_USERS, ADD_USER, LOGOUT, GET_HIGHSCORES } from '../actions/user'
+import { SET_USERNAME, SET_TYPEGAME, SET_SOCKET, GET_USERS, ADD_USER, LOGOUT, GET_HIGHSCORES, ADD_WIN } from '../actions/user'
 
 const deleteUser = (state, username, roomId) => {
   const userList = state.userList.filter(u => u !== username)
@@ -34,6 +34,16 @@ const reducer = (state, action) => {
     return deleteUser(state, username, action.roomId)
   case GET_HIGHSCORES:
     return { ...state, highscores: action.highscores }
+  case ADD_WIN:
+    return {
+      ...state,
+      rooms: state.rooms.map(r => {
+        if (r.roomId === action.roomId) {
+          r.leaderBoard[r.players.indexOf(username)] += 1
+        }
+        return r
+      }),
+    }
   default:
     return state
   }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actLeaveRoom, actStopGame } from '../actions/room'
+import { actLeaveRoom, actStopGame, actQuitGame } from '../actions/room'
 import Header from './Header'
 import Wall from './Wall'
 import Spectrum from './Spectrum'
@@ -36,17 +36,13 @@ const Game = ({ solo, room }) => {
   const leader = username === room.players[0]
   const players = room.players.filter(u => u !== username)
 
-
   const onStop = () => {
     if (solo) {
       dispatch(actLeaveRoom({ username, roomId: room.roomId }));
       return
     }
-    if (gamers.filter(x => x).length === 1) {
-      socket.emit('stop_game', { roomId: room.roomId })
-    } else {
-      dispatch(actStopGame(room.roomId))
-    }
+    socket.emit('gameOver', { index: room.players.indexOf(username) })
+    dispatch(actQuitGame(room.roomId))
   }
 
   useEffect(() => {
@@ -54,12 +50,33 @@ const Game = ({ solo, room }) => {
   })
 
   useEffect(() => {
+    console.log('useEffect Game [gamers]')
+    console.log(gamers)
+    if (solo) {
+      return
+    }
+    if (gamers.filter(x => x).length === 1) {
+      console.log('you won')
+      socket.emit('stop_game', { roomId: room.roomId, solo: false })
+    }
+  }, [gamers])
+
+  useEffect(() => {
     console.log('useEffect Game OVER')
+    if (gameState.end) {
+      if (solo) {
+        console.log('you won')
+        socket.emit('stop_game', { roomId: room.roomId, solo: true })
+        return
+      }
+      dispatch(actQuitGame(room.roomId))
+      socket.emit('gameOver', { index: room.players.indexOf(username) })
+    }
   }, [gameState.end])
 
   useEffect(() => {
     console.log('useEffect Game [lines]')
-    console.log(`attack other with ${gameState.lines} lines`)
+    console.log(`attack other with ${gameState.lines} lines..`)
     if (gameState.lines <= 1) {
       return
     }
@@ -96,12 +113,17 @@ const Game = ({ solo, room }) => {
     socket.on('blockLines', lines => {
       console.log('blocklines listener', lines)
       dispatchGame({ type: 'BLOCKLINES', lines: lines - 1 })
-      // socket.emit('spectrum', getSpectrum(gameState.grid, gameState.piece))
+    })
+    socket.on('gameOver', ({ index }) => {
+      console.log(`${room.players[index]} is gameover`)
+      setGamers(g => g.map((x, i) => i === index ? false : x))
     })
     return () => {
       console.log('unmount Game')
       socket.removeListener('get_pieces')
       socket.removeListener('spectrum')
+      socket.removeListener('blockLines')
+      socket.removeListener('gameOver')
       clearInterval(intervalPiece)
     }
   }, [])
@@ -172,7 +194,7 @@ const Game = ({ solo, room }) => {
             </div>
           </div>
           <div className='w-50 m-2 d-flex flex-row flex-wrap' id='gridContainer'>
-            {gameState.end ? 'LOST' :
+            {gameState.end ? 'GAMEOVER' :
               gameState.grid.map((cell, i) => (
                 <div className={classNames({
                   gridCell: true,

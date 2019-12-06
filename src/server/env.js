@@ -68,7 +68,7 @@ const fillDb = () => {
       debug('rooms created')
        Highscore.create([{
         username: 'cbarbier',
-        score: 1800,
+        score: 35,
       },
         {
           username: 'arive-de',

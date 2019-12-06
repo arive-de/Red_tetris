@@ -1,5 +1,6 @@
 const debug = require('debug')('∆:controller game')
-const Room = require('../../models/Room');
+const Room = require('../../models/Room')
+const Highscore = require('../../models/Highscore')
 
 const playGame = (roomId, cb) => {
   Room.findOne({ roomId })
@@ -29,4 +30,34 @@ const stopGame = (roomId, cb) => {
     })
 }
 
-module.exports = { playGame, stopGame }
+const setHighscore = async (username, score, cb) => {
+  const newHighscore = new Highscore({
+    username,
+    score,
+  })
+  const highscores = await Highscore.find({})
+  console.log(highscores, newHighscore)
+  const sortedHighScores = highscores.map(h => ({
+    score: h.score,
+    username: h.username,
+  })).sort((a, b) => a.score - b.score)
+  if (sortedHighScores.some(h => h.score < score)) {
+    await newHighscore.save()
+    await Highscore.deleteOne(sortedHighScores[0])
+    cb(null, true)
+    return
+  }
+  cb(null, false)
+}
+
+const setWins = async (username, roomId, cb) => {
+  const room = await Room.findOne({ roomId })
+  const indexPlayer = room.players.indexOf(username)
+  if (indexPlayer >= 0) {
+    room.leaderBoard[indexPlayer] += 1
+    await room.save()
+  }
+  cb(null)
+}
+
+module.exports = { playGame, stopGame, setHighscore, setWins }

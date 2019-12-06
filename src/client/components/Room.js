@@ -6,6 +6,7 @@ import Invite from './Invite'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Wall from './Wall'
 import './Room.scss'
+import { actAddWin } from '../actions/user'
 
 const Room = ({ room }) => {
   const dispatch = useDispatch();
@@ -42,8 +43,12 @@ const Room = ({ room }) => {
     socket.on('message', data => {
       setMessages(ms => [...ms, data].slice(-11))
     })
+    socket.on('add_win', (username) => {
+      dispatch(actAddWin(room.roomId, username))
+    })
     return () => {
       socket.removeListener('message')
+      socket.removeListener('add_win')
     }
   }, [])
 
@@ -82,7 +87,7 @@ const Room = ({ room }) => {
           </div>
             <div id='messageBox' className='card-body overflow-hidden d-flex flex-column flex-nowrap'>
                { messages.map((m, index) => (
-                <div className={`h-10 bg-${rankInfos[sortedPlayers.findIndex(p => p.username === username)][1]}`} key={index}>
+                <div className={`h-10 bg-${rankInfos[sortedPlayers.findIndex(p => p.username === m.username)][1]}`} key={index}>
                   <span className='font-weight-bold'>{m.username}:</span> {m.message.substr(0, 120)}
                 </div>))}
             </div>

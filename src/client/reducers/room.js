@@ -1,4 +1,4 @@
-import { GET_ROOMS, CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM, PLAY_GAME, STOP_GAME } from '../actions/room'
+import { GET_ROOMS, CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM, PLAY_GAME, STOP_GAME, QUIT_GAME } from '../actions/room'
 
 const gameReducer = (state, action) => {
   const { username, roomId, room, rooms } = action
@@ -32,9 +32,11 @@ const gameReducer = (state, action) => {
       return r
     }),
   }
+  case QUIT_GAME:
+    return { ...state, isPlaying: false }
   case STOP_GAME:
     return { ...state, isPlaying: false, rooms: state.rooms.map(r => {
-      if (r.roomId === roomId && r.players.length === 1) {
+      if (r.roomId === roomId) {
         r.running = false
       }
       return r
