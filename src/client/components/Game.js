@@ -57,7 +57,7 @@ const Game = ({ solo, room }) => {
     }
     if (gamers.filter(x => x).length === 1) {
       console.log('you won')
-      socket.emit('stop_game', { roomId: room.roomId, solo: false })
+      socket.emit('stop_game', { roomId: room.roomId, solo: false, score: gameState.score })
     }
   }, [gamers])
 
@@ -66,7 +66,7 @@ const Game = ({ solo, room }) => {
     if (gameState.end) {
       if (solo) {
         console.log('you won')
-        socket.emit('stop_game', { roomId: room.roomId, solo: true })
+        socket.emit('stop_game', { roomId: room.roomId, solo: true, score: gameState.score })
         return
       }
       dispatch(actQuitGame(room.roomId))

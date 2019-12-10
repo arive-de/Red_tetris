@@ -5,7 +5,9 @@ const params = {
     get url() { return `http://${this.host}:${this.port}` },
   },
   db: {
-    url: 'mongodb://localhost:27017/redtetris',
+    host: '0.0.0.0',
+    port: 27017,
+    get url() { return `mongodb://${this.host}:${this.port}/redtetris` },
   },
 }
 

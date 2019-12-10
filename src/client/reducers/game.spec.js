@@ -10,6 +10,7 @@ describe('game reducer', () => {
   let piece
   let end = false
   let lines = 0
+  let score = 0
 
   it ('TICK top', () => {
     action = { type: 'TICK' }
@@ -105,6 +106,7 @@ describe('game reducer', () => {
     type = 0
     piece = [165, 175, 185, 195]
     pieces = [0, 0, 0, 0, 0]
+    score = 0
     input = {
       grid,
       type,
@@ -112,6 +114,7 @@ describe('game reducer', () => {
       pieces,
       end,
       lines,
+      score,
     }
     expectedOutput = {
       type: input.type,
@@ -119,6 +122,7 @@ describe('game reducer', () => {
       pieces: [0, 0, 0, 0],
       end: false,
       lines: 0,
+      score: 0,
       grid: [
         0, 0, 0, 0, 1, 0, 0, 0, 0, 0, //1
         0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
@@ -638,6 +642,7 @@ describe('game reducer', () => {
     type = 17
     piece = [6, 7, 8, 18]
     pieces = [0, 0, 0, 0, 0]
+    score = 0
     input = {
       grid,
       type,
@@ -645,18 +650,20 @@ describe('game reducer', () => {
       pieces,
       end,
       lines,
+      score,
     }
     expectedOutput = {
-      type: input.type,
-      piece: [186, 187, 188, 198],
-      pieces: [0, 0, 0, 0, 0],
+      type: 0,
+      piece: [4, 14, 24, 34],
+      pieces: [0, 0, 0, 0],
       end: false,
       lines: 0,
+      score: 0,
       grid: [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //1
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 1, 0, 0, 0, 0, 0, //1
+        0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //5
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

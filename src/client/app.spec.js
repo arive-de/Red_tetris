@@ -36,12 +36,12 @@ describe('App component', () => {
       userList: ['mama', 'mimi', 'jane', 'john', 'oaoa'],
       highscores: [],
     }
-  
+
     store = createStore(
           reducer,
           initialState,
           )
-          
+
     username = 'tester'
     roomId = 'xx01234'
     wrapper = mount(<Provider store={store}><App/></Provider>)
@@ -117,6 +117,38 @@ describe('App component', () => {
     wrapper.update()
     expect(wrapper.find(Game)).to.have.length(1)
     expect(wrapper.find(Game).props().room.running).to.equal(true)
+    done()
+  })
+
+  it('fill 2lines', function(done) {
+    const SPACE = 32
+    const LEFT = 37
+    const UP = 38
+    const RIGHT = 39
+    const DOWN = 40
+    const controls = wrapper.find('input#gameControlsInput')
+    controls.simulate('keyDown', { keyCode: LEFT })
+    controls.simulate('keyDown', { keyCode: LEFT })
+    controls.simulate('keyDown', { keyCode: LEFT })
+    controls.simulate('keyDown', { keyCode: SPACE })
+    wrapper.update()
+    controls.simulate('keyDown', { keyCode: LEFT })
+    controls.simulate('keyDown', { keyCode: LEFT })
+    controls.simulate('keyDown', { keyCode: LEFT })
+    controls.simulate('keyDown', { keyCode: SPACE })
+    wrapper.update()
+    controls.simulate('keyDown', { keyCode: RIGHT })
+    controls.simulate('keyDown', { keyCode: RIGHT })
+    controls.simulate('keyDown', { keyCode: RIGHT })
+    controls.simulate('keyDown', { keyCode: SPACE })
+    wrapper.update()
+    controls.simulate('keyDown', { keyCode: RIGHT })
+    controls.simulate('keyDown', { keyCode: RIGHT })
+    controls.simulate('keyDown', { keyCode: RIGHT })
+    controls.simulate('keyDown', { keyCode: SPACE })
+    wrapper.update()
+    controls.simulate('keyDown', { keyCode: SPACE })
+    wrapper.update()
     done()
   })
 

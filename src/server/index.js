@@ -15,6 +15,7 @@ const { deleteUser } = require('./controllers/user/user')
 
 const handler = (req, res) => {
   const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
+  console.log(file)
   fs.readFile(path.join(__dirname, file), (err, data) => {
     if (err) {
       debug(err)
@@ -68,7 +69,7 @@ const create = (port) => {
       cb()
     }
 
-    app.use(cors({ credentials: true, origin: 'http://localhost:8080' }))
+    // app.use(cors({ credentials: true, origin: 'http://localhost:8080' }))
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(express.json())
     app.use('*', handler)

@@ -7,7 +7,7 @@ const fillDb = () => {
   return new Promise((resolve, reject) => {
     User.collection.deleteMany()
     .then(() => {
-       User.create([{
+      User.create([{
         username: 'mama',
       },
         {
@@ -38,35 +38,35 @@ const fillDb = () => {
     .then(() => Room.collection.deleteMany())
     .then(() => {
       debug('users created')
-       Room.create([{
-      roomId: 'xx04',
-      type: 'Classic',
-      players: ['lox', 'bob', 'prout', 'toupie'],
-      running: false,
-      leaderBoard: [0, 0, 0, 0],
+      Room.create([{
+        roomId: 'xx04',
+        type: 'Classic',
+        players: ['lox', 'bob', 'prout', 'toupie'],
+        running: false,
+        leaderBoard: [0, 0, 0, 0],
       },
         {
-        roomId: 'xx05',
-        type: 'Classic',
-        players: ['Joe', 'Robby'],
-        running: false,
-        leaderBoard: [3, 7],
+          roomId: 'xx05',
+          type: 'Classic',
+          players: ['Joe', 'Robby'],
+          running: false,
+          leaderBoard: [3, 7],
 
         },
-          {
-        roomId: 'xx69',
-        type: 'Ghost',
-        players: ['Diam', 'Pol', 'alox'],
-        running: true,
-        leaderBoard: [1, 0, 5],
+        {
+          roomId: 'xx69',
+          type: 'Ghost',
+          players: ['Diam', 'Pol', 'alox'],
+          running: true,
+          leaderBoard: [1, 0, 5],
 
-      },
+        },
          ])
     })
     .then(() => Highscore.collection.deleteMany())
     .then(() => {
       debug('rooms created')
-       Highscore.create([{
+      Highscore.create([{
         username: 'cbarbier',
         score: 35,
       },
@@ -82,10 +82,10 @@ const fillDb = () => {
     })
     .then(() => {
       debug('Highscore created')
-       resolve()
+      resolve()
     })
     .catch(err => {
-       reject(err)
+      reject(err)
     })
   })
 }

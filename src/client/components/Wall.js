@@ -21,7 +21,7 @@ const Wall = ({ mute }) => {
     const intervalPiece = setInterval(() => {
       console.log('interval Wall')
       dispatchGrid({ type: 'TICK' })
-    }, 10000)
+    }, 5000)
     return () => {
       clearInterval(intervalPiece)
     }

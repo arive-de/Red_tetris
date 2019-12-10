@@ -1,6 +1,6 @@
 import reducer from '../reducers'
 import { actSetUsername, actSetTypeGame, actSetSocket, actGetUsers, actAddUser, actLogout, actGetHighscores } from '../actions/user'
-import { actGetRooms, actCreateRoom, actJoinRoom, actLeaveRoom, actPlayGame, actStopGame } from '../actions/room'
+import { actGetRooms, actCreateRoom, actJoinRoom, actLeaveRoom, actPlayGame, actStopGame, actQuitGame } from '../actions/room'
 
 describe('user reducer', () => {
   let input
@@ -106,6 +106,12 @@ describe('room reducer', () => {
 
   it('STOP_GAME', () => {
     action = actStopGame('test')
+    input = { username: 'tester', isPlaying: true, roomId: 'test', rooms: [{ roomId: 'someRoom', players: ['michel'] }, { roomId: 'test', type: 'Classic', players: ['tester', 'john', 'newPlayer'], running: true, leaderBoard: [0, 0, 0] }] }
+    expectedOutput = { username: 'tester', isPlaying: false, roomId: 'test', rooms: [{ roomId: 'someRoom', players: ['michel'] }, { roomId: 'test', type: 'Classic', players: ['tester', 'john', 'newPlayer'], running: false, leaderBoard: [0, 0, 0] }] }
+    expect(reducer(input, action)).to.deep.equal(expectedOutput)
+  })
+  it('QUIT_GAME', () => {
+    action = actQuitGame('test')
     input = { username: 'tester', isPlaying: true, roomId: 'test', rooms: [{ roomId: 'someRoom', players: ['michel'] }, { roomId: 'test', type: 'Classic', players: ['tester', 'john', 'newPlayer'], running: true, leaderBoard: [0, 0, 0] }] }
     expectedOutput = { username: 'tester', isPlaying: false, roomId: 'test', rooms: [{ roomId: 'someRoom', players: ['michel'] }, { roomId: 'test', type: 'Classic', players: ['tester', 'john', 'newPlayer'], running: true, leaderBoard: [0, 0, 0] }] }
     expect(reducer(input, action)).to.deep.equal(expectedOutput)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { actSetTypeGame } from '../actions/user'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -10,6 +10,7 @@ import { actCreateRoom, actPlayGame } from '../actions/room'
 const Menu = () => {
 
   const dispatch = useDispatch()
+  const socket = useSelector(state => state.socket)
   const highscores = useSelector(state => state.highscores)
   const username = useSelector(state => state.username)
 
@@ -24,6 +25,9 @@ const Menu = () => {
   // FOR GAME Dev
   // onClickSolo()
 
+  useEffect(() => {
+    socket.emit('highscore')
+  }, [])
   return (
     <div>
       <Wall />
@@ -34,8 +38,8 @@ const Menu = () => {
               {highscores.sort((a, b) => b.score - a.score).map((player, i) =>
               (<ListGroup.Item variant='warning' key={i}>
                 <div className='d-flex row justify-content-around p-2 bd-highlight'>
-                  <div><i className='fas fa-trophy'></i></div>'
-                  <div className=' font-weight-bold' id ='highscoreUsername'>{player.username}</div>
+                  <div><i className='fas fa-trophy'></i></div>
+                  <div className='font-weight-bold' id ='highscoreUsername'>{player.username}</div>
                   <div className='' id ='highscoreScore'>{player.score} pts</div>
                 </div>
               </ListGroup.Item>)

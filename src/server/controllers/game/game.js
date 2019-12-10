@@ -30,34 +30,57 @@ const stopGame = (roomId, cb) => {
     })
 }
 
-const setHighscore = async (username, score, cb) => {
+const setHighscore = (username, score, cb) => {
   const newHighscore = new Highscore({
     username,
     score,
   })
-  const highscores = await Highscore.find({})
-  console.log(highscores, newHighscore)
-  const sortedHighScores = highscores.map(h => ({
-    score: h.score,
-    username: h.username,
-  })).sort((a, b) => a.score - b.score)
-  if (sortedHighScores.some(h => h.score < score)) {
-    await newHighscore.save()
-    await Highscore.deleteOne(sortedHighScores[0])
-    cb(null, true)
-    return
-  }
-  cb(null, false)
+  return Highscore.find()
+  .then(highscores => {
+    console.log(highscores, newHighscore)
+    const sortedHighScores = highscores.map(h => ({
+      score: h.score,
+      username: h.username,
+    })).sort((a, b) => a.score - b.score)
+    return sortedHighScores
+  })
+  .then(sortedHighScores => {
+    console.log(sortedHighScores)
+    if (sortedHighScores.some(h => h.score < score)) {
+      return newHighscore.save().then(() => {
+        Highscore.deleteOne(sortedHighScores[0])
+      })
+      .then(() => {
+        cb(null, true)
+      })
+    }
+    cb(null, false)
+  })
 }
 
-const setWins = async (username, roomId, cb) => {
-  const room = await Room.findOne({ roomId })
-  const indexPlayer = room.players.indexOf(username)
-  if (indexPlayer >= 0) {
-    room.leaderBoard[indexPlayer] += 1
-    await room.save()
-  }
-  cb(null)
+const setWins = (username, roomId, cb) => {
+  Room.find().then(console.log)
+  Room.findOne({ roomId })
+  .then(room => {
+    const indexPlayer = room.players.indexOf(username)
+    if (indexPlayer === -1) {
+      return null
+    }
+    console.log(indexPlayer, room)
+    const newLeaderBoard = [...room.leaderBoard]
+    newLeaderBoard[indexPlayer] = newLeaderBoard[indexPlayer] + 1
+    room.leaderBoard = newLeaderBoard
+    return room
+  })
+  .then(updatedRoom => {
+    if (!updatedRoom) {
+      return
+    }
+    return updatedRoom.save()
+  })
+  .then(() => {
+    cb(null)
+  })
 }
 
 module.exports = { playGame, stopGame, setHighscore, setWins }

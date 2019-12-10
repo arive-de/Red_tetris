@@ -564,34 +564,34 @@ describe('pieces functions', () => {
     done()
   })
   it('addblockline 1', (done) => {
-    const grid = addBlockLine(1, Array(20).fill(0))
+    const grid = addBlockLine(1, Array(20).fill(0), [])
     expect(grid.length).to.equal(20)
     expect(grid.slice(10)).to.deep.equal(Array(10).fill(-1))
     done()
   })
   it('addblockline 3', (done) => {
-    const grid = addBlockLine(3, Array(100).fill(0))
+    const grid = addBlockLine(3, Array(100).fill(0), [])
     expect(grid.length).to.equal(100)
     expect(grid.slice(70)).to.deep.equal(Array(30).fill(-1))
     done()
   })
   it('getSpectrum v1', (done) => {
     const grid = Array(200).fill(0)
-    const spec = getSpectrum(grid)
-    expect(spec).to.deep.equal(Array(200).fill(0))
+    const spec = getSpectrum(grid, [])
+    expect(spec).to.deep.equal(Array(200).fill(0), [])
     expect(spec.length).to.equal(200)
     done()
   })
   it('getSpectrum v2', (done) => {
     const grid = [...Array(100).fill(0), ...Array(100).fill(42)]
-    const spec = getSpectrum(grid)
+    const spec = getSpectrum(grid, [])
     expect(spec).to.deep.equal([...Array(100).fill(0), ...Array(100).fill(1)])
     expect(spec.length).to.equal(200)
     done()
   })
   it('getSpectrum v3', (done) => {
     const grid = [...Array(100).fill(0), ...Array(50).fill(42), ...Array(50).fill(8)]
-    const spec = getSpectrum(grid)
+    const spec = getSpectrum(grid, [])
     expect(spec).to.deep.equal([...Array(100).fill(0), ...Array(100).fill(1)])
     expect(spec.length).to.equal(200)
     done()

@@ -26,7 +26,10 @@ const initSocketGame = (io, socket) => {
         })
       })
     }
-    setHighscore(socket.username, score, async err => {
+    setHighscore(socket.username, score, async (err, newHighscore) => {
+      if (!newHighscore) {
+        return
+      }
       const highscores = await Highscore.find({})
       io.emit('highscore', highscores)
     })

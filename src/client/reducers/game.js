@@ -76,6 +76,13 @@ const handleDrop = (state, arg) => {
   if (!canFit(piece, nextPiece, grid)) {
     return state
   }
+  if (startPieces[pieces[0]].some(c => nextPiece.indexOf(c) !== -1)) {
+    return {
+      ...state,
+      piece: [],
+      end: true,
+    }
+  }
   const [newGrid, nbLine] = updateFullLine(updateGrid(piece, nextPiece, type, grid), startPieces[pieces[0]], pieces[0])
   return {
     ...state,
