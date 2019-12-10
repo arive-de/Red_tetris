@@ -23,25 +23,28 @@ const Home = ({ error, setError }) => {
 
   useEffect(() => {
     setError(error)
-    return () => {
+    const timeout = setTimeout(() => {
       setError(null)
+    }, 2000)
+    return () => {
+      clearTimeout(timeout)
     }
   }, [error])
 
   return (
     <div className='d-flex row' id='home-box'>
+     { error &&
+      (<div className='error alert alert-danger' >{error}</div>) }
       <Wall />
       <div className='card justify-content-center align-self-center mx-auto'>
         <div className='card-container card-body text-center'>
-          <h5 className='card-title'>Red Tetris</h5>
+          <h5 className='card-title'>TetrisForJeff</h5>
             <div className='form-group d-flex flex-column align-items-center'>
               <input autoFocus className='form-control' onChange={onChange}
-                onKeyDown={handleKeyDown} placeholder='Type in a username' ></input>
+                onKeyDown={handleKeyDown} placeholder='username' ></input>
             </div>
           </div>
-          { error && (<div className='alert alert-danger' role='alert'>
-              {error}
-        </div>) }
+         
       </div>
     </div>
     )

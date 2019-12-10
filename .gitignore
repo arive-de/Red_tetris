@@ -4,4 +4,6 @@
 log
 tmp
 node_modules
+build
+dist
 .nyc_output

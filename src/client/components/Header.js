@@ -1,13 +1,21 @@
-import React from 'react'
-import { actSetTypeGame } from '../actions/user'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
 import Navbar from 'react-bootstrap/navbar'
-import Button from 'react-bootstrap/button'
 
 const Header = ({ error, setError, title, onReturn }) => {
+  useEffect(() => {
+    if (!error) {
+      return
+    }
+    const timeout = setTimeout(() => {
+      setError(e => null)
+    }, 2000)
+    return () => {
+      clearTimeout(timeout)
+    }
+  })
   return (
     <div>
-        { error && (<div className='alert alert-danger' role='alert'>
+        { error && (<div className='error alert alert-danger'>
           {error}
         </div>) }
         <Navbar>

@@ -82,8 +82,6 @@ const App = () => {
     socket.on('highscore', data => {
       dispatch(actGetHighscores(data))
     })
-    // FOR GAME DEV
-    // socket.emit('auth', 'cbarb')
   }
 
   if (username !== null && roomId !== null) {
