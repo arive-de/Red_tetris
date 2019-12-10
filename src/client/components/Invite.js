@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import './Invite.scss'
 
 const Invite = ({ room }) => {
   const [friend, setFriend] = useState('')
+  const hostname = useSelector(state => state.hostname)
 
   const onChange = (e) => {
     e.preventDefault()
@@ -12,7 +14,10 @@ const Invite = ({ room }) => {
     if (friend.length === 0 || room.players.indexOf(friend) !== -1) {
       return
     }
-    const url = `${document.location.origin}/#${room.roomId}[${friend}]`
+
+    const port = document.location.port
+
+    const url = `${hostname}:${port}/#${room.roomId}[${friend}]`
     console.log(url)
     navigator.clipboard.writeText(url)
   }

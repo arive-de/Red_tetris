@@ -12,6 +12,7 @@ const gameReducer = (state, action) => {
     return { ...state, roomId: username === state.username ? roomId : state.roomId, rooms: state.rooms.map(r => {
       if (r.roomId === roomId) {
         r.players = [...r.players, username]
+        r.leaderBoard = [...r.leaderBoard, 0]
       }
       return r
     }) }

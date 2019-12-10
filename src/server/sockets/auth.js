@@ -3,6 +3,7 @@ const { createUser } = require('../controllers/user/user')
 const User = require('../models/User')
 const Room = require('../models/Room')
 const Highscore = require('../models/Highscore')
+const os = require('os')
 
 const initSocketAuth = (io, socket) => {
 
@@ -16,7 +17,7 @@ const initSocketAuth = (io, socket) => {
         socket.username = username
         socket.roomId = null
         socket.join('lobby')
-        io.to('lobby').emit('auth', { username })
+        io.to('lobby').emit('auth', { username, hostname: os.hostname() })
       }
     })
   })

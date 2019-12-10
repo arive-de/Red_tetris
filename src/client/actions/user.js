@@ -1,4 +1,5 @@
 export const SET_USERNAME = 'SET_USERNAME'
+export const SET_HOSTNAME = 'SET_HOSTNAME'
 export const SET_TYPEGAME = 'SET_TYPEGAME'
 export const SET_SOCKET = 'SET_SOCKET'
 export const GET_USERS = 'GET_USERS'
@@ -15,6 +16,11 @@ export const actSetUsername = (username) => ({
 export const actSetTypeGame = (typeGame) => ({
   type: SET_TYPEGAME,
   typeGame,
+})
+
+export const actSetHostname = (hostname) => ({
+  type: SET_HOSTNAME,
+  hostname,
 })
 
 export const actSetSocket = (socket) => ({

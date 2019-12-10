@@ -71,6 +71,7 @@ const Room = ({ room }) => {
             <div className='d-flex row justify-content-around p-2 bd-highlight'>
                 <div className='' id ='rank'>{`${rankInfos[i][0]}`}</div>
                 <div className=' font-weight-bold' id ='player'>{player.username}</div>
+                { console.log('room: ', room) }
                 <div className='' id ='victories'>{player.score} win{player.score > 1 ? 's' : ''}</div>
               </div>
             </ListGroup.Item>

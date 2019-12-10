@@ -18,7 +18,7 @@ const Lobby = ({ error, setError }) => {
   const [chosen, setChosen] = useState(null)
   const [hideShow, setHideShow] = useState(false)
   const [sortField, setSortField] = useState('roomId')
-
+  
   const title = 'Lobby'
   const onCreate = () => {
     socket.emit('create_room', { username, type });

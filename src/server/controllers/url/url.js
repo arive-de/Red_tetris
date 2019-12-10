@@ -45,7 +45,7 @@ const createByUrl = (username, roomId, cb) => {
               // if (room.running === true) {
               //   // implementer un systeme plus tard
               // }
-              room.leaderBoard.push(0)
+              room.leaderBoard = [...room.leaderBoard, 0]
               room.players.push(username)
               room.save()
               .then(r => {

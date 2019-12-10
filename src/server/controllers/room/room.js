@@ -55,7 +55,7 @@ const joinRoom = (username, roomId, cb) => {
         throw new Error('room is full')
       }
       room.players.push(username)
-      room.leaderBoard.push(0)
+      room.leaderBoard = [...room.leaderBoard, 0]
       room.save()
       .then(r => {
         debug(`user ${username} join the room ${r.roomId} to db`)
