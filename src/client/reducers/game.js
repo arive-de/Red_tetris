@@ -34,7 +34,7 @@ const handleTick = (state) => {
       pieces: pieces.slice(1),
       grid: newGrid,
       lines: nbLine,
-      score: nbLine > 0 ? state.score + scoring[nbLine - 1] : state.score,
+      score: nbLine > 0 ? state.score + (scoring[nbLine - 1] * state.lvl) : state.score,
     }
   }
   return {
@@ -101,6 +101,7 @@ const handlePieces = (state, newPieces) => {
     pieces: [...state.pieces, ...newPieces],
   }
   if (state.piece.length) {
+    nextState.lvl = state.lvl + 1
     return nextState
   }
   return {
@@ -143,6 +144,7 @@ const gameReducer = (state, action) => {
   if (state.end) {
     return state
   }
+  console.log('GAME', action)
   switch (action.type) {
   case 'TICK':
     return handleTick(state)

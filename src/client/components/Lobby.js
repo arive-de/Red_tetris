@@ -128,7 +128,6 @@ const Lobby = ({ error, setError }) => {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

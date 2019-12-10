@@ -54,7 +54,7 @@ const joinRoom = (username, roomId, cb) => {
       if (room.players.length === 4) {
         throw new Error('room is full')
       }
-      room.players.push(username)
+      room.players = [...room.players, username]
       room.leaderBoard = [...room.leaderBoard, 0]
       room.save()
       .then(r => {
@@ -76,7 +76,9 @@ const leaveRoom = (username, roomId, cb) => {
   Room.findOne({ roomId })
     .then(room => {
       // debug('room found', room.players)
-      room.leaderBoard = room.leaderBoard.splice(room.players.indexOf(username), 1)
+      const newLeaderBoard = [...room.leaderBoard]
+      newLeaderBoard.splice(room.players.indexOf(username), 1)
+      room.leaderBoard = newLeaderBoard
       room.players = room.players.filter(u => u !== username)
       if (room.players.length === 0) {
         Room.deleteOne({ roomId })

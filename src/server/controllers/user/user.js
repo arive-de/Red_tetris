@@ -40,7 +40,9 @@ const deleteUser = (username, roomId, cb) => {
     if (roomId !== null) {
       Room.findOne({ roomId })
       .then(room => {
-        room.leaderBoard = room.leaderBoard.splice(room.players.indexOf(username), 1)
+        const newLeaderBoard = [...room.leaderBoard]
+        newLeaderBoard.splice(room.players.indexOf(username), 1)
+        room.leaderBoard = newLeaderBoard
         room.players = room.players.filter(u => u !== username)
         if (room.players.length === 0) {
           return Room.deleteOne({ roomId })
@@ -49,7 +51,7 @@ const deleteUser = (username, roomId, cb) => {
             return cb()
           })
         }
-        Room.updateOne({ _id: room._id }, { $set: { players: room.players } })
+        Room.updateOne({ _id: room._id }, { $set: { players: room.players, leaderBoard: room.leaderBoard } })
         .then(() => {
           debug(`the user ${username} has been deleted from the room ${roomId}`)
           return cb()

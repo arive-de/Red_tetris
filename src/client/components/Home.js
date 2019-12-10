@@ -35,7 +35,7 @@ const Home = ({ error, setError }) => {
         <div className='card-container card-body text-center'>
           <h5 className='card-title'>Red Tetris</h5>
             <div className='form-group d-flex flex-column align-items-center'>
-              <input className='form-control' onChange={onChange}
+              <input autoFocus className='form-control' onChange={onChange}
                 onKeyDown={handleKeyDown} placeholder='Type in a username' ></input>
             </div>
           </div>

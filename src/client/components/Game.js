@@ -29,6 +29,7 @@ const Game = ({ solo, room }) => {
     lines: 0,
     end: false,
     score: 0,
+    lvl: 0,
   }
   const socket = useSelector(state => state.socket)
   const [gamers, setGamers] = useState([true, true, true, true].slice(0, room.players.length))
@@ -50,6 +51,22 @@ const Game = ({ solo, room }) => {
   })
 
   useEffect(() => {
+    console.log('Game useEffect [gameState.grid]')
+    if (!solo) {
+      socket.emit('spectrum', getSpectrum(gameState.grid, gameState.piece))
+    }
+  }, [gameState.grid])
+
+  useEffect(() => {
+    console.log('Game useEffect [pieces]')
+    if (gameState.pieces.length === 4) {
+      socket.emit('get_pieces', { roomId: room.roomId, solo })
+    }
+    return () => {
+    }
+  }, [gameState.pieces])
+
+  useEffect(() => {
     console.log('useEffect Game [gamers]')
     console.log(gamers)
     if (solo) {
@@ -69,6 +86,7 @@ const Game = ({ solo, room }) => {
         socket.emit('stop_game', { roomId: room.roomId, solo: true, score: gameState.score })
         return
       }
+      socket.emit('spectrum', getSpectrum(gameState.grid, gameState.piece))
       dispatch(actQuitGame(room.roomId))
       socket.emit('gameOver', { index: room.players.indexOf(username) })
     }
@@ -84,22 +102,18 @@ const Game = ({ solo, room }) => {
   }, [gameState.lines])
 
   useEffect(() => {
-    console.log('Game useEffect [pieces]')
-    if (!solo) {
-      socket.emit('spectrum', getSpectrum(gameState.grid, gameState.piece))
-    }
-    if (gameState.pieces.length === 4) {
-      socket.emit('get_pieces', { roomId: room.roomId, solo })
-    }
+    console.log('RESET INTERVAL')
+    intervalPiece = setInterval(() => {
+      dispatchGame({ type: 'TICK' })
+    }, 700 - 50 * gameState.lvl)
     return () => {
+      clearInterval(intervalPiece)
     }
-  }, [gameState.pieces])
+  }, [gameState.lvl])
 
   useEffect(() => {
     console.log('Game useEffect []')
-    intervalPiece = setInterval(() => {
-      dispatchGame({ type: 'TICK' })
-    }, 700)
+    
     if (leader) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
@@ -114,9 +128,11 @@ const Game = ({ solo, room }) => {
       console.log('blocklines listener', lines)
       dispatchGame({ type: 'BLOCKLINES', lines: lines - 1 })
     })
-    socket.on('gameOver', ({ index }) => {
-      console.log(`${room.players[index]} is gameover`)
-      setGamers(g => g.map((x, i) => i === index ? false : x))
+    socket.on('gameOver', ({ index, username }) => {
+      console.log('gameover', username, index)
+      const indexPlayer = index === -1 ? room.players.indexOf(username) : index
+      console.log(`${room.players[indexPlayer]} is gameover`)
+      setGamers(g => g.map((x, i) => i === indexPlayer ? false : x))
     })
     return () => {
       console.log('unmount Game')
@@ -124,7 +140,6 @@ const Game = ({ solo, room }) => {
       socket.removeListener('spectrum')
       socket.removeListener('blockLines')
       socket.removeListener('gameOver')
-      clearInterval(intervalPiece)
     }
   }, [])
 
@@ -148,7 +163,7 @@ const Game = ({ solo, room }) => {
       clearInterval(intervalPiece)
       intervalPiece = setInterval(() => {
         dispatchGame({ type: 'TICK' })
-      }, 700)
+      }, 700 - 50 * gameState.lvl)
       return
     case LEFT:
       console.log('LEFT')
@@ -170,14 +185,20 @@ const Game = ({ solo, room }) => {
                   'piece4', 'piece4', 'piece4', 'piece4',
                   'piece5', 'piece5', 'piece5', 'piece5',
                   'piece6', 'piece6', 'piece6', 'piece6']
-  const incomingPiece = gameState.piece.length ? startPieces[gameState.pieces[0]].map((x, i) => {
+  const buildIncomingPiece = n => {
+    const incomingPiece = gameState.piece.length > n ? startPieces[gameState.pieces[n - 1]].map((x, i) => {
     if (x >= 30) return x - 21
     if (x >= 20) return x - 15
     if (x >= 10) return x - 9
-    if (x >= 0) return x - 3
-  }) : []
-  const incomingPieceGrid = Array(16).fill(0)
-  incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[0] + 1 || 0 })
+    if (x >= 0) return x - 3 }) : []
+    const incomingPieceGrid = Array(16).fill(0)
+    if (room.type === 'Ghost') {
+      return incomingPieceGrid.map(() => Math.floor(Math.random() * 19) + 1)
+    }
+    incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[n - 1] + 1 })
+    return incomingPieceGrid
+  }
+
   return (
     <div>
       <Wall mute={true} />
@@ -212,17 +233,35 @@ const Game = ({ solo, room }) => {
               <div className='d-flex flex-column'>
                 <div id='incomingPiece' className='d-flex flex-row flex-wrap w-100'>
                   {
-                    incomingPieceGrid.map((cell, i) =>
+                    buildIncomingPiece(1).map((cell, i) =>
                     (<div className={classNames({
                       'incomingPieceCell': true,
-                      'bg-secondary': cell,
+                      'bg-secondary': room.type === 'Classic' ? cell : false,
                       gridCell1: i % 2 === 0,
                       gridCell2: i % 2 !== 0,
+                      [colors[cell]]: room.type === 'Ghost',
+                    })} key={i} >{cell}</div>))
+                  }
+                </div>
+                <div id='incomingPiece2' className='d-flex flex-row flex-wrap w-100'>
+                  {
+                    buildIncomingPiece(2).map((cell, i) =>
+                    (<div className={classNames({
+                      'incomingPieceCell': true,
+                      'bg-secondary': room.type === 'Classic' ? cell : false,
+                      gridCell1: i % 2 === 0,
+                      gridCell2: i % 2 !== 0,
+                      [colors[cell]]: room.type === 'Ghost',
                     })} key={i} >{cell}</div>))
                   }
                 </div>
                 <div className=''>
-                  SCORE: {gameState.score} 
+                  <div>ScOre:</div>
+                  <h3 className='label'>{gameState.score}</h3>
+                </div>
+                <div className=''>
+                  <div>LvL:</div>
+                  <h3 className='label'>{gameState.lvl}</h3>
                 </div>
               </div>
             </div>

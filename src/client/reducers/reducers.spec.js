@@ -44,14 +44,14 @@ describe('user reducer', () => {
 
   it ('LOGOUT', () => {
     action = actLogout({ username: 'outUser', roomId: 'test' })
-    input = { username: 'user0', userList: ['user1', 'user2', 'outUser', 'user3'], rooms: [{ roomId: 'test', players: ['joe', 'outUser'] }] }
-    expectedOutput = { username: 'user0', userList: ['user1', 'user2', 'user3'], rooms: [{ roomId: 'test', players: ['joe'] }] }
+    input = { username: 'user0', userList: ['user1', 'user2', 'outUser', 'user3'], rooms: [{ roomId: 'test', players: ['joe', 'outUser'], leaderBoard: [3, 0] }] }
+    expectedOutput = { username: 'user0', userList: ['user1', 'user2', 'user3'], rooms: [{ roomId: 'test', players: ['joe'], leaderBoard: [3] }] }
     expect(reducer(input, action)).to.deep.equal(expectedOutput)
   })
 
   it ('LOGOUT 2', () => {
     action = actLogout({ username: 'outUser', roomId: 'test' })
-    input = { username: 'user0', userList: ['user1', 'user2', 'outUser', 'user3'], rooms: [{ roomId: 'test', players: ['outUser'] }] }
+    input = { username: 'user0', userList: ['user1', 'user2', 'outUser', 'user3'], rooms: [{ roomId: 'test', players: ['outUser'], leaderBoard: [12] }] }
     expectedOutput = { username: 'user0', userList: ['user1', 'user2', 'user3'], rooms: [] }
     expect(reducer(input, action)).to.deep.equal(expectedOutput)
   })
@@ -85,8 +85,8 @@ describe('room reducer', () => {
 
   it('JOIN_ROOM', () => {
     action = actJoinRoom({ roomId: 'test', username: 'newPlayer' })
-    input = { username: 'tester', roomId: null, rooms: [{ roomId: 'someRoom' }, { roomId: 'test', type: 'Classic', players: ['john'], running: false }] }
-    expectedOutput = { username: 'tester', roomId: null, rooms: [{ roomId: 'someRoom' }, { roomId: 'test', type: 'Classic', players: ['john', 'newPlayer'], running: false }] }
+    input = { username: 'tester', roomId: null, rooms: [{ roomId: 'someRoom' }, { roomId: 'test', type: 'Classic', players: ['john'], running: false, leaderBoard: [8] }] }
+    expectedOutput = { username: 'tester', roomId: null, rooms: [{ roomId: 'someRoom' }, { roomId: 'test', type: 'Classic', players: ['john', 'newPlayer'], running: false, leaderBoard: [8, 0] }] }
     expect(reducer(input, action)).to.deep.equal(expectedOutput)
   })
 

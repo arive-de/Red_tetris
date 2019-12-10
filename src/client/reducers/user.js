@@ -6,7 +6,11 @@ const deleteUser = (state, username, roomId) => {
   if (roomId) {
     rooms = state.rooms.map(r => {
       if (r.roomId === roomId) {
-        return { ...r, players: r.players.filter(u => u !== username) }
+        const newLeaderBoard = [...r.leaderBoard]
+        newLeaderBoard.splice(r.players.indexOf(username), 1)
+        return { ...r,
+          players: r.players.filter(u => u !== username),
+          leaderBoard: newLeaderBoard }
       }
       return r
     })

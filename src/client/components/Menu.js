@@ -19,7 +19,7 @@ const Menu = () => {
   }
 
   const onClickSolo = () => {
-    dispatch(actCreateRoom({ roomId: undefined, players: [username], running: true, leaderBoard: [0] }))
+    dispatch(actCreateRoom({ roomId: undefined, players: [username], running: true, leaderBoard: [0], type: 'Classic' }))
     dispatch(actPlayGame(undefined))
   }
   // FOR GAME Dev
@@ -35,7 +35,7 @@ const Menu = () => {
         <div className='align-self-stretch' >
           <div className='d-flex row justify-content-around'>
             <ListGroup className='list-group'>
-              {highscores.sort((a, b) => b.score - a.score).map((player, i) =>
+              {highscores.sort((a, b) => b.score - a.score).slice(0, 3).map((player, i) =>
               (<ListGroup.Item variant='warning' key={i}>
                 <div className='d-flex row justify-content-around p-2 bd-highlight'>
                   <div><i className='fas fa-trophy'></i></div>
@@ -51,7 +51,7 @@ const Menu = () => {
           <div className='card-container card text-center'>
             <h5 className='card-title'>Menu</h5>
             <div> 
-              <button className='btn btn-primary' onClick={onClickSolo} >Solo</button>
+              <button autoFocus className='btn btn-primary' onClick={onClickSolo} >Solo</button>
             </div>
             <div>
               <button className='btn btn-primary' onClick={onClickMultiplayer}>Multiplayer</button>

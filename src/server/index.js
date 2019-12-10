@@ -39,6 +39,8 @@ const initEngine = io => {
       debug(`Socket disconnected: ${socket.id}`)
       deleteUser(socket.username, socket.roomId, (error) => {
         if (socket.roomId) {
+          console.log('logout ', socket.username, socket.roomId)
+          io.to(socket.roomId).emit('gameOver', { username: socket.username, index: -1 })
           io.to(socket.roomId).emit('logout', { error, username: socket.username, roomId: socket.roomId })
         }
         io.to('lobby').emit('logout', { error, username: socket.username, roomId: socket.roomId })
