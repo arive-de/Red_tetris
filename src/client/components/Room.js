@@ -78,7 +78,7 @@ const Room = ({ room }) => {
       </ListGroup>
       </div>
       <div className='align-self-center m-4'>
-      { username === room.players[0] && !room.running ? <button id='playButton' className='btn btn-primary ' onClick={onPlay}>Play</button> : null }
+      { username === room.players[0] && !room.running && room.players.length > 1 ? <button id='playButton' className='btn btn-primary ' onClick={onPlay}>Play</button> : null }
       </div>
       <div id='chat' className='col-sm-12 align-self-center '>
         <div className='card'>
