@@ -141,7 +141,7 @@ const handleBlockLines = (state, lines) => {
 }
 
 const gameReducer = (state, action) => {
-  if (state.end) {
+  if (state.end && action.type !== 'RESET') {
     return state
   }
   console.log('GAME', action.type)
@@ -164,6 +164,18 @@ const gameReducer = (state, action) => {
     return handleBlockLines(state, action.lines)
   case 'SPECTRUM':
     return handleSpectrum(state, action)
+  case 'RESET':
+    return {
+      type: 0,
+      piece: [],
+      pieces: [],
+      grid: [...Array(180).fill(0), ...Array(20).fill(-1)],
+      spectrums: [0, 0, 0].map(() => Array(200).fill(0)),
+      lines: 0,
+      end: false,
+      score: 0,
+      lvl: 0,
+    }
   default:
     return state
   }

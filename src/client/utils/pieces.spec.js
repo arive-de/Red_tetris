@@ -642,7 +642,7 @@ describe('pieces functions', () => {
     const grid = Array(200).fill(0)
     const piece = [1, 2, 3, 4]
 
-    expect(dropBottom(piece, grid)).to.deep.equal([191, 192, 193, 194])
+    expect(dropBottom(piece, grid)).to.deep.equal([[191, 192, 193, 194], 19])
     done()
   })
   it('drop bottom middle', (done) => {
@@ -650,7 +650,7 @@ describe('pieces functions', () => {
     grid[101] = 1
     const piece = [1, 2, 3, 4]
 
-    expect(dropBottom(piece, grid)).to.deep.equal([91, 92, 93, 94])
+    expect(dropBottom(piece, grid)).to.deep.equal([[91, 92, 93, 94], 9])
     done()
   })
 })

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actLeaveRoom, actQuitGame } from '../actions/room'
+import { actLeaveRoom, actQuitGame, actCreateRoom, actPlayGame } from '../actions/room'
 import Header from './Header'
 import Wall from './Wall'
 import Spectrum from './Spectrum'
@@ -15,6 +15,8 @@ const LEFT = 37
 const UP = 38
 const RIGHT = 39
 const DOWN = 40
+const ENTER = 13
+const LETTER_Q = 81
 
 let intervalPiece
 const Game = ({ solo, room }) => {
@@ -24,7 +26,7 @@ const Game = ({ solo, room }) => {
     type: 0,
     piece: [],
     pieces: [],
-    grid: Array(200).fill(0),
+    grid: [...Array(180).fill(0), ...Array(20).fill(-1)],
     spectrums: [0, 0, 0].map(x => Array(200).fill(0)),
     lines: 0,
     end: false,
@@ -90,6 +92,9 @@ const Game = ({ solo, room }) => {
       dispatch(actQuitGame(room.roomId))
       socket.emit('gameOver', { index: room.players.indexOf(username) })
     }
+    else if (leader) {
+      socket.emit('get_pieces', { roomId: room.roomId, solo })
+    }
   }, [gameState.end])
 
   useEffect(() => {
@@ -143,10 +148,7 @@ const Game = ({ solo, room }) => {
   }, [])
 
   const onKeyUp = (e) => {
-    if (gameState.piece === null) {
-      return
-    }
-    // console.log('onKeyUp', e)
+    console.log('onKeyUp', e.keyCode)
     switch (e.keyCode) {
     case DOWN:
       console.log('DOWN')
@@ -172,6 +174,14 @@ const Game = ({ solo, room }) => {
       console.log('RIGHT')
       dispatchGame({ type: 'RIGHT' })
       return
+    case ENTER:
+      if (gameState.end) {
+        dispatchGame({ type: 'RESET' })
+      }
+      return
+    case LETTER_Q:
+      onStop()
+      return
     default:
       console.log('useless key', e.keyCode)
     }
@@ -183,7 +193,8 @@ const Game = ({ solo, room }) => {
                   'piece3', 'piece3',
                   'piece4', 'piece4', 'piece4', 'piece4',
                   'piece5', 'piece5', 'piece5', 'piece5',
-                  'piece6', 'piece6', 'piece6', 'piece6']
+                  'piece6', 'piece6', 'piece6', 'piece6',
+                  'piece7']
   const buildIncomingPiece = n => {
     const incomingPiece = gameState.piece.length > n ? startPieces[gameState.pieces[n - 1]].map((x, i) => {
     if (x >= 30) return x - 21
@@ -214,14 +225,22 @@ const Game = ({ solo, room }) => {
             </div>
           </div>
           <div className='w-50 m-2 d-flex flex-row flex-wrap' id='gridContainer'>
-            {gameState.end ? (
-              <div className='gameover'></div>
-            ) :
+            {gameState.end ?
+              (<div id='gameoverContainer' className='d-flex flex-column justify-content-around align-items-center w-100'>
+                <div className='gameover h-50 w-100 align-items-stretch'>
+                </div>
+                <div className='h-50 w-100 d-flex flex-column justify-content-center align-items-center'>
+                  <p id='retryParagraph'>type enter to retry</p>
+                  <div>
+                  <i className='fas fa-redo fa-3x fa-spin'></i>
+                  </div>
+                </div>
+              </div>) :
               gameState.grid.map((cell, i) => (
                 <div className={classNames({
                   gridCell: true,
-                  gridCell1: i % 2 === 0,
-                  gridCell2: i % 2 !== 0,
+                  gridCell1: i >= 0 && i % 2 === 0,
+                  gridCell2: i >= 0 && i % 2 !== 0,
                   [colors[cell]]: true,
                   blockCell: cell === -1,
                 })} key={i} >{cell}</div>
@@ -229,10 +248,9 @@ const Game = ({ solo, room }) => {
             }
           </div>
           <div className='gameSide d-flex flex-column justify-content-between align-items-stretch w-25'>
-            <div className='spectrum h-50 m-2'>
-              incoming Piece
-              <div className='d-flex flex-column'>
-                <div id='incomingPiece' className='d-flex flex-row flex-wrap w-100'>
+            <div className='spectrum h-50 m-2 d-flex flex-column justify-content-around'>
+              <div className='d-flex flex-column h-100'>
+                <div id='incomingPiece' className='d-flex flex-row flex-wrap w-100 align-items-center'>
                   {
                     buildIncomingPiece(1).map((cell, i) =>
                     (<div className={classNames({
@@ -256,13 +274,15 @@ const Game = ({ solo, room }) => {
                     })} key={i} >{cell}</div>))
                   }
                 </div>
-                <div className=''>
-                  <div>ScOre:</div>
-                  <h3 className='label'>{gameState.score}</h3>
-                </div>
-                <div className=''>
-                  <div>LvL:</div>
-                  <h3 className='label'>{gameState.lvl}</h3>
+                <div id='infoGameContainer' className='d-flex flex-column justify-content-around align-items-center'>
+                  <div className='align-self-start d-flex flex-column  align-items-center'>
+                    <div>ScOre:</div>
+                    <h3 className='label'>{gameState.score}</h3>
+                  </div>
+                  <div className='align-self-end d-flex flex-column align-items-center'>
+                    <div>LvL:</div>
+                    <h3 className='label'>{gameState.lvl}</h3>
+                  </div>
                 </div>
               </div>
             </div>
