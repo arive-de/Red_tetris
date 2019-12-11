@@ -169,4 +169,4 @@ const gameReducer = (state, action) => {
   }
 }
 
-export { gameReducer }
+export default gameReducer

@@ -22,8 +22,7 @@ const Menu = () => {
     dispatch(actCreateRoom({ roomId: undefined, players: [username], running: true, leaderBoard: [0], type: 'Classic' }))
     dispatch(actPlayGame(undefined))
   }
-  // FOR GAME Dev
-  // onClickSolo()
+  // onClickSolo() // DEBUG
 
   useEffect(() => {
     socket.emit('highscore')

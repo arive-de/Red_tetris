@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers, actSetTypeGame, actGetHighscores, actSetHostname } from '../actions/user'
+import { actSetUsername, actAddUser, actLogout, actSetSocket, actGetUsers, actSetTypeGame, actGetHighscores } from '../actions/user'
 import { actJoinRoom, actLeaveRoom, actCreateRoom, actGetRooms, actPlayGame, actStopGame } from '../actions/room'
 import Home from '../components/Home'
 import Menu from '../components/Menu'
@@ -42,13 +42,11 @@ const App = () => {
     }
 
     socket.on('auth', data => {
-      console.log(data)
       if (data.error) {
         setErrorHome(data.error)
         return
       }
       dispatch(actSetUsername(data.username))
-      dispatch(actSetHostname(data.hostname))
       dispatch(actAddUser(data.username))
     })
     socket.on('lobby', data => {
@@ -83,6 +81,8 @@ const App = () => {
       dispatch(actGetHighscores(data))
     })
   }
+
+  // dispatch(actSetUsername('cbarb')) //DEBUG
 
   if (username !== null && roomId !== null) {
     if (rooms.find(r => r.roomId === roomId)) {

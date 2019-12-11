@@ -37,9 +37,6 @@ const Room = ({ room }) => {
   }
 
   useEffect(() => {
-
-    console.log(room)
-
     socket.on('message', data => {
       setMessages(ms => [...ms, data].slice(-11))
     })
@@ -56,7 +53,7 @@ const Room = ({ room }) => {
     return <Game room={room} solo={room.roomId === undefined ? true : false} />
   }
 
-  const rankInfos = [['1st', 'warning'], ['2nd', 'secondary'], ['3rd', 'danger'], ['4th', 'light']]
+  const rankInfos = [['1st', 'warning', 'firstRank'], ['2nd', 'secondary', 'secondRank'], ['3rd', 'danger', 'thirdRank'], ['4th', 'light', 'fourhtRank']]
   const sortedPlayers = room.players.map((p, i) => ({ username: p, score: room.leaderBoard[i] })).sort((a, b) => b.score - a.score)
   return (
     <div>
@@ -67,11 +64,10 @@ const Room = ({ room }) => {
       <div id='leaderBoard' className='w-50 align-self-center '>
       <ListGroup className='list-group'>
       { sortedPlayers.map((player, i) =>
-          <ListGroup.Item variant={rankInfos[i][1]} key={i}>
+          <ListGroup.Item variant={rankInfos[i][1]} className={rankInfos[i][2]} key={i}>
             <div className='d-flex row justify-content-around p-2 bd-highlight'>
                 <div className='' id ='rank'>{`${rankInfos[i][0]}`}</div>
-                <div className=' font-weight-bold' id ='player'>{player.username}</div>
-                { console.log('room: ', room) }
+                <div className='font-weight-bold' id={`player${i}`}>{player.username}</div>
                 <div className='' id ='victories'>{player.score} win{player.score > 1 ? 's' : ''}</div>
               </div>
             </ListGroup.Item>

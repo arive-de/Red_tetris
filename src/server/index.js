@@ -3,7 +3,6 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const cors = require('cors')
 const params = require('../../params')
-
 const debug = require('debug')('∆:index')
 const fs = require('fs')
 const env = require('./env')

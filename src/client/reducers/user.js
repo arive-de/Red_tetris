@@ -1,4 +1,4 @@
-import { SET_USERNAME, SET_HOSTNAME, SET_TYPEGAME, SET_SOCKET, GET_USERS, ADD_USER, LOGOUT, GET_HIGHSCORES, ADD_WIN } from '../actions/user'
+import { SET_USERNAME, SET_TYPEGAME, SET_SOCKET, GET_USERS, ADD_USER, LOGOUT, GET_HIGHSCORES, ADD_WIN } from '../actions/user'
 
 const deleteUser = (state, username, roomId) => {
   const userList = state.userList.filter(u => u !== username)
@@ -21,13 +21,11 @@ const deleteUser = (state, username, roomId) => {
 }
 
 const reducer = (state, action) => {
-  console.log(action)
+  console.log('STORE', action)
   const { username, hostname, typeGame, socket } = action
   switch (action.type) {
   case SET_USERNAME:
     return state.username !== null ? { ...state } : { ...state, username }
-  case SET_HOSTNAME:
-    return { ...state, hostname }
   case SET_TYPEGAME:
     return { ...state, typeGame }
   case SET_SOCKET:

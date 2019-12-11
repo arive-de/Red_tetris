@@ -1,4 +1,4 @@
-import { gameReducer as reducer } from './game'
+import reducer from './game'
 
 describe('game reducer', () => {
   let input

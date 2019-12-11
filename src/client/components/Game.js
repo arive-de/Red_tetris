@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useReducer } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actLeaveRoom, actStopGame, actQuitGame } from '../actions/room'
+import { actLeaveRoom, actQuitGame } from '../actions/room'
 import Header from './Header'
 import Wall from './Wall'
 import Spectrum from './Spectrum'
 import classNames from 'classnames'
-import { gameReducer } from '../reducers/game'
+import gameReducer from '../reducers/game'
 import { pieces as startPieces,
           getSpectrum } from '../utils/pieces'
 import './Game.scss'
@@ -113,7 +113,6 @@ const Game = ({ solo, room }) => {
 
   useEffect(() => {
     console.log('Game useEffect []')
-    
     if (leader) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }

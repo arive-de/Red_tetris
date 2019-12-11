@@ -240,7 +240,6 @@ const updateFullLine = (grid, piece, type) => {
     newGrid.push(...line)
   })
   piece.forEach(c => { newGrid[c] = type + 1 })
-  console.log('updatefullline', grid, newGrid)
   return [newGrid, nbLine]
 }
 

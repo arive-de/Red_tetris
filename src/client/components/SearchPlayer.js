@@ -30,7 +30,6 @@ const SearchPlayer = ({ rooms, onJoin }) => {
   }
 
   const onKeyDown = (e) => {
-
     if (e.keyCode === 13) {
       onJoinRoom(filteredSuggestions[activeSuggestion])()
       setShowSuggestions(false)
@@ -40,21 +39,16 @@ const SearchPlayer = ({ rooms, onJoin }) => {
       if (activeSuggestion === 0) {
         return
       }
-
       setActiveSuggestion(x => x - 1)
     }
     else if (e.keyCode === 40) {
-
-      console.log(filteredSuggestions)
       if (activeSuggestion === filteredSuggestions.length - 1) {
         return
       }
       setActiveSuggestion(x => x + 1)
     }
   }
-
   let suggestionsListComponent;
-
   if (showSuggestions && userInput) {
     if (filteredSuggestions.length) {
       suggestionsListComponent = (

@@ -1,10 +1,34 @@
 
 * {
     z-index: 5;
+    font-family: monospace;
 }
 
 .error {
-    position: fixed;
+    position: absolute;
     right: 1%;
 
+}
+
+.firstRank {
+    background-color: darkgoldenrod;
+    color: black;
+}
+
+.secondRank {
+    background-color: silver;
+    color: black;
+}
+.thirdRank {
+    background-color: #cd9574;
+    color: black;
+}
+
+h2 {
+    font-size: 4em;
+    font-weight: bold;
+    color: black;
+    -webkit-text-stroke: 2px;
+    -webkit-text-stroke-color: #48fb47
+    ;
 }
