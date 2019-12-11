@@ -34,7 +34,7 @@ const Wall = ({ mute }) => {
           wallCell1: i % 2 === 0,
           wallCell2: i % 2 !== 0,
           [colors[cell]]: true,
-        })} key={i} >{cell}</div>
+        }, 'wallCell')} key={i} >{cell}</div>
       )) }
       </div>
   )

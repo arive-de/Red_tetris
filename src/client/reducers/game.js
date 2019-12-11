@@ -15,7 +15,7 @@ import {
 const scoring = [40, 100, 300, 1200]
 
 const handleTick = (state) => {
-  const { type, piece, pieces, grid, spectrums } = state
+  const { type, piece, pieces, grid } = state
   const [ok, nextPiece] = canDrop(piece, grid)
 
   if (!ok) {
@@ -45,7 +45,7 @@ const handleTick = (state) => {
 }
 
 const handleDown = (state) => {
-  const { type, piece, pieces, grid, spectrums } = state
+  const { type, piece, grid } = state
   const [ok, nextPiece] = canDrop(piece, grid)
   if (!ok) {
     return state
@@ -72,7 +72,7 @@ const handleMove = (state, fn, arg) => {
 
 const handleDrop = (state, arg) => {
   const { type, piece, pieces, grid } = state
-  const nextPiece = dropBottom(piece, arg)
+  const [nextPiece, height] = dropBottom(piece, arg)
   if (!canFit(piece, nextPiece, grid)) {
     return state
   }
@@ -91,7 +91,7 @@ const handleDrop = (state, arg) => {
     pieces: pieces.slice(1),
     grid: newGrid,
     lines: nbLine,
-    score: nbLine > 0 ? state.score + scoring[nbLine - 1] : state.score,
+    score: height + (nbLine > 0 ? state.score + scoring[nbLine - 1] : state.score),
   }
 }
 
@@ -144,7 +144,7 @@ const gameReducer = (state, action) => {
   if (state.end) {
     return state
   }
-  console.log('GAME', action)
+  console.log('GAME', action.type)
   switch (action.type) {
   case 'TICK':
     return handleTick(state)

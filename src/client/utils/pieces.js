@@ -219,12 +219,12 @@ const getSpectrum = (grid, piece) => {
   return newGrid
 }
 
-const dropBottom = (piece, grid) => {
+const dropBottom = (piece, grid, height=0) => {
   const [ok, next] = canDrop(piece, grid)
   if (!ok) {
-    return piece
+    return [piece, height]
   }
-  return dropBottom(next, grid)
+  return dropBottom(next, grid, height + 1)
 }
 
 const updateFullLine = (grid, piece, type) => {

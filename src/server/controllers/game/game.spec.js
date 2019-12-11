@@ -57,7 +57,6 @@ describe('Game Controller', function() {
     setWins('michel', testRoomId, err => {
       Room.findOne({ roomId: testRoomId })
       .then(room => {
-        console.log(room)
         assert(room.leaderBoard[0] === 1)
         done()
       })

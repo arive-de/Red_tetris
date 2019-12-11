@@ -214,7 +214,9 @@ const Game = ({ solo, room }) => {
             </div>
           </div>
           <div className='w-50 m-2 d-flex flex-row flex-wrap' id='gridContainer'>
-            {gameState.end ? 'GAMEOVER' :
+            {gameState.end ? (
+              <div className='gameover'></div>
+            ) :
               gameState.grid.map((cell, i) => (
                 <div className={classNames({
                   gridCell: true,

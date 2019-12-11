@@ -658,7 +658,7 @@ describe('game reducer', () => {
       pieces: [0, 0, 0, 0],
       end: false,
       lines: 0,
-      score: 0,
+      score: 18,
       grid: [
         0, 0, 0, 0, 1, 0, 0, 0, 0, 0, //1
         0, 0, 0, 0, 1, 0, 0, 0, 0, 0,

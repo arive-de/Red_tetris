@@ -37,7 +37,6 @@ const setHighscore = (username, score, cb) => {
   })
   return Highscore.find()
   .then(highscores => {
-    console.log(highscores, newHighscore)
     const sortedHighScores = highscores.map(h => ({
       score: h.score,
       username: h.username,
@@ -45,7 +44,6 @@ const setHighscore = (username, score, cb) => {
     return sortedHighScores
   })
   .then(sortedHighScores => {
-    console.log(sortedHighScores)
     if (sortedHighScores.some(h => h.score < score)) {
       return newHighscore.save().then(() => {
         Highscore.deleteOne(sortedHighScores[0])
@@ -59,14 +57,12 @@ const setHighscore = (username, score, cb) => {
 }
 
 const setWins = (username, roomId, cb) => {
-  Room.find().then(console.log)
   Room.findOne({ roomId })
   .then(room => {
     const indexPlayer = room.players.indexOf(username)
     if (indexPlayer === -1) {
       return null
     }
-    console.log(indexPlayer, room)
     const newLeaderBoard = [...room.leaderBoard]
     newLeaderBoard[indexPlayer] = newLeaderBoard[indexPlayer] + 1
     room.leaderBoard = newLeaderBoard

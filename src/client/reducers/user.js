@@ -21,7 +21,6 @@ const deleteUser = (state, username, roomId) => {
 }
 
 const reducer = (state, action) => {
-  console.log('STORE', action)
   const { username, hostname, typeGame, socket } = action
   switch (action.type) {
   case SET_USERNAME:

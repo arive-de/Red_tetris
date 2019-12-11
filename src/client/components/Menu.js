@@ -27,6 +27,7 @@ const Menu = () => {
   useEffect(() => {
     socket.emit('highscore')
   }, [])
+  const rankClassses = ['firstRank', 'secondRank', 'thirdRank']
   return (
     <div>
       <Wall />
@@ -35,7 +36,7 @@ const Menu = () => {
           <div className='d-flex row justify-content-around'>
             <ListGroup className='list-group'>
               {highscores.sort((a, b) => b.score - a.score).slice(0, 3).map((player, i) =>
-              (<ListGroup.Item variant='warning' key={i}>
+              (<ListGroup.Item variant='warning' className={rankClassses[i]} key={i}>
                 <div className='d-flex row justify-content-around p-2 bd-highlight'>
                   <div><i className='fas fa-trophy'></i></div>
                   <div className='font-weight-bold' id ='highscoreUsername'>{player.username}</div>
