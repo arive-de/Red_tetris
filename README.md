@@ -195,8 +195,6 @@ npm run coverage
 
 ```
 
-Check results …. of this command, and launch your browser to `./coverage/lcov-report/index.html`
-
 
 ### Production Mode
 
