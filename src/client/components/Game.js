@@ -206,7 +206,14 @@ const Game = ({ solo, room }) => {
       return incomingPieceGrid.map(() => Math.floor(Math.random() * 19) + 1)
     }
     incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[n - 1] + 1 })
-    return incomingPieceGrid
+    return incomingPieceGrid.map((cell, i) =>
+    (<div className={classNames({
+      'incomingPieceCell': true,
+      'bg-secondary': room.type === 'Classic' ? cell : false,
+      gridCell1: i % 2 === 0,
+      gridCell2: i % 2 !== 0,
+      [colors[cell]]: room.type === 'Ghost',
+    })} key={i} >{cell}</div>))
   }
 
   return (
@@ -250,28 +257,14 @@ const Game = ({ solo, room }) => {
           <div className='gameSide d-flex flex-column justify-content-between align-items-stretch w-25'>
             <div className='spectrum h-50 m-2 d-flex flex-column justify-content-around'>
               <div className='d-flex flex-column h-100'>
-                <div id='incomingPiece' className='d-flex flex-row flex-wrap w-100 align-items-center'>
+                <div id='incomingPiece1' className='incomingPieceContainer d-flex flex-row flex-wrap w-100'>
                   {
-                    buildIncomingPiece(1).map((cell, i) =>
-                    (<div className={classNames({
-                      'incomingPieceCell': true,
-                      'bg-secondary': room.type === 'Classic' ? cell : false,
-                      gridCell1: i % 2 === 0,
-                      gridCell2: i % 2 !== 0,
-                      [colors[cell]]: room.type === 'Ghost',
-                    })} key={i} >{cell}</div>))
+                    buildIncomingPiece(1)
                   }
                 </div>
-                <div id='incomingPiece2' className='d-flex flex-row flex-wrap w-100'>
+                <div id='incomingPiece2' className='incomingPieceContainer d-flex flex-row flex-wrap w-100'>
                   {
-                    buildIncomingPiece(2).map((cell, i) =>
-                    (<div className={classNames({
-                      'incomingPieceCell': true,
-                      'bg-secondary': room.type === 'Classic' ? cell : false,
-                      gridCell1: i % 2 === 0,
-                      gridCell2: i % 2 !== 0,
-                      [colors[cell]]: room.type === 'Ghost',
-                    })} key={i} >{cell}</div>))
+                    buildIncomingPiece(2)
                   }
                 </div>
                 <div id='infoGameContainer' className='d-flex flex-column justify-content-around align-items-center'>

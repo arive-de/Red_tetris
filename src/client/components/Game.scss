@@ -1,3 +1,5 @@
+$wid: 25%;
+
 #gameContainer {
   border: 2px solid red;
   height: 90%;
@@ -66,6 +68,16 @@
 .blockCell {
   background-image: url('./brickWall.png');
   background-size: cover;
+}
+
+.incomingPieceContainer {
+  height: 25%;
+}
+
+.incomingPieceCell {
+  width: 25%;
+  text-align: center;
+  vertical-align: center;
 }
 
 #gameoverContainer {

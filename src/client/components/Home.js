@@ -15,7 +15,7 @@ const Home = ({ error, setError }) => {
   }
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && username.length) {
       socket.emit('auth', username)
       socket.emit('highscore')
     }
