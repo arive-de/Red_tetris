@@ -6,6 +6,7 @@ import Invite from './Invite'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Wall from './Wall'
 import './Room.scss'
+import classNames from 'classnames'
 import { actAddWin } from '../actions/user'
 
 const Room = ({ room }) => {
@@ -55,6 +56,7 @@ const Room = ({ room }) => {
 
   const rankInfos = [['1st', 'warning', 'firstRank'], ['2nd', 'secondary', 'secondRank'], ['3rd', 'danger', 'thirdRank'], ['4th', 'light', 'fourhtRank']]
   const sortedPlayers = room.players.map((p, i) => ({ username: p, score: room.leaderBoard[i] })).sort((a, b) => b.score - a.score)
+
   return (
     <div>
       <Wall />
@@ -83,10 +85,12 @@ const Room = ({ room }) => {
           <i className='fas fa-comment fa-spin fa-2x'></i>
           </div>
             <div id='messageBox' className='card-body overflow-hidden d-flex flex-column flex-nowrap'>
-               { messages.map((m, index) => (
-                <div className={`h-10 bg-${rankInfos[sortedPlayers.findIndex(p => p.username === m.username)][1]}`} key={index}>
+               { messages.map((m, index) => {
+                 const playerIndex = sortedPlayers.findIndex(p => p.username === m.username)
+                 return(
+                <div className={`h-10 ${playerIndex === -1 ? '' : `bg-${rankInfos[playerIndex][1]}`}`} key={index}>
                   <span className='font-weight-bold'>{m.username}:</span> {m.message.substr(0, 120)}
-                </div>))}
+                 </div>)})}
             </div>
         </div>
         <div>
