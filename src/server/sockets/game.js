@@ -39,7 +39,7 @@ const initSocketGame = (io, socket) => {
   socket.on('get_pieces', ({ solo, roomId }) => {
     const pieces = [...Array(10).fill(0).map(() => new Piece(Math.floor(Math.random() * 19)))]
     if (solo) {
-      socket.emit('get_pieces', pieces)
+      socket.emit('get_pieces', pieces.map(m => m.getType()))
       return
     }
     io.to(roomId).emit('get_pieces', pieces)
