@@ -203,7 +203,7 @@ const Game = ({ solo, room }) => {
     if (x >= 0) return x - 3 }) : []
     const incomingPieceGrid = Array(16).fill(0)
     if (room.type === 'Ghost') {
-      return incomingPieceGrid.map(() => Math.floor(Math.random() * 19) + 1)
+      return incomingPieceGrid.map(() => Math.floor(Math.random() * 28) + 1)
     }
     incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[n - 1] + 1 })
     return incomingPieceGrid.map((cell, i) =>
