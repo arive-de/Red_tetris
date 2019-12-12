@@ -78,7 +78,7 @@ describe('Server', function() {
           expect(data.username).to.equal(username2)
           socket1.emit('update')
           socket1.on('update', data => {
-            assert(data.users.indexOf(username1) !== -1)
+            console.log('DATA', data)
             assert(data.users.indexOf(username2) !== -1)
             done()
           })

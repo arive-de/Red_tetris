@@ -1,5 +1,5 @@
 const debug = require('debug')('∆:socket auth')
-const { createUser } = require('../controllers/user/user')
+const { create } = require('../controllers/player/player')
 const User = require('../models/User')
 const Room = require('../models/Room')
 const Highscore = require('../models/Highscore')
@@ -7,7 +7,7 @@ const Highscore = require('../models/Highscore')
 const initSocketAuth = (io, socket) => {
 
   socket.on('auth', username => {
-    createUser(username, socket.id, error => {
+    create(username, socket.id, error => {
       if (error) {
         socket.emit('auth', { error })
       }

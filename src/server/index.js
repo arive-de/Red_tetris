@@ -10,7 +10,7 @@ const { initSocketAuth } = require('./sockets/auth')
 const { initSocketRoom } = require('./sockets/room')
 const { initSocketGame } = require('./sockets/game')
 const { initSocketUrl } = require('./sockets/url')
-const { deleteUser } = require('./controllers/user/user')
+const { remove } = require('./controllers/player/player')
 
 const handler = (req, res) => {
   const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
@@ -36,7 +36,7 @@ const initEngine = io => {
     initSocketGame(io, socket)
     socket.on('disconnect', () => {
       debug(`Socket disconnected: ${socket.id}`)
-      deleteUser(socket.username, socket.roomId, (error) => {
+      remove(socket.username, socket.roomId, (error) => {
         if (socket.roomId) {
           io.to(socket.roomId).emit('gameOver', { username: socket.username, index: -1 })
           io.to(socket.roomId).emit('logout', { error, username: socket.username, roomId: socket.roomId })

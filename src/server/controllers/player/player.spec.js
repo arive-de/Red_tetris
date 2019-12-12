@@ -1,12 +1,11 @@
-const debug = require('debug')('∆:controller user spec')
+const debug = require('debug')('∆:controller player spec')
 const assert = require('assert')
 const User = require('../../models/User')
 const Room = require('../../models/Room')
-const { createUser, deleteUser } = require('./user')
+const Player = require('./player')
 const { connect, disconnect  } = require('../../helpers.spec')
 
-
-describe('#User Controller', function() {
+describe('#Player Controller', function() {
   connect()
   disconnect()
   before(function(done) {
@@ -36,8 +35,8 @@ describe('#User Controller', function() {
     })
   })
 
-  it('create a new user', function(done) {
-    createUser('dodo', 109234877, (err) => {
+  it('create a new player', function(done) {
+    Player.create('dodo', 109234877, (err) => {
       assert(err === undefined)
       User.findOne({ username: 'dodo' }).then(u => {
         assert(u.username === 'dodo')
@@ -46,29 +45,29 @@ describe('#User Controller', function() {
     })
   })
 
-  it('create user that already exists', function(done) {
-    createUser('dodo', 109234877, (err) => {
+  it('create player that already exists', function(done) {
+    Player.create('dodo', 109234877, (err) => {
       assert(err === 'user already exists')
       done()
     })
   })
 
-  it('delete a user that does not exist', function(done) {
-    deleteUser('unknown', null, err => {
+  it('delete a player that does not exist', function(done) {
+    Player.remove('unknown', null, err => {
       assert(err === 'user doesn\'t exist in db')
       done()
     })
   })
 
-  it('delete a user that exists but without room', function(done) {
-    deleteUser('alone', null, err => {
+  it('delete a player that exists but without room', function(done) {
+    Player.remove('alone', null, err => {
       assert(err === 'can not found room in db')
       done()
     })
   })
 
-  it('delete a user that exists with an actual room', function(done) {
-    deleteUser('bib', 'aaaa', err => {
+  it('delete a player that exists with an actual room', function(done) {
+    Player.remove('bib', 'aaaa', err => {
       assert(err === undefined)
       Room.findOne({ roomId: 'aaaa' }).then(r => {
         assert(r.players.indexOf('bib') === -1)
@@ -80,12 +79,13 @@ describe('#User Controller', function() {
     })
   })
 
-  it('delete a user that exists with an actual room and the last person of the room', function(done) {
-    deleteUser('Joe', 'bbbb', err => {
+  it('delete a player that exists with an actual room and the last player of the room', function(done) {
+    Player.remove('Joe', 'bbbb', err => {
       assert(err === undefined)
       Room.findOne({ roomId: 'bbbb' }).then(r => {
         assert(r === null)
         User.findOne({ username: 'Joe' }).then(u => {
+          console.log('eee', u)
           assert(u === null)
           done()
         })

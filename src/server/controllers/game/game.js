@@ -2,7 +2,8 @@ const debug = require('debug')('∆:controller game')
 const Room = require('../../models/Room')
 const Highscore = require('../../models/Highscore')
 
-const playGame = (roomId, cb) => {
+class Game {
+static play(roomId, cb) {
   Room.findOne({ roomId })
     .then(room => {
       room.running = true
@@ -16,7 +17,7 @@ const playGame = (roomId, cb) => {
     })
 }
 
-const stopGame = (roomId, cb) => {
+static stop(roomId, cb) {
   Room.findOne({ roomId })
     .then(room => {
       room.running = false
@@ -30,7 +31,7 @@ const stopGame = (roomId, cb) => {
     })
 }
 
-const setHighscore = (username, score, cb) => {
+static setHighscore(username, score, cb) {
   const newHighscore = new Highscore({
     username,
     score,
@@ -56,7 +57,7 @@ const setHighscore = (username, score, cb) => {
   })
 }
 
-const setWins = (username, roomId, cb) => {
+static setWins(username, roomId, cb) {
   Room.findOne({ roomId })
   .then(room => {
     const indexPlayer = room.players.indexOf(username)
@@ -78,5 +79,5 @@ const setWins = (username, roomId, cb) => {
     cb(null)
   })
 }
-
-module.exports = { playGame, stopGame, setHighscore, setWins }
+}
+module.exports = Game

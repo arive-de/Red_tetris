@@ -1,16 +1,16 @@
-const debug = require('debug')('∆:controller user')
+const debug = require('debug')('∆:controller Player')
 const User = require('../../models/User')
 const Room = require('../../models/Room')
 
-
-const createUser = (username, socketId, cb) => {
-  const newUser = new User({
-    socketId,
-    username,
-  })
-  User.findOne({
-    username,
-  })
+class Player {
+  static create(username, socketId, cb) {
+    const newUser = new User({
+      socketId,
+      username,
+    })
+    User.findOne({
+      username,
+    })
     .then(user => {
       debug(user)
       if (!user) {
@@ -27,13 +27,13 @@ const createUser = (username, socketId, cb) => {
   .catch(err => {
     return cb('can\'t store the user in db')
   })
-}
+  }
 
-const deleteUser = (username, roomId, cb) => {
-  User.deleteOne({ username })
+  static remove(username, roomId, cb) {
+    User.deleteOne({ username })
   .then(user => {
     debug(user)
-    if (user.deletedCount ===  0) {
+    if (user.deletedCount === 0) {
       return cb('user doesn\'t exist in db')
     }
     debug(`user ${user.username} removed from db`)
@@ -47,7 +47,7 @@ const deleteUser = (username, roomId, cb) => {
         if (room.players.length === 0) {
           return Room.deleteOne({ roomId })
           .then(() => {
-            debug(`room ${roomId} deleted because the user ${username} was the last player`)
+            debug(`room ${roomId} deleted because the user ${username} was the last user`)
             return cb()
           })
         }
@@ -63,9 +63,11 @@ const deleteUser = (username, roomId, cb) => {
       return cb('can not found room in db')
     }
   })
-  .catch(err => {
+  .catch(() => {
     cb('something wrong happen while accesssing the db')
   })
+  }
+
 }
 
-module.exports = { createUser, deleteUser }
+module.exports = Player
