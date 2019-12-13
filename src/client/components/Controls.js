@@ -24,15 +24,15 @@ const Controls = () => {
       <div className='row'>
         <div>
           <i className='arrows fas fa-caret-left'></i>
-          <p className='controlText'>left</p>
+          <p className='controlText'>Left</p>
         </div>
         <div>
          <i className='arrows fas fa-caret-down'></i>
-         <p className='controlText'>soft drop</p>
+         <p className='controlText'>Soft drop</p>
         </div>
         <div>
          <i className='arrows fas fa-caret-right'></i>
-         <p className='controlText'>right</p>
+         <p className='controlText'>Right</p>
         </div>
       </div>
       <div className='space-bar'>Space</div>
