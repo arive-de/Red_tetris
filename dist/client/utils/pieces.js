@@ -298,10 +298,32 @@ const addBlockLine = (n, grid, piece, type) => {
 
 exports.addBlockLine = addBlockLine;
 
+const fillHoles = (grid, n) => {
+  let flag = false;
+  Array(20).fill(0).forEach((x, i) => {
+    const value = grid[n + i * 10];
+
+    if (value < 0) {
+      return;
+    }
+
+    if (flag) {
+      grid[n + i * 10] = 1;
+    }
+
+    if (!flag && value) {
+      flag = true;
+    }
+  });
+};
+
 const getSpectrum = (grid, piece) => {
   const newGrid = grid.map(x => x > 0 ? 1 : x < 0 ? -1 : 0);
   piece.forEach(c => {
     newGrid[c] = 0;
+  });
+  Array(10).fill(0).forEach((i, col) => {
+    fillHoles(newGrid, col);
   });
   return newGrid;
 };

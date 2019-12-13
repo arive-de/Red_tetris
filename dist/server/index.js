@@ -37,7 +37,8 @@ const {
 } = require('./controllers/player/player');
 
 const handler = (req, res) => {
-  const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
+  console.log(req.url, req.path);
+  const file = req.path === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
   console.log(file);
   fs.readFile(path.join(__dirname, file), (err, data) => {
     if (err) {
