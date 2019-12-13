@@ -1,3 +1,4 @@
+export const INIT_ROOM_SOCKET = 'INIT_ROOM_SOCKET'
 export const GET_ROOMS = 'GET_ROOMS'
 export const CREATE_ROOM = 'CREATE_ROOM'
 export const JOIN_ROOM = 'JOIN_ROOM'
@@ -5,6 +6,12 @@ export const LEAVE_ROOM = 'LEAVE_ROOM'
 export const PLAY_GAME = 'PLAY_GAME'
 export const STOP_GAME = 'STOP_GAME'
 export const QUIT_GAME = 'QUIT_GAME'
+
+export const actInitRoomSocket = (setMessages, room) => ({
+  type: INIT_ROOM_SOCKET,
+  setMessages,
+  room,
+})
 
 export const actCreateRoom = (room) => ({
   type: CREATE_ROOM,

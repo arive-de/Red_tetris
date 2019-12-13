@@ -9,6 +9,7 @@ import gameReducer from '../reducers/game'
 import { pieces as startPieces,
           getSpectrum } from '../utils/pieces'
 import './Game.scss'
+import { actInitGameSocket } from '../actions/user'
 
 const SPACE = 32
 const LEFT = 37
@@ -121,23 +122,7 @@ const Game = ({ solo, room }) => {
     if (leader) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
-    socket.on('get_pieces', newPieces => {
-      dispatchGame({ type: 'GET_PIECES', pieces: newPieces })
-    })
-    socket.on('spectrum', ({ username, spectrum }) => {
-        const indexPlayer = players.indexOf(username)
-        dispatchGame({ type: 'SPECTRUM', index: indexPlayer, spectrum })
-    })
-    socket.on('blockLines', lines => {
-      console.log('blocklines listener', lines)
-      dispatchGame({ type: 'BLOCKLINES', lines: lines - 1 })
-    })
-    socket.on('gameOver', ({ index, username }) => {
-      console.log('gameover', username, index)
-      const indexPlayer = index === -1 ? room.players.indexOf(username) : index
-      console.log(`${room.players[indexPlayer]} is gameover`)
-      setGamers(g => g.map((x, i) => i === indexPlayer ? false : x))
-    })
+    dispatch(actInitGameSocket(dispatchGame, setGamers, room))
     return () => {
       console.log('unmount Game')
       socket.removeListener('get_pieces')
@@ -188,13 +173,13 @@ const Game = ({ solo, room }) => {
   }
 
   const colors = ['emptyCell',
-                  'piece1', 'piece1',
-                  'piece2', 'piece2',
-                  'piece3', 'piece3',
+                  'piece1', 'piece1', 'piece1', 'piece1',
+                  'piece2', 'piece2', 'piece2', 'piece2',
+                  'piece3', 'piece3', 'piece3', 'piece3',
                   'piece4', 'piece4', 'piece4', 'piece4',
                   'piece5', 'piece5', 'piece5', 'piece5',
                   'piece6', 'piece6', 'piece6', 'piece6',
-                  'piece7']
+                  'piece7', 'piece7', 'piece7', 'piece7']
   const buildIncomingPiece = n => {
     const incomingPiece = gameState.piece.length > n ? startPieces[gameState.pieces[n - 1]].map((x, i) => {
     if (x >= 30) return x - 21
@@ -268,11 +253,11 @@ const Game = ({ solo, room }) => {
                   }
                 </div>
                 <div id='infoGameContainer' className='d-flex flex-column justify-content-around align-items-center'>
-                  <div className='align-self-start d-flex flex-column  align-items-center'>
+                  <div className='d-flex flex-column  align-items-center'>
                     <div>ScOre:</div>
                     <h3 className='label'>{gameState.score}</h3>
                   </div>
-                  <div className='align-self-end d-flex flex-column align-items-center'>
+                  <div className='d-flex flex-column align-items-center'>
                     <div>LvL:</div>
                     <h3 className='label'>{gameState.lvl}</h3>
                   </div>

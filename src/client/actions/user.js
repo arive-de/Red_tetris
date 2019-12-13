@@ -1,3 +1,5 @@
+export const CONNECT_SOCKET = 'CONNECT_SOCKET'
+export const INIT_GAME_SOCKET = 'INIT_GAME_SOCKET'
 export const SET_USERNAME = 'SET_USERNAME'
 export const SET_TYPEGAME = 'SET_TYPEGAME'
 export const SET_SOCKET = 'SET_SOCKET'
@@ -6,6 +8,18 @@ export const ADD_USER = 'ADD_USER'
 export const LOGOUT = 'LOGOUT'
 export const GET_HIGHSCORES = 'GET_HIGHSCORES'
 export const ADD_WIN = 'ADD_WIN'
+
+export const actConnectSocket = (setErrorHome, setErrorLobby) => ({
+  type: CONNECT_SOCKET,
+  setErrorHome,
+  setErrorLobby,
+})
+export const actInitGameSocket = (dispatchGame, setGamers, room) => ({
+  type: INIT_GAME_SOCKET,
+  dispatchGame,
+  setGamers,
+  room,
+})
 
 export const actSetUsername = (username) => ({
   type: SET_USERNAME,

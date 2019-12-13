@@ -3,11 +3,9 @@ const User = require('../../models/User');
 const Room = require('../../models/Room');
 
 const createByUrl = (username, roomId, cb) => {
-
   const newUser = new User({
     username,
   })
-
   const newRoom = new Room({
     players: [username],
     roomId,
@@ -42,23 +40,14 @@ const createByUrl = (username, roomId, cb) => {
                 const roomFull = true
                 return cb(null, { username, roomFull })
               }
-              // if (room.running === true) {
-              //   // implementer un systeme plus tard
-              // }
               room.leaderBoard = [...room.leaderBoard, 0]
               room.players.push(username)
               room.save()
               .then(r => {
                 cb(null, { roomId, username })
               })
-              .catch(err => {
-                cb('can\'t update room in db')
-              })
             }
           })
-        })
-        .catch(err => {
-          cb('can\'t store the user in db')
         })
       }
       else {
