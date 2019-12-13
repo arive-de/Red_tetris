@@ -79,7 +79,7 @@ const SearchPlayer = ({ rooms, onJoin }) => {
     <Fragment>
         <div className='input-group'>
             <div className='input-group-prepend'>
-                <span className='input-group-text' id='basic-addon1'><i className='fas fa-search'></i></span>
+                <span className='input-group-text'><i className='fas fa-search'></i></span>
             </div>
             <input id='searchPlayerInput' className='form-control shadow-none' onChange={onChange} onKeyDown={onKeyDown} type='text' value={userInput} placeholder='online users'/>
         </div>
