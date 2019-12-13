@@ -107,12 +107,8 @@ const Lobby = ({ error, setError }) => {
             <div className='card-body' id='lobby'>
                 <div className='row'>
                     <div className='col'>
-                      <SearchPlayer rooms={rooms} onJoin={onJoin}/>
-                    </div>
-                    <div className='col'>
                         <div className='card'>
                             <div className='card-body'>
-                                <h5 className='card-title'>Host a game</h5>
                                 <div className='input-group mb-3'>
                                     <div className='input-group-prepend'>
                                         <label className='input-group-text'>Type</label>
@@ -122,9 +118,14 @@ const Lobby = ({ error, setError }) => {
                                         <option value='Ghost'>Ghost </option>
                                     </select>
                                 </div>
-                                <Button onClick={onCreate} variant='primary'>Create</Button>
+                                <div className='d-flex justify-content-center'>
+                                  <Button onClick={onCreate} variant='primary'>Create</Button>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div className='col'>
+                      <SearchPlayer rooms={rooms} onJoin={onJoin}/>
                     </div>
                 </div>
             </div>
