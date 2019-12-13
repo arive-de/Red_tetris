@@ -88,7 +88,7 @@ const Room = ({ room }) => {
             </div>
         </div>
         <div>
-          <input autoFocus id='messageInput' className='form-control' onChange={onChange} onKeyDown={sendMessage} placeholder='Say something...' value={message}></input>
+          <input autoComplete='off' autoFocus id='messageInput' className='form-control' onChange={onChange} onKeyDown={sendMessage} placeholder='Say something...' value={message}></input>
         </div>
       </div>
       </div>

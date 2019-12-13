@@ -40,7 +40,7 @@ const Home = ({ error, setError }) => {
         <div className='card-container card-body text-center'>
           <h5 className='card-title'>TetrisForJeff</h5>
             <div className='form-group d-flex flex-column align-items-center'>
-              <input autoFocus className='form-control' maxLength='12' onChange={onChange}
+              <input autoComplete='off' autoFocus className='form-control' maxLength='12' onChange={onChange}
                 onKeyDown={handleKeyDown} placeholder='username'></input>
             </div>
           </div>

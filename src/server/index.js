@@ -13,6 +13,7 @@ const { initSocketUrl } = require('./sockets/url')
 const { remove } = require('./controllers/player/player')
 
 const handler = (req, res) => {
+  console.log(req.url, req.path)
   const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
   console.log(file)
   fs.readFile(path.join(__dirname, file), (err, data) => {

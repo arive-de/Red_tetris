@@ -182,14 +182,14 @@ const Game = ({ solo, room }) => {
                   'piece6', 'piece6', 'piece6', 'piece6',
                   'piece7', 'piece7', 'piece7', 'piece7']
   const buildIncomingPiece = n => {
-    const incomingPiece = gameState.piece.length > n ? startPieces[gameState.pieces[n - 1]].map((x, i) => {
+    let incomingPiece = gameState.piece.length > n ? startPieces[gameState.pieces[n - 1]].map((x, i) => {
     if (x >= 30) return x - 21
     if (x >= 20) return x - 15
     if (x >= 10) return x - 9
     if (x >= 0) return x - 3 }) : []
-    const incomingPieceGrid = Array(16).fill(0)
+    let incomingPieceGrid = Array(16).fill(0)
     if (room.type === 'Ghost') {
-      return incomingPieceGrid.map(() => Math.floor(Math.random() * 28) + 1)
+      incomingPieceGrid = incomingPieceGrid.map(() => Math.floor(Math.random() * 28) + 1)
     }
     incomingPiece.forEach(x => { incomingPieceGrid[x] = gameState.pieces[n - 1] + 1 })
     return incomingPieceGrid.map((cell, i) =>
@@ -198,7 +198,7 @@ const Game = ({ solo, room }) => {
       'bg-secondary': room.type === 'Classic' ? cell : false,
       gridCell1: i % 2 === 0,
       gridCell2: i % 2 !== 0,
-      [colors[cell]]: room.type === 'Ghost',
+      [colors[cell]]: room.type === 'Ghost' ? cell : false,
     })} key={i} >{cell}</div>))
   }
 
