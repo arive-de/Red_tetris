@@ -22,7 +22,7 @@ const Spectrum = ({ grid, username, mute }) => {
   }
   return (
     <div id='spectrumContainer'>
-        {username}
+        <div id='spectrumUsername'>{username}</div>
               <div className='spectrumContainer w-100 d-flex flex-row flex-wrap'>
              {grid.map((cell, i) => (
                 <div className={classNames({

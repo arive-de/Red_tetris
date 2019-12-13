@@ -58,7 +58,7 @@ const Room = ({ room }) => {
       <Invite room={room} />
     <div className='m-3 d-flex flex-column'>
       <div id='leaderBoard' className='w-50 align-self-center '>
-      <ListGroup className='list-group'>
+      <ListGroup className='list-group' id='ranking'>
       { sortedPlayers.map((player, i) =>
           <ListGroup.Item variant={rankInfos[i][1]} className={rankInfos[i][2]} key={i}>
             <div className='d-flex row justify-content-around p-2 bd-highlight'>

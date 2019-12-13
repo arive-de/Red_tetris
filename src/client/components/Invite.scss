@@ -1,5 +1,18 @@
 .invite-alert {
   position: absolute;
   top: 1%;
-  right: 1%;
+  right: 3%;
+}
+
+#invite-container {
+  width: 250px;
+  margin-right: 25px;
+}
+
+#basic-addon1 {
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-top-right-radius: .25rem;;
+  border-bottom-right-radius: .25rem;;
 }
