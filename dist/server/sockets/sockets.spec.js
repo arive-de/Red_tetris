@@ -8,6 +8,8 @@ const server = require('../index');
 
 const ioClient = require('socket.io-client');
 
+const mongoose = require('mongoose');
+
 describe('Server', function () {
   let stopServer;
   before(function (done) {
@@ -87,7 +89,7 @@ describe('Server', function () {
           expect(data.username).to.equal(username2);
           socket1.emit('update');
           socket1.on('update', data => {
-            assert(data.users.indexOf(username1) !== -1);
+            console.log('DATA', data);
             assert(data.users.indexOf(username2) !== -1);
             done();
           });
@@ -379,8 +381,13 @@ describe('Server', function () {
       socket3 && socket3.connected && socket3.disconnect();
       socket4 && socket4.connected && socket4.disconnect();
       socket5 && socket5.connected && socket5.disconnect(); // socket1.removeAllListeners()
+      // done()
 
-      done();
+      mongoose.connection.db.dropDatabase(() => {
+        mongoose.connection.close();
+        debug('DB disconnection [OK]');
+        done();
+      });
     });
   });
 });

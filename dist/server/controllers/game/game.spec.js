@@ -13,12 +13,7 @@ const {
   disconnect
 } = require('../../helpers.spec');
 
-const {
-  playGame,
-  stopGame,
-  setHighscore,
-  setWins
-} = require('./game');
+const Game = require('./game');
 
 const {
   createRoom
@@ -32,10 +27,10 @@ describe('Game Controller', function () {
     createRoom('michel', 'Classic', (err, data) => {
       if (err) {
         debug(err);
-        done();
+        return;
       }
 
-      playGame(data.roomId, (err, data) => {
+      Game.play(data.roomId, (err, data) => {
         testRoomId = data.roomId;
         Room.findOne({
           roomId: data.roomId
@@ -47,7 +42,7 @@ describe('Game Controller', function () {
     });
   });
   it('stop a game', function (done) {
-    stopGame(testRoomId, (err, data) => {
+    Game.stop(testRoomId, (err, data) => {
       Room.findOne({
         roomId: testRoomId
       }).then(data => {
@@ -57,18 +52,27 @@ describe('Game Controller', function () {
     });
   });
   it('setHighscore not ok', function (done) {
-    setHighscore('toto', 34, (err, data) => {
+    Game.setHighscore('toto', 34, (err, data) => {
       assert(data === false);
       done();
     });
   });
   it('setHighscore ok', function (done) {
-    setHighscore('toto', 36, (err, data) => {
-      assert(data === true);
-      Highscore.find({
+    Game.setHighscore('toto', 36, (err, data) => {
+      Highscore.findOne({
         username: 'toto',
         score: 36
       }).then(() => {
+        done();
+      });
+    });
+  });
+  it('setWins', function (done) {
+    Game.setWins('michel', testRoomId, err => {
+      Room.findOne({
+        roomId: testRoomId
+      }).then(room => {
+        assert(room.leaderBoard[0] === 1);
         done();
       });
     });

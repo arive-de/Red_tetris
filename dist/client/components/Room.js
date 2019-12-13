@@ -25,7 +25,7 @@ var _Wall = _interopRequireDefault(require("./Wall"));
 
 require("./Room.scss");
 
-var _user = require("../actions/user");
+var _room = require("../actions/room");
 
 const Room = ({
   room
@@ -67,13 +67,7 @@ const Room = ({
   };
 
   (0, _react.useEffect)(() => {
-    console.log(room);
-    socket.on('message', data => {
-      setMessages(ms => [...ms, data].slice(-11));
-    });
-    socket.on('add_win', username => {
-      dispatch((0, _user.actAddWin)(room.roomId, username));
-    });
+    dispatch((0, _room.actInitRoomSocket)(setMessages, room));
     return () => {
       socket.removeListener('message');
       socket.removeListener('add_win');
@@ -87,7 +81,7 @@ const Room = ({
     });
   }
 
-  const rankInfos = [['1st', 'warning'], ['2nd', 'secondary'], ['3rd', 'danger'], ['4th', 'light']];
+  const rankInfos = [['1st', 'warning', 'firstRank'], ['2nd', 'secondary', 'secondRank'], ['3rd', 'danger', 'thirdRank'], ['4th', 'light', 'fourhtRank']];
   const sortedPlayers = room.players.map((p, i) => ({
     username: p,
     score: room.leaderBoard[i]
@@ -106,6 +100,7 @@ const Room = ({
     className: "list-group"
   }, sortedPlayers.map((player, i) => _react.default.createElement(_ListGroup.default.Item, {
     variant: rankInfos[i][1],
+    className: rankInfos[i][2],
     key: i
   }, _react.default.createElement("div", {
     className: "d-flex row justify-content-around p-2 bd-highlight"
@@ -113,14 +108,14 @@ const Room = ({
     className: "",
     id: "rank"
   }, `${rankInfos[i][0]}`), _react.default.createElement("div", {
-    className: " font-weight-bold",
-    id: "player"
+    className: "font-weight-bold",
+    id: `player${i}`
   }, player.username), _react.default.createElement("div", {
     className: "",
     id: "victories"
   }, player.score, " win", player.score > 1 ? 's' : '')))))), _react.default.createElement("div", {
     className: "align-self-center m-4"
-  }, username === room.players[0] && !room.running ? _react.default.createElement("button", {
+  }, username === room.players[0] && !room.running && room.players.length > 1 ? _react.default.createElement("button", {
     id: "playButton",
     className: "btn btn-primary ",
     onClick: onPlay
@@ -137,12 +132,16 @@ const Room = ({
   })), _react.default.createElement("div", {
     id: "messageBox",
     className: "card-body overflow-hidden d-flex flex-column flex-nowrap"
-  }, messages.map((m, index) => _react.default.createElement("div", {
-    className: `h-10 bg-${rankInfos[sortedPlayers.findIndex(p => p.username === m.username)][1]}`,
-    key: index
-  }, _react.default.createElement("span", {
-    className: "font-weight-bold"
-  }, m.username, ":"), " ", m.message.substr(0, 120))))), _react.default.createElement("div", null, _react.default.createElement("input", {
+  }, messages.map((m, index) => {
+    const playerIndex = sortedPlayers.findIndex(p => p.username === m.username);
+    return _react.default.createElement("div", {
+      className: `h-10 ${playerIndex === -1 ? '' : `bg-${rankInfos[playerIndex][1]}`}`,
+      key: index
+    }, _react.default.createElement("span", {
+      className: "font-weight-bold"
+    }, m.username, ":"), " ", m.message.substr(0, 100));
+  }))), _react.default.createElement("div", null, _react.default.createElement("input", {
+    autoFocus: true,
     id: "messageInput",
     className: "form-control",
     onChange: onChange,

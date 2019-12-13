@@ -36,8 +36,8 @@ const App = () => {
     const res = url.hash.match(/^#(.*)\[(.*)\]$/)
   
     if (res && res[1] && res[2]) {
-      const roomId = res[1]
-      const username = res[2]
+      const roomId = res[1].substr(0, 10)
+      const username = res[2].substr(0, 10)
       dispatch(actSetTypeGame(true))
       storeSocket.emit('url', { username, socketId: storeSocket.socketId, roomId })
     }

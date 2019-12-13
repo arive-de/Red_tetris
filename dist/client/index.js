@@ -6,10 +6,6 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
-var _reduxLogger = _interopRequireDefault(require("redux-logger"));
-
-var _reduxThunk = _interopRequireDefault(require("redux-thunk"));
-
 var _redux = require("redux");
 
 var _reactRedux = require("react-redux");
@@ -17,6 +13,8 @@ var _reactRedux = require("react-redux");
 var _reducers = _interopRequireDefault(require("./reducers"));
 
 var _app = _interopRequireDefault(require("./containers/app"));
+
+var _socketMiddleware = _interopRequireDefault(require("./middlewares/socketMiddleware"));
 
 const initialState = {
   username: null,
@@ -28,7 +26,8 @@ const initialState = {
   userList: [],
   highscores: []
 };
-const store = (0, _redux.createStore)(_reducers.default, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), (0, _redux.applyMiddleware)(_reduxThunk.default, (0, _reduxLogger.default)()));
+const store = (0, _redux.createStore)(_reducers.default, initialState, (0, _redux.compose)((0, _redux.applyMiddleware)((0, _socketMiddleware.default)()), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+console.log(store);
 
 _reactDom.default.render(_react.default.createElement(_reactRedux.Provider, {
   store: store

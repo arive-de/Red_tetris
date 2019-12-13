@@ -15,8 +15,6 @@ var _reactRedux = require("react-redux");
 
 var _user = require("../actions/user");
 
-var _room = require("../actions/room");
-
 var _Home = _interopRequireDefault(require("../components/Home"));
 
 var _Menu = _interopRequireDefault(require("../components/Menu"));
@@ -25,11 +23,7 @@ var _Lobby = _interopRequireDefault(require("../components/Lobby"));
 
 var _Room = _interopRequireDefault(require("../components/Room"));
 
-var _socket = _interopRequireDefault(require("socket.io-client"));
-
 require("./app.scss");
-
-const socket = (0, _socket.default)(`http://${window.location.hostname}:3004`);
 
 const App = () => {
   const dispatch = (0, _reactRedux.useDispatch)();
@@ -41,73 +35,35 @@ const App = () => {
   const [errorHome, setErrorHome] = (0, _react.useState)('');
   const [errorLobby, setErrorLobby] = (0, _react.useState)('');
   (0, _react.useEffect)(() => {
+    if (storeSocket) {
+      return;
+    }
+
+    dispatch((0, _user.actConnectSocket)(setErrorHome, setErrorLobby));
     return () => {
       console.log('unmount app');
     };
   }, []);
+  (0, _react.useEffect)(() => {
+    if (!storeSocket) {
+      return;
+    }
 
-  if (!storeSocket) {
-    dispatch((0, _user.actSetSocket)(socket));
     const url = document.createElement('a');
     url.href = window.location.href;
     const res = url.hash.match(/^#(.*)\[(.*)\]$/);
 
     if (res && res[1] && res[2]) {
-      const roomId = res[1];
-      const username = res[2];
+      const roomId = res[1].substr(0, 10);
+      const username = res[2].substr(0, 10);
       dispatch((0, _user.actSetTypeGame)(true));
-      socket.emit('url', {
+      storeSocket.emit('url', {
         username,
-        socketId: socket.socketId,
+        socketId: storeSocket.socketId,
         roomId
       });
     }
-
-    socket.on('auth', data => {
-      if (data.error) {
-        setErrorHome(data.error);
-        return;
-      }
-
-      dispatch((0, _user.actSetUsername)(data.username));
-      dispatch((0, _user.actAddUser)(data.username));
-    });
-    socket.on('lobby', data => {
-      if (data.error) {
-        setErrorLobby(data.error);
-        return;
-      }
-    });
-    socket.on('created_room', data => {
-      dispatch((0, _room.actCreateRoom)(data));
-    });
-    socket.on('logout', data => {
-      dispatch((0, _user.actLogout)(data));
-    });
-    socket.on('left_room', data => {
-      dispatch((0, _room.actLeaveRoom)(data));
-    });
-    socket.on('joined_room', data => {
-      dispatch((0, _room.actJoinRoom)(data));
-    });
-    socket.on('update', ({
-      users,
-      rooms
-    }) => {
-      dispatch((0, _room.actGetRooms)(rooms));
-      dispatch((0, _user.actGetUsers)(users));
-    });
-    socket.on('play_game', data => {
-      dispatch((0, _room.actPlayGame)(data));
-    });
-    socket.on('stop_game', data => {
-      dispatch((0, _room.actStopGame)(data));
-    });
-    socket.on('highscore', data => {
-      dispatch((0, _user.actGetHighscores)(data));
-    }); // FOR GAME DEV
-    // socket.emit('auth', 'cbarb')
-  }
+  }, [storeSocket]);
 
   if (username !== null && roomId !== null) {
     if (rooms.find(r => r.roomId === roomId)) {

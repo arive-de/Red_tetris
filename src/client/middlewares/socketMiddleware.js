@@ -7,6 +7,7 @@ const socketMiddleware = () => {
     const { dispatch } = store
     console.log('socketMiddleware', action, store)
     const storeSocket = store.getState().socket
+    const storeUsername = store.getState().username
     switch (action.type) {
     case CONNECT_SOCKET:
       console.log('connecting socket')
@@ -53,23 +54,23 @@ const socketMiddleware = () => {
       dispatch(actSetSocket(socket))
       break
     case INIT_GAME_SOCKET:
-      const { dispatchGame, room, setGamers } = action
+      const players = action.room.players.filter(u => u !== storeUsername)
       storeSocket.on('get_pieces', newPieces => {
-        dispatchGame({ type: 'GET_PIECES', pieces: newPieces })
+        action.dispatchGame({ type: 'GET_PIECES', pieces: newPieces })
       })
       storeSocket.on('spectrum', ({ username, spectrum }) => {
         const indexPlayer = players.indexOf(username)
-        dispatchGame({ type: 'SPECTRUM', index: indexPlayer, spectrum })
+        action.dispatchGame({ type: 'SPECTRUM', index: indexPlayer, spectrum })
       })
       storeSocket.on('blockLines', lines => {
         console.log('blocklines listener', lines)
-        dispatchGame({ type: 'BLOCKLINES', lines: lines - 1 })
+        action.dispatchGame({ type: 'BLOCKLINES', lines: lines - 1 })
       })
       storeSocket.on('gameOver', ({ index, username }) => {
         console.log('gameover', username, index)
-        const indexPlayer = index === -1 ? room.players.indexOf(username) : index
-        console.log(`${room.players[indexPlayer]} is gameover`)
-        setGamers(g => g.map((x, i) => i === indexPlayer ? false : x))
+        const indexPlayer = index === -1 ? action.room.players.indexOf(username) : index
+        console.log(`${action.room.players[indexPlayer]} is gameover`)
+        action.setGamers(g => g.map((x, i) => i === indexPlayer ? false : x))
       })
       break
     case INIT_ROOM_SOCKET:

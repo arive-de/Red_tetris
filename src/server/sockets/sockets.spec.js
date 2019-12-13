@@ -2,6 +2,7 @@ const debug = require('debug')('∆:index spec')
 const assert = require('assert')
 const server = require('../index')
 const ioClient = require('socket.io-client')
+const mongoose = require('mongoose')
 
 describe('Server', function() {
   let stopServer
@@ -334,7 +335,12 @@ describe('Server', function() {
       socket4 && socket4.connected && socket4.disconnect()
       socket5 && socket5.connected && socket5.disconnect()
       // socket1.removeAllListeners()
-      done()
+      // done()
+      mongoose.connection.db.dropDatabase(() => {
+        mongoose.connection.close()
+        debug('DB disconnection [OK]')
+        done()
+      })
     })
   })
 })

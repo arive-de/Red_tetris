@@ -3,7 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.actAddWin = exports.actGetHighscores = exports.actGetUsers = exports.actLogout = exports.actAddUser = exports.actSetSocket = exports.actSetTypeGame = exports.actSetUsername = exports.ADD_WIN = exports.GET_HIGHSCORES = exports.LOGOUT = exports.ADD_USER = exports.GET_USERS = exports.SET_SOCKET = exports.SET_TYPEGAME = exports.SET_USERNAME = void 0;
+exports.actAddWin = exports.actGetHighscores = exports.actGetUsers = exports.actLogout = exports.actAddUser = exports.actSetSocket = exports.actSetTypeGame = exports.actSetUsername = exports.actInitGameSocket = exports.actConnectSocket = exports.ADD_WIN = exports.GET_HIGHSCORES = exports.LOGOUT = exports.ADD_USER = exports.GET_USERS = exports.SET_SOCKET = exports.SET_TYPEGAME = exports.SET_USERNAME = exports.INIT_GAME_SOCKET = exports.CONNECT_SOCKET = void 0;
+const CONNECT_SOCKET = 'CONNECT_SOCKET';
+exports.CONNECT_SOCKET = CONNECT_SOCKET;
+const INIT_GAME_SOCKET = 'INIT_GAME_SOCKET';
+exports.INIT_GAME_SOCKET = INIT_GAME_SOCKET;
 const SET_USERNAME = 'SET_USERNAME';
 exports.SET_USERNAME = SET_USERNAME;
 const SET_TYPEGAME = 'SET_TYPEGAME';
@@ -20,6 +24,23 @@ const GET_HIGHSCORES = 'GET_HIGHSCORES';
 exports.GET_HIGHSCORES = GET_HIGHSCORES;
 const ADD_WIN = 'ADD_WIN';
 exports.ADD_WIN = ADD_WIN;
+
+const actConnectSocket = (setErrorHome, setErrorLobby) => ({
+  type: CONNECT_SOCKET,
+  setErrorHome,
+  setErrorLobby
+});
+
+exports.actConnectSocket = actConnectSocket;
+
+const actInitGameSocket = (dispatchGame, setGamers, room) => ({
+  type: INIT_GAME_SOCKET,
+  dispatchGame,
+  setGamers,
+  room
+});
+
+exports.actInitGameSocket = actInitGameSocket;
 
 const actSetUsername = username => ({
   type: SET_USERNAME,

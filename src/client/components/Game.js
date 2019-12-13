@@ -27,8 +27,8 @@ const Game = ({ solo, room }) => {
     type: 0,
     piece: [],
     pieces: [],
-    grid: [...Array(180).fill(0), ...Array(20).fill(-1)],
-    spectrums: [0, 0, 0].map(x => Array(200).fill(0)),
+    grid: [...Array(200).fill(0)],
+    spectrums: [0, 0, 0].map(() => Array(200).fill(0)),
     lines: 0,
     end: false,
     score: 0,
@@ -123,6 +123,7 @@ const Game = ({ solo, room }) => {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
     dispatch(actInitGameSocket(dispatchGame, setGamers, room))
+    
     return () => {
       console.log('unmount Game')
       socket.removeListener('get_pieces')
@@ -204,7 +205,7 @@ const Game = ({ solo, room }) => {
   return (
     <div>
       <Wall mute={true} />
-      <input autoFocus id='gameControlsInput' onKeyDown={onKeyUp} tabIndex={-1} />
+      <input autoComplete='off' autoFocus id='gameControlsInput' onKeyDown={onKeyUp} tabIndex={-1} />
       <Header onReturn={onStop} title={`GAME ${solo ? 'SOLO' : 'MULTIPLAYER'}`} />
       <div className='d-flex justify-content-center'>
         <div className='d-flex flex-row justifiy-content-around flex-1 m-2' id='gameContainer'>
@@ -240,7 +241,7 @@ const Game = ({ solo, room }) => {
             }
           </div>
           <div className='gameSide d-flex flex-column justify-content-between align-items-stretch w-25'>
-            <div className='spectrum h-50 m-2 d-flex flex-column justify-content-around'>
+            <div className='infoTab h-50 m-2 d-flex flex-column justify-content-around'>
               <div className='d-flex flex-column h-100'>
                 <div id='incomingPiece1' className='incomingPieceContainer d-flex flex-row flex-wrap w-100'>
                   {

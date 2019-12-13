@@ -33,11 +33,12 @@ const {
 } = require('./sockets/url');
 
 const {
-  deleteUser
-} = require('./controllers/user/user');
+  remove
+} = require('./controllers/player/player');
 
 const handler = (req, res) => {
   const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
+  console.log(file);
   fs.readFile(path.join(__dirname, file), (err, data) => {
     if (err) {
       debug(err);
@@ -60,8 +61,12 @@ const initEngine = io => {
     initSocketGame(io, socket);
     socket.on('disconnect', () => {
       debug(`Socket disconnected: ${socket.id}`);
-      deleteUser(socket.username, socket.roomId, error => {
+      remove(socket.username, socket.roomId, error => {
         if (socket.roomId) {
+          io.to(socket.roomId).emit('gameOver', {
+            username: socket.username,
+            index: -1
+          });
           io.to(socket.roomId).emit('logout', {
             error,
             username: socket.username,
@@ -108,10 +113,7 @@ const create = port => {
       cb();
     };
 
-    app.use(cors({
-      credentials: true,
-      origin: 'http://localhost:8080'
-    }));
+    app.use(cors());
     app.use(bodyParser.urlencoded({
       extended: false
     }));

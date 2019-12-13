@@ -30,7 +30,7 @@ const Home = ({
   };
 
   const handleKeyDown = e => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && username.length) {
       socket.emit('auth', username);
       socket.emit('highscore');
     }
@@ -38,30 +38,34 @@ const Home = ({
 
   (0, _react.useEffect)(() => {
     setError(error);
-    return () => {
+    const timeout = setTimeout(() => {
       setError(null);
+    }, 2000);
+    return () => {
+      clearTimeout(timeout);
     };
   }, [error]);
   return _react.default.createElement("div", {
     className: "d-flex row",
     id: "home-box"
-  }, _react.default.createElement(_Wall.default, null), _react.default.createElement("div", {
+  }, error && _react.default.createElement("div", {
+    className: "error alert alert-danger"
+  }, error), _react.default.createElement(_Wall.default, null), _react.default.createElement("div", {
     className: "card justify-content-center align-self-center mx-auto"
   }, _react.default.createElement("div", {
     className: "card-container card-body text-center"
   }, _react.default.createElement("h5", {
     className: "card-title"
-  }, "Red Tetris"), _react.default.createElement("div", {
+  }, "TetrisForJeff"), _react.default.createElement("div", {
     className: "form-group d-flex flex-column align-items-center"
   }, _react.default.createElement("input", {
+    autoFocus: true,
     className: "form-control",
+    maxLength: "12",
     onChange: onChange,
     onKeyDown: handleKeyDown,
-    placeholder: "Type in a username"
-  }))), error && _react.default.createElement("div", {
-    className: "alert alert-danger",
-    role: "alert"
-  }, error)));
+    placeholder: "username"
+  })))));
 };
 
 var _default = Home;

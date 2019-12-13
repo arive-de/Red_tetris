@@ -39,25 +39,18 @@ const createByUrl = (username, roomId, cb) => {
                 username,
                 roomFull
               });
-            } // if (room.running === true) {
-            //   // implementer un systeme plus tard
-            // }
+            }
 
-
-            room.leaderBoard.push(0);
+            room.leaderBoard = [...room.leaderBoard, 0];
             room.players.push(username);
             room.save().then(r => {
               cb(null, {
                 roomId,
                 username
               });
-            }).catch(err => {
-              cb('can\'t update room in db');
             });
           }
         });
-      }).catch(err => {
-        cb('can\'t store the user in db');
       });
     } else {
       return cb('username already exists');

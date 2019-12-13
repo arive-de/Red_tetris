@@ -1,6 +1,8 @@
 "use strict";
 
-var _game = require("./game");
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _game = _interopRequireDefault(require("./game"));
 
 describe('game reducer', () => {
   let input;
@@ -47,7 +49,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('TICK bottom', () => {
     action = {
@@ -86,7 +88,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('TICK gameover', () => {
     action = {
@@ -122,7 +124,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('DOWN ok', () => {
     action = {
@@ -158,7 +160,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('DOWN not ok', () => {
     action = {
@@ -194,7 +196,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('LEFT not ok', () => {
     action = {
@@ -230,7 +232,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('LEFT ok', () => {
     action = {
@@ -266,7 +268,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('RIGHT not ok', () => {
     action = {
@@ -302,7 +304,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('RIGHT ok', () => {
     action = {
@@ -338,7 +340,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('DROP', () => {
     action = {
@@ -369,7 +371,7 @@ describe('game reducer', () => {
       pieces: [0, 0, 0, 0],
       end: false,
       lines: 0,
-      score: 0,
+      score: 18,
       grid: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, //1
       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //5
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //10
@@ -377,7 +379,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 18, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('ROTATE ok', () => {
     action = {
@@ -413,7 +415,7 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
   it('ROTATE not ok', () => {
     action = {
@@ -449,6 +451,6 @@ describe('game reducer', () => {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //20
       ]
     };
-    expect((0, _game.gameReducer)(input, action)).to.deep.equal(expectedOutput);
+    expect((0, _game.default)(input, action)).to.deep.equal(expectedOutput);
   });
 });

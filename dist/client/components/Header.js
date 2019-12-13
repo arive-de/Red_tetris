@@ -2,20 +2,16 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
-
-var _user = require("../actions/user");
-
-var _reactRedux = require("react-redux");
+var _react = _interopRequireWildcard(require("react"));
 
 var _navbar = _interopRequireDefault(require("react-bootstrap/navbar"));
-
-var _button = _interopRequireDefault(require("react-bootstrap/button"));
 
 const Header = ({
   error,
@@ -23,9 +19,20 @@ const Header = ({
   title,
   onReturn
 }) => {
+  (0, _react.useEffect)(() => {
+    if (!error) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setError(e => null);
+    }, 2000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  });
   return _react.default.createElement("div", null, error && _react.default.createElement("div", {
-    className: "alert alert-danger",
-    role: "alert"
+    className: "error alert alert-danger"
   }, error), _react.default.createElement(_navbar.default, null, _react.default.createElement(_navbar.default.Brand, null, _react.default.createElement("i", {
     className: "leaveButton fas fa-arrow-alt-circle-left fa-2x",
     onClick: onReturn

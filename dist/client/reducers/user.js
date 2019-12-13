@@ -14,8 +14,11 @@ const deleteUser = (state, username, roomId) => {
   if (roomId) {
     rooms = state.rooms.map(r => {
       if (r.roomId === roomId) {
+        const newLeaderBoard = [...r.leaderBoard];
+        newLeaderBoard.splice(r.players.indexOf(username), 1);
         return { ...r,
-          players: r.players.filter(u => u !== username)
+          players: r.players.filter(u => u !== username),
+          leaderBoard: newLeaderBoard
         };
       }
 
@@ -32,9 +35,9 @@ const deleteUser = (state, username, roomId) => {
 };
 
 const reducer = (state, action) => {
-  console.log(action);
   const {
     username,
+    hostname,
     typeGame,
     socket
   } = action;

@@ -28,11 +28,10 @@ const Wall = ({
     }
 
     const intervalPiece = setInterval(() => {
-      console.log('interval Wall');
       dispatchGrid({
         type: 'TICK'
       });
-    }, 10000);
+    }, 3000);
     return () => {
       clearInterval(intervalPiece);
     };
@@ -46,7 +45,7 @@ const Wall = ({
       wallCell1: i % 2 === 0,
       wallCell2: i % 2 !== 0,
       [colors[cell]]: true
-    }),
+    }, 'wallCell'),
     key: i
   }, cell)));
 };

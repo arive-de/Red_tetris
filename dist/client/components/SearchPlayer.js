@@ -57,8 +57,6 @@ const SearchPlayer = ({
 
       setActiveSuggestion(x => x - 1);
     } else if (e.keyCode === 40) {
-      console.log(filteredSuggestions);
-
       if (activeSuggestion === filteredSuggestions.length - 1) {
         return;
       }
@@ -93,7 +91,7 @@ const SearchPlayer = ({
     }
   }
 
-  return _react.default.createElement(_react.Fragment, null, "Connected players", _react.default.createElement("div", {
+  return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", {
     className: "input-group"
   }, _react.default.createElement("div", {
     className: "input-group-prepend"
@@ -108,7 +106,8 @@ const SearchPlayer = ({
     onChange: onChange,
     onKeyDown: onKeyDown,
     type: "text",
-    value: userInput
+    value: userInput,
+    placeholder: "online users"
   })), suggestionsListComponent);
 };
 

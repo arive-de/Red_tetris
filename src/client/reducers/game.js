@@ -169,7 +169,7 @@ const gameReducer = (state, action) => {
       type: 0,
       piece: [],
       pieces: [],
-      grid: [...Array(180).fill(0), ...Array(20).fill(-1)],
+      grid: [...Array(200).fill(0)],
       spectrums: [0, 0, 0].map(() => Array(200).fill(0)),
       lines: 0,
       end: false,

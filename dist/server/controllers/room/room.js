@@ -53,8 +53,8 @@ const joinRoom = (username, roomId, cb) => {
       throw new Error('room is full');
     }
 
-    room.players.push(username);
-    room.leaderBoard.push(0);
+    room.players = [...room.players, username];
+    room.leaderBoard = [...room.leaderBoard, 0];
     room.save().then(r => {
       debug(`user ${username} join the room ${r.roomId} to db`);
       cb(null, {
@@ -75,7 +75,9 @@ const leaveRoom = (username, roomId, cb) => {
     roomId
   }).then(room => {
     // debug('room found', room.players)
-    room.leaderBoard = room.leaderBoard.splice(room.players.indexOf(username), 1);
+    const newLeaderBoard = [...room.leaderBoard];
+    newLeaderBoard.splice(room.players.indexOf(username), 1);
+    room.leaderBoard = newLeaderBoard;
     room.players = room.players.filter(u => u !== username);
 
     if (room.players.length === 0) {
@@ -105,40 +107,8 @@ const leaveRoom = (username, roomId, cb) => {
   });
 };
 
-const playGame = (roomId, cb) => {
-  Room.findOne({
-    roomId
-  }).then(room => {
-    room.running = true;
-    room.save().then(r => {
-      cb(null, {
-        roomId
-      });
-    });
-  }).catch(err => {
-    cb(err.message);
-  });
-};
-
-const stopGame = (roomId, cb) => {
-  Room.findOne({
-    roomId
-  }).then(room => {
-    room.running = false;
-    room.save().then(r => {
-      cb(null, {
-        roomId
-      });
-    });
-  }).catch(err => {
-    cb(err.message);
-  });
-};
-
 module.exports = {
   createRoom,
   joinRoom,
-  leaveRoom,
-  playGame,
-  stopGame
+  leaveRoom
 };

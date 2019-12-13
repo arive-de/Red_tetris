@@ -75,7 +75,8 @@ describe('user reducer', () => {
       userList: ['user1', 'user2', 'outUser', 'user3'],
       rooms: [{
         roomId: 'test',
-        players: ['joe', 'outUser']
+        players: ['joe', 'outUser'],
+        leaderBoard: [3, 0]
       }]
     };
     expectedOutput = {
@@ -83,7 +84,8 @@ describe('user reducer', () => {
       userList: ['user1', 'user2', 'user3'],
       rooms: [{
         roomId: 'test',
-        players: ['joe']
+        players: ['joe'],
+        leaderBoard: [3]
       }]
     };
     expect((0, _reducers.default)(input, action)).to.deep.equal(expectedOutput);
@@ -98,7 +100,8 @@ describe('user reducer', () => {
       userList: ['user1', 'user2', 'outUser', 'user3'],
       rooms: [{
         roomId: 'test',
-        players: ['outUser']
+        players: ['outUser'],
+        leaderBoard: [12]
       }]
     };
     expectedOutput = {
@@ -212,7 +215,8 @@ describe('room reducer', () => {
         roomId: 'test',
         type: 'Classic',
         players: ['john'],
-        running: false
+        running: false,
+        leaderBoard: [8]
       }]
     };
     expectedOutput = {
@@ -224,7 +228,8 @@ describe('room reducer', () => {
         roomId: 'test',
         type: 'Classic',
         players: ['john', 'newPlayer'],
-        running: false
+        running: false,
+        leaderBoard: [8, 0]
       }]
     };
     expect((0, _reducers.default)(input, action)).to.deep.equal(expectedOutput);

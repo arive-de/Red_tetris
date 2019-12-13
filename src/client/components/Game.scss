@@ -16,7 +16,12 @@ $wid: 25%;
 
 .spectrum {
   border: 2px solid black;
-  sbackground: url('./statictv.gif');
+  background: url('./statictv.gif');
+}
+
+.infoTab {
+  border: 2px solid pink;
+
 }
 
 .incomingPieceCell {
@@ -98,5 +103,9 @@ $wid: 25%;
 
 #retryParagraph {
   font-size: 1em;
+  color: whitesmoke;
+}
+
+h3 {
   color: whitesmoke;
 }

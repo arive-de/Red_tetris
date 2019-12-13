@@ -83,7 +83,7 @@ const Room = ({ room }) => {
                  const playerIndex = sortedPlayers.findIndex(p => p.username === m.username)
                  return(
                 <div className={`h-10 ${playerIndex === -1 ? '' : `bg-${rankInfos[playerIndex][1]}`}`} key={index}>
-                  <span className='font-weight-bold'>{m.username}:</span> {m.message.substr(0, 120)}
+                  <span className='font-weight-bold'>{m.username}:</span> {m.message.substr(0, 100)}
                  </div>)})}
             </div>
         </div>

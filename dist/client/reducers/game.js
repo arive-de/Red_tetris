@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.gameReducer = void 0;
+exports.default = void 0;
 
 var _pieces = require("../utils/pieces");
 
@@ -14,8 +14,7 @@ const handleTick = state => {
     type,
     piece,
     pieces,
-    grid,
-    spectrums
+    grid
   } = state;
   const [ok, nextPiece] = (0, _pieces.canDrop)(piece, grid);
 
@@ -34,7 +33,7 @@ const handleTick = state => {
       pieces: pieces.slice(1),
       grid: newGrid,
       lines: nbLine,
-      score: nbLine > 0 ? state.score + scoring[nbLine - 1] : state.score
+      score: nbLine > 0 ? state.score + scoring[nbLine - 1] * state.lvl : state.score
     };
   }
 
@@ -48,9 +47,7 @@ const handleDown = state => {
   const {
     type,
     piece,
-    pieces,
-    grid,
-    spectrums
+    grid
   } = state;
   const [ok, nextPiece] = (0, _pieces.canDrop)(piece, grid);
 
@@ -89,7 +86,7 @@ const handleDrop = (state, arg) => {
     pieces,
     grid
   } = state;
-  const nextPiece = (0, _pieces.dropBottom)(piece, arg);
+  const [nextPiece, height] = (0, _pieces.dropBottom)(piece, arg);
 
   if (!(0, _pieces.canFit)(piece, nextPiece, grid)) {
     return state;
@@ -109,7 +106,7 @@ const handleDrop = (state, arg) => {
     pieces: pieces.slice(1),
     grid: newGrid,
     lines: nbLine,
-    score: nbLine > 0 ? state.score + scoring[nbLine - 1] : state.score
+    score: height + (nbLine > 0 ? state.score + scoring[nbLine - 1] : state.score)
   };
 };
 
@@ -119,6 +116,7 @@ const handlePieces = (state, newPieces) => {
   };
 
   if (state.piece.length) {
+    nextState.lvl = state.lvl + 1;
     return nextState;
   }
 
@@ -174,9 +172,11 @@ const handleBlockLines = (state, lines) => {
 };
 
 const gameReducer = (state, action) => {
-  if (state.end) {
+  if (state.end && action.type !== 'RESET') {
     return state;
   }
+
+  console.log('GAME', action.type);
 
   switch (action.type) {
     case 'TICK':
@@ -206,9 +206,23 @@ const gameReducer = (state, action) => {
     case 'SPECTRUM':
       return handleSpectrum(state, action);
 
+    case 'RESET':
+      return {
+        type: 0,
+        piece: [],
+        pieces: [],
+        grid: [...Array(200).fill(0)],
+        spectrums: [0, 0, 0].map(() => Array(200).fill(0)),
+        lines: 0,
+        end: false,
+        score: 0,
+        lvl: 0
+      };
+
     default:
       return state;
   }
 };
 
-exports.gameReducer = gameReducer;
+var _default = gameReducer;
+exports.default = _default;

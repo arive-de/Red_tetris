@@ -3,7 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.actQuitGame = exports.actStopGame = exports.actPlayGame = exports.actGetRooms = exports.actLeaveRoom = exports.actJoinRoom = exports.actCreateRoom = exports.QUIT_GAME = exports.STOP_GAME = exports.PLAY_GAME = exports.LEAVE_ROOM = exports.JOIN_ROOM = exports.CREATE_ROOM = exports.GET_ROOMS = void 0;
+exports.actQuitGame = exports.actStopGame = exports.actPlayGame = exports.actGetRooms = exports.actLeaveRoom = exports.actJoinRoom = exports.actCreateRoom = exports.actInitRoomSocket = exports.QUIT_GAME = exports.STOP_GAME = exports.PLAY_GAME = exports.LEAVE_ROOM = exports.JOIN_ROOM = exports.CREATE_ROOM = exports.GET_ROOMS = exports.INIT_ROOM_SOCKET = void 0;
+const INIT_ROOM_SOCKET = 'INIT_ROOM_SOCKET';
+exports.INIT_ROOM_SOCKET = INIT_ROOM_SOCKET;
 const GET_ROOMS = 'GET_ROOMS';
 exports.GET_ROOMS = GET_ROOMS;
 const CREATE_ROOM = 'CREATE_ROOM';
@@ -18,6 +20,14 @@ const STOP_GAME = 'STOP_GAME';
 exports.STOP_GAME = STOP_GAME;
 const QUIT_GAME = 'QUIT_GAME';
 exports.QUIT_GAME = QUIT_GAME;
+
+const actInitRoomSocket = (setMessages, room) => ({
+  type: INIT_ROOM_SOCKET,
+  setMessages,
+  room
+});
+
+exports.actInitRoomSocket = actInitRoomSocket;
 
 const actCreateRoom = room => ({
   type: CREATE_ROOM,

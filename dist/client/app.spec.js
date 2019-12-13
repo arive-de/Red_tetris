@@ -36,6 +36,8 @@ var _room = require("./actions/room");
 
 var _env = require("../server/env");
 
+var _socket = _interopRequireDefault(require("socket.io-client"));
+
 const debug = require('debug')('∆:app spec');
 
 describe('App component', () => {
@@ -65,7 +67,8 @@ describe('App component', () => {
         leaderBoard: [0, 2, 8, 0]
       }],
       userList: ['mama', 'mimi', 'jane', 'john', 'oaoa'],
-      highscores: []
+      highscores: [],
+      socket: (0, _socket.default)()
     };
     store = (0, _redux.createStore)(_reducers.default, initialState);
     username = 'tester';
@@ -179,9 +182,60 @@ describe('App component', () => {
     expect(wrapper.find(_Game.default).props().room.running).to.equal(true);
     done();
   });
+  it('fill 2lines', function (done) {
+    const SPACE = 32;
+    const LEFT = 37;
+    const UP = 38;
+    const RIGHT = 39;
+    const DOWN = 40;
+    const controls = wrapper.find('input#gameControlsInput');
+    const socket = store.getState().socket;
+    controls.simulate('keyDown', {
+      keyCode: LEFT
+    });
+    controls.simulate('keyDown', {
+      keyCode: LEFT
+    });
+    controls.simulate('keyDown', {
+      keyCode: LEFT
+    });
+    wrapper.update();
+    controls.simulate('keyDown', {
+      keyCode: LEFT
+    });
+    controls.simulate('keyDown', {
+      keyCode: LEFT
+    });
+    controls.simulate('keyDown', {
+      keyCode: LEFT
+    });
+    wrapper.update();
+    controls.simulate('keyDown', {
+      keyCode: RIGHT
+    });
+    controls.simulate('keyDown', {
+      keyCode: RIGHT
+    });
+    controls.simulate('keyDown', {
+      keyCode: RIGHT
+    });
+    wrapper.update();
+    controls.simulate('keyDown', {
+      keyCode: RIGHT
+    });
+    controls.simulate('keyDown', {
+      keyCode: RIGHT
+    });
+    controls.simulate('keyDown', {
+      keyCode: RIGHT
+    });
+    wrapper.update();
+    done();
+  });
   after(function (done) {
     wrapper.unmount();
-    (0, _env.fillDb)();
-    done();
+    (0, _env.fillDb)().then(() => {
+      done();
+    });
   });
 });

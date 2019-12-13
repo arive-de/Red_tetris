@@ -32,7 +32,12 @@ const gameReducer = (state, action) => {
         roomId: username === state.username ? roomId : state.roomId,
         rooms: state.rooms.map(r => {
           if (r.roomId === roomId) {
-            r.players = [...r.players, username];
+            const newPlayers = [...r.players, username];
+            const newLeaderBoard = [...r.leaderBoard, 0];
+            return { ...r,
+              leaderBoard: newLeaderBoard,
+              players: newPlayers
+            };
           }
 
           return r;
@@ -45,8 +50,13 @@ const gameReducer = (state, action) => {
         isPlaying: username === state.username ? false : state.isPlaying,
         rooms: state.rooms.map(r => {
           if (r.roomId === roomId) {
-            r.leaderBoard = r.leaderBoard.splice(r.players.indexOf(username), 1);
-            r.players = r.players.filter(p => p !== username);
+            const newLeaderBoard = [...r.leaderBoard];
+            newLeaderBoard.splice(r.players.indexOf(username), 1);
+            const newPlayers = r.players.filter(p => p !== username);
+            return { ...r,
+              leaderBoard: newLeaderBoard,
+              players: newPlayers
+            };
           }
 
           return r;
@@ -58,7 +68,9 @@ const gameReducer = (state, action) => {
         isPlaying: state.roomId !== null && roomId === state.roomId ? true : state.isPlaying,
         rooms: state.rooms.map(r => {
           if (r.roomId === roomId) {
-            r.running = true;
+            return { ...r,
+              running: true
+            };
           }
 
           return r;
@@ -75,7 +87,9 @@ const gameReducer = (state, action) => {
         isPlaying: false,
         rooms: state.rooms.map(r => {
           if (r.roomId === roomId) {
-            r.running = false;
+            return { ...r,
+              running: false
+            };
           }
 
           return r;

@@ -99,7 +99,8 @@ const Lobby = ({
     setError: setError,
     title: title,
     onReturn: onReturn
-  }), _react.default.createElement("br", null), _react.default.createElement("div", {
+  }), _react.default.createElement("div", {
+    id: "lobbyContainer",
     className: ""
   }, _react.default.createElement("div", {
     className: "card"

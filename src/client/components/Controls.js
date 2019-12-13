@@ -14,7 +14,7 @@ const Controls = () => {
         </div>
         <div>
           <i className='arrows fas fa-caret-up'></i>
-          <p>Rotate right</p>
+          <p className='controlText'>Rotate right</p>
         </div>
         <div>
          <i className='arrows invisible fas fa-caret-up'></i>
@@ -24,19 +24,19 @@ const Controls = () => {
       <div className='row'>
         <div>
           <i className='arrows fas fa-caret-left'></i>
-          <p>Move left</p>
+          <p className='controlText'>left</p>
         </div>
         <div>
          <i className='arrows fas fa-caret-down'></i>
-         <p>Soft drop</p>
+         <p className='controlText'>soft drop</p>
         </div>
         <div>
          <i className='arrows fas fa-caret-right'></i>
-         <p>Move right</p>
+         <p className='controlText'>right</p>
         </div>
       </div>
       <div className='space-bar'>Space</div>
-      <p>Hard drop</p>
+      <p className='controlText'>Hard drop</p>
     </div>
     )
 }

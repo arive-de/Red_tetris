@@ -151,7 +151,8 @@ describe('App component', () => {
 
   after(function(done) {
     wrapper.unmount()
-    fillDb()
-    done()
+    fillDb().then(() => {
+      done()
+    })
   })
 })

@@ -15,6 +15,7 @@ const Invite = ({
   room
 }) => {
   const [friend, setFriend] = (0, _react.useState)('');
+  const [info, setInfo] = (0, _react.useState)(null);
 
   const onChange = e => {
     e.preventDefault();
@@ -26,12 +27,23 @@ const Invite = ({
       return;
     }
 
-    const url = `${document.location.origin}/#${room.roomId}[${friend}]`;
-    console.log(url);
-    navigator.clipboard.writeText(url);
+    const url = `${document.location.hostname}:${document.location.port}/#${room.roomId}[${friend}]`;
+    navigator.clipboard.writeText(url).then(() => {
+      setInfo('invitation URL copied to clipboard :)');
+    });
   };
 
-  return _react.default.createElement("div", {
+  (0, _react.useEffect)(() => {
+    const timeout = setTimeout(() => {
+      setInfo(null);
+    }, 2000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  });
+  return _react.default.createElement("div", null, info !== null && _react.default.createElement("div", {
+    className: "invite-alert alert alert-success"
+  }, info), _react.default.createElement("div", {
     className: "d-flex row justify-content-end"
   }, _react.default.createElement("div", {
     className: ""
@@ -45,7 +57,7 @@ const Invite = ({
     id: "friendButton",
     className: "fas fa-link fa-2x",
     onClick: onClick
-  }));
+  })));
 };
 
 var _default = Invite;

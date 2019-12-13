@@ -17,6 +17,7 @@ div {
   margin: 2em auto;
   width: 100%;
   max-width: 800px;
+  font-size: 1.5em;
 }
 
 .flex-table {
@@ -27,7 +28,6 @@ div {
   &:first-of-type {
     border-top: solid 1px $table-header-border;
     border-left: solid 1px $table-header-border;
-    // border-top-left-radius: 5px;
   }
   &:first-of-type .flex-row {
     background: $table-header;
@@ -35,30 +35,13 @@ div {
     border-color: $table-header-border;
   }
 
-  // &.row:nth-child(odd) .flex-row {             // TROUVER UN MOYEN DE METTRE UN HOVER SUR UN NESTED CHILD ODD
-  //   background: $row-bg;
-  // }
-
-  // &:hover {
-  //   background: #8fa4ff;
-  //   transition: 500ms;
-  // }
 }
 
 .flex-row {
   width: calc(100% / 4);
-  // text-align: center;
   padding: 0.5em 0.5em;
   border-right: solid 1px $table-border;
   border-bottom: solid 1px $table-border;
-  // &:nth-last-child(1) {
-  //   border-top-right-radius: 5px;
-  // }
-  // &:last-of-type {
-  //   &:first-of-type {                  // Last child and first child
-  //     border-top-right-radius: 5px;
-  //   }
-  // }
 }
 
 .rowspan {

@@ -24,7 +24,9 @@ const Controls = () => {
     className: "invisible"
   })), _react.default.createElement("div", null, _react.default.createElement("i", {
     className: "arrows fas fa-caret-up"
-  }), _react.default.createElement("p", null, "Rotate right")), _react.default.createElement("div", null, _react.default.createElement("i", {
+  }), _react.default.createElement("p", {
+    className: "controlText"
+  }, "Rotate right")), _react.default.createElement("div", null, _react.default.createElement("i", {
     className: "arrows invisible fas fa-caret-up"
   }), _react.default.createElement("p", {
     className: "invisible"
@@ -32,13 +34,21 @@ const Controls = () => {
     className: "row"
   }, _react.default.createElement("div", null, _react.default.createElement("i", {
     className: "arrows fas fa-caret-left"
-  }), _react.default.createElement("p", null, "Move left")), _react.default.createElement("div", null, _react.default.createElement("i", {
+  }), _react.default.createElement("p", {
+    className: "controlText"
+  }, "left")), _react.default.createElement("div", null, _react.default.createElement("i", {
     className: "arrows fas fa-caret-down"
-  }), _react.default.createElement("p", null, "Soft drop")), _react.default.createElement("div", null, _react.default.createElement("i", {
+  }), _react.default.createElement("p", {
+    className: "controlText"
+  }, "soft drop")), _react.default.createElement("div", null, _react.default.createElement("i", {
     className: "arrows fas fa-caret-right"
-  }), _react.default.createElement("p", null, "Move right"))), _react.default.createElement("div", {
+  }), _react.default.createElement("p", {
+    className: "controlText"
+  }, "right"))), _react.default.createElement("div", {
     className: "space-bar"
-  }, "Space"), _react.default.createElement("p", null, "Hard drop"));
+  }, "Space"), _react.default.createElement("p", {
+    className: "controlText"
+  }, "Hard drop"));
 };
 
 var _default = Controls;
