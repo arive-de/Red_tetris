@@ -1,11 +1,10 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import createLogger from 'redux-logger'
-import thunk from 'redux-thunk'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import App from './containers/app'
+import socketMiddleware from './middlewares/socketMiddleware'
 
 const initialState = {
   username: null,
@@ -21,12 +20,14 @@ const initialState = {
 const store = createStore(
   reducer,
   initialState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(thunk, createLogger()),
+  compose(
+    applyMiddleware(socketMiddleware()),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  )
 )
-
+console.log(store)
 ReactDom.render((
-  <Provider store={store}>
+  <Provider store={ store }>
     <App/>
   </Provider>
 ), document.getElementById('tetris'))

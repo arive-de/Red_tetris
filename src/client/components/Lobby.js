@@ -69,8 +69,7 @@ const Lobby = ({ error, setError }) => {
     <div>
       <Wall/>
         <Header error={error} setError={setError} title={title} onReturn={onReturn}></Header>
-        <br/>
-        <div className=''>
+        <div id='lobbyContainer' className=''>
             <div className='card'>
                 <div className='card-body'>
                 <div className='table-container' role='table'>

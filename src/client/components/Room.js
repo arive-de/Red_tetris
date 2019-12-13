@@ -6,8 +6,7 @@ import Invite from './Invite'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Wall from './Wall'
 import './Room.scss'
-import classNames from 'classnames'
-import { actAddWin } from '../actions/user'
+import { actInitRoomSocket } from '../actions/room'
 
 const Room = ({ room }) => {
   const dispatch = useDispatch();
@@ -38,12 +37,7 @@ const Room = ({ room }) => {
   }
 
   useEffect(() => {
-    socket.on('message', data => {
-      setMessages(ms => [...ms, data].slice(-11))
-    })
-    socket.on('add_win', (username) => {
-      dispatch(actAddWin(room.roomId, username))
-    })
+    dispatch(actInitRoomSocket(setMessages, room))
     return () => {
       socket.removeListener('message')
       socket.removeListener('add_win')

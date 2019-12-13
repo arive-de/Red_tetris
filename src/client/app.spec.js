@@ -16,6 +16,7 @@ import Invite from './components/Invite'
 import { actSetUsername, actSetTypeGame } from './actions/user'
 import { actCreateRoom, actPlayGame } from './actions/room';
 import { fillDb } from '../server/env'
+import openSocket from 'socket.io-client'
 
 describe('App component', () => {
   let store
@@ -35,6 +36,7 @@ describe('App component', () => {
       { roomId: '2test', players: ['jane', 'brad', 'mama', 'oaoa'], running: true, type: 'Ghost', leaderBoard: [0, 2, 8, 0] }],
       userList: ['mama', 'mimi', 'jane', 'john', 'oaoa'],
       highscores: [],
+      socket: openSocket(),
     }
 
     store = createStore(
