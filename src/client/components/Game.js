@@ -76,7 +76,7 @@ const Game = ({ solo, room }) => {
       return
     }
     if (gamers.filter(x => x).length === 1) {
-      console.log('you won')
+      console.log('you won multi')
       socket.emit('stop_game', { roomId: room.roomId, solo: false, score: gameState.score })
     }
   }, [gamers])
@@ -150,7 +150,7 @@ const Game = ({ solo, room }) => {
       clearInterval(intervalPiece)
       intervalPiece = setInterval(() => {
         dispatchGame({ type: 'TICK' })
-      }, 700 - 50 * gameState.lvl)
+      }, 700 - (20 * gameState.lvl))
       return
     case LEFT:
       console.log('LEFT')
