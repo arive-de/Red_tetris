@@ -1,6 +1,8 @@
 .no-suggestions {
-    color: #ced4da;
+    color: #be313d;
     padding: 0.5rem;
+    background-color: white;
+    border-radius: .25rem;
   }
   
   .suggestions {
@@ -12,11 +14,13 @@
     max-height: 143px;
     overflow-y: auto;
     padding-left: 0;
-    width: calc(300px + 1rem);
+    width: 100%;
   }
   
   .suggestions li {
     padding: 0.5rem;
+    // background-color: white;
+  
   }
   
   .suggestion-active,
@@ -27,5 +31,7 @@
   
   .suggestions li:not(:last-of-type) {
     border-bottom: 1px solid #ced4da;
+    // background-color: white;
+    // color: black;
   }
   
