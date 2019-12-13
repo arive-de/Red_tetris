@@ -59,7 +59,7 @@ const create = (port) => {
     const express = require('express')
     const app = new express()
     const http = require('http').createServer(app)
-    const io = require('socket.io')(http)
+    const io = require('socket.io')(http, { pingTimeout: 60000})
     const stop = (cb) => {
       io.close()
       debug('io closed')

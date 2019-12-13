@@ -54,8 +54,7 @@ const initSocketGame = (io, socket) => {
   })
 
   socket.on('gameOver', index => {
-    const time = index === -1 ? 5 : 10 - index
-    setTimeout(() => { socket.to(socket.roomId).emit('gameOver', index) }, time)
+    socket.to(socket.roomId).emit('gameOver', index)
   })
 }
 

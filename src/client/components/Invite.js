@@ -14,14 +14,20 @@ const Invite = ({ room }) => {
       return
     }
     const url = `${document.location.hostname}:${document.location.port}/#${room.roomId}[${friend}]`
-    navigator.clipboard.writeText(url).then(() => {
-      setInfo('invitation URL copied to clipboard :)')
-      setFriend('')
-    })
+    try {
+
+      navigator.clipboard.writeText(url).then(() => {
+        setInfo('invitation URL copied to clipboard :)')
+        setFriend('')
+      })
+    }
+    catch (e) {
+      setInfo('can not copy url to clipboard')
+    }
   }
   useEffect(() => {
     const timeout = setTimeout(() => {
-        setInfo(null)
+      setInfo(null)
     }, 2000)
     return () => {
       clearTimeout(timeout)
@@ -32,9 +38,9 @@ const Invite = ({ room }) => {
     <div className='d-flex justify-content-end'>
       {info !== null && (<div className='invite-alert alert alert-success'>{info}</div>)}
       <div className='input-group' id='invite-container'>
-        <input autoComplete='off' id='friendInput' className='form-control' onChange={onChange} placeholder='Invite a friend' value={friend}></input>
+        <input autoComplete='off' className='form-control' id='friendInput' onChange={onChange} placeholder='Invite a friend' value={friend} />
         <div className='input-group-prepend'>
-            <span className='input-group-text' id='basic-addon1'><i id='friendButton' className='fas fa-link' onClick={onClick}></i></span>
+            <span className='input-group-text' id='basic-addon1'><i className='fas fa-link' id='friendButton' onClick={onClick} /></span>
         </div>
       </div>
     </div>

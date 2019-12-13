@@ -96,6 +96,8 @@ const Game = ({ solo, room }) => {
     else if (leader) {
       socket.emit('get_pieces', { roomId: room.roomId, solo })
     }
+    return () => {
+    }
   }, [gameState.end])
 
   useEffect(() => {
