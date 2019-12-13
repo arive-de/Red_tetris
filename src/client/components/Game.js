@@ -32,7 +32,7 @@ const Game = ({ solo, room }) => {
     lines: 0,
     end: false,
     score: 0,
-    lvl: 10,
+    lvl: 0,
   }
   const socket = useSelector(state => state.socket)
   const [gamers, setGamers] = useState([true, true, true, true].slice(0, room.players.length))
