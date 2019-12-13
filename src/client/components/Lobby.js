@@ -101,7 +101,7 @@ const Lobby = ({ error, setError }) => {
                 </div>
             </div>
             <div className='form-check'>
-              <input className='form-check-input' id='hide' onClick={onCheck} type='checkbox' value='' />
+              <input autoComplete='off' className='form-check-input' id='hide' onClick={onCheck} type='checkbox' value='' />
               <i className='fas fa-filter'></i>
             </div>
             <div className='card-body' id='lobby'>
