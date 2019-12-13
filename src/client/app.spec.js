@@ -1,5 +1,5 @@
 const debug = require('debug')('∆:app spec')
-import React from 'react';
+import React from 'react'
 import { mount } from 'enzyme'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -14,7 +14,7 @@ import SearchPlayer from './components/SearchPlayer'
 import RoomList from './components/RoomList'
 import Invite from './components/Invite'
 import { actSetUsername, actSetTypeGame } from './actions/user'
-import { actCreateRoom, actPlayGame } from './actions/room';
+import { actCreateRoom, actPlayGame } from './actions/room'
 import { fillDb } from '../server/env'
 import openSocket from 'socket.io-client'
 
@@ -122,37 +122,22 @@ describe('App component', () => {
     done()
   })
 
-  it('fill 2lines', function(done) {
-    const SPACE = 32
+  it('try controls', function(done) {
     const LEFT = 37
     const UP = 38
     const RIGHT = 39
     const DOWN = 40
     const controls = wrapper.find('input#gameControlsInput')
-    const socket = store.getState().socket
     controls.simulate('keyDown', { keyCode: LEFT })
-    controls.simulate('keyDown', { keyCode: LEFT })
-    controls.simulate('keyDown', { keyCode: LEFT })
-    wrapper.update()
-    controls.simulate('keyDown', { keyCode: LEFT })
-    controls.simulate('keyDown', { keyCode: LEFT })
-    controls.simulate('keyDown', { keyCode: LEFT })
-    wrapper.update()
     controls.simulate('keyDown', { keyCode: RIGHT })
-    controls.simulate('keyDown', { keyCode: RIGHT })
-    controls.simulate('keyDown', { keyCode: RIGHT })
-    wrapper.update()
-    controls.simulate('keyDown', { keyCode: RIGHT })
-    controls.simulate('keyDown', { keyCode: RIGHT })
-    controls.simulate('keyDown', { keyCode: RIGHT })
+    controls.simulate('keyDown', { keyCode: DOWN })
+    controls.simulate('keyDown', { keyCode: UP })
     wrapper.update()
     done()
   })
 
   after(function(done) {
     wrapper.unmount()
-    fillDb().then(() => {
-      done()
-    })
+    done()
   })
 })
