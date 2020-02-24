@@ -11,7 +11,7 @@ du tas et des pièces doit être implémentée sous forme de "pure functions". U
 
 L’application client doit être construite à partir des librairies React et Redux.
 
-Le code HTML ne doit pas utiliser d’éléments <TABLE/>, mais doit être exclusivement construit à partir d’un layout flexbox.
+Le code HTML ne doit pas utiliser d’éléments "TABLE", mais doit être exclusivement construit à partir d’un layout flexbox.
 
 Interdiction d’utiliser :
 • Une librairie de manipulation du DOM comme jQuery
