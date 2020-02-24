@@ -52,3 +52,5 @@ $ npm run test
 ```
 $ npm run coverage
 ```
+
+![Preview](./tetris.png)
