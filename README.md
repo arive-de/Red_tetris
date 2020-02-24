@@ -14,10 +14,13 @@ $ npm install
 ```
 $ npm run  srv-dev
 
+```
+
 #### Launch Client
 
 ```
 $ npm run client-dev
+```
 
 #### Test
 
