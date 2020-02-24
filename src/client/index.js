@@ -22,7 +22,7 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(socketMiddleware()),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
   )
 )
 console.log(store)
